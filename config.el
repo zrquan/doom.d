@@ -19,13 +19,13 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "Monaco" :size 14)
-      doom-unicode-font (font-spec :family "楷体-简" :size 16))
+(setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
+      doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
 
 (defun +my/set-fonts ()
   (interactive)
   (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-(add-hook! 'window-setup-hook :append '+my/set-fonts)  ; 🙂
+(add-hook! 'window-setup-hook :append '+my/set-fonts) ;🙂
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -35,11 +35,12 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Dropbox/org/"
+      org-download-image-dir "~/Dropbox/org/org-download"
       org-agenda-files '("~/Dropbox/org/roam/daily/"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -60,5 +61,74 @@
 ;; they are implemented.
 
 
+;; 窗口最大化
+(push '(fullscreen . maximized) default-frame-alist)
+
 ;; 用 df 代替 esc
 (setq evil-escape-key-sequence "df")
+
+(use-package! page-break-lines
+  :commands page-break-lines-mode
+  :init
+  (autoload 'turn-on-page-break-lines-mode "page-break-lines")
+  :config
+  (setq page-break-lines-max-width fill-column)
+  (map! :prefix "g"
+        :desc "Prev page break" :nv "[" #'backward-page
+        :desc "Next page break" :nv "]" #'forward-page))
+
+;; org mode
+
+(after! org
+  (setq org-tags-column 0
+        org-hide-emphasis-markers t
+        org-hide-leading-stars t
+        indent-tabs-mode nil
+        org-startup-with-inline-images t))
+
+(after! org-superstar
+  (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
+        org-superstar-cycle-headline-bullets nil))
+
+;; org download
+(after! org-download
+  (setq org-download-method 'directory
+        org-download-abbreviate-filename-function 'file-relative-name
+        org-download-heading-lvl 0
+        org-download-image-org-width 600))
+
+(after! org-roam
+  (setq +org-roam-open-buffer-on-find-file nil)
+  (setq org-roam-title-sources '((title) alias))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :if-new (file+head "${slug}.org"
+                              "#+title: ${title}\n")
+           :unnarrowed t))))
+
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
+
+;; Mac 原生的全屏模式无法正常使用 posframe
+(if IS-MAC
+    (setq ns-use-native-fullscreen nil
+          ns-use-fullscreen-animation nil))
+
+(after! gist
+  (setq gist-ask-for-filename t
+        gist-ask-for-description t))
+
+(map! :map doom-leader-map "s y" 'youdao-dictionary-search-at-point-posframe)
+
+;; Local Variables:
+;; eval: (page-break-lines-mode 1)
+;; End:
