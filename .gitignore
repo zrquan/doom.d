@@ -1,0 +1,6 @@
+*.env
+
+**/rime/build
+**/rime/luna_pinyin.userdb
+**/rime/installation.yaml
+**/rime/user.yaml
