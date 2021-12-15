@@ -64,6 +64,10 @@
 ;; 窗口最大化
 (push '(fullscreen . maximized) default-frame-alist)
 
+(setq evil-snipe-override-evil-repeat-keys nil)
+(setq doom-localleader-key ",")
+(setq doom-localleader-alt-key "M-,")
+
 ;; 用 df 代替 esc
 (setq evil-escape-key-sequence "df")
 
