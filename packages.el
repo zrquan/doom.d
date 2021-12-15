@@ -50,7 +50,5 @@
 ;(unpin! t)
 
 
-(package! page-break-lines)
-
 (unpin! org-roam)
 (package! org-roam-ui)

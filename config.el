@@ -52,13 +52,6 @@
 ;;   this file. Emacs searches the `load-path' when you load packages with
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
 
 
 ;; 窗口最大化
@@ -71,21 +64,9 @@
 ;; 用 df 代替 esc
 (setq evil-escape-key-sequence "df")
 
-(use-package! page-break-lines
-  :commands page-break-lines-mode
-  :init
-  (autoload 'turn-on-page-break-lines-mode "page-break-lines")
-  :config
-  (setq page-break-lines-max-width fill-column)
-  (map! :prefix "g"
-        :desc "Prev page break" :nv "[" #'backward-page
-        :desc "Next page break" :nv "]" #'forward-page))
-
 ;; org mode
-
 (after! org
-  (setq org-tags-column 0
-        org-hide-emphasis-markers t
+  (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
         indent-tabs-mode nil)
   (add-hook! 'org-mode-hook #'auto-fill-mode))
@@ -120,7 +101,6 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
-
 
 ;; Mac 原生的全屏模式无法正常使用 posframe
 (if IS-MAC
