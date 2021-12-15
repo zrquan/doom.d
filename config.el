@@ -30,7 +30,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-nord)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -83,8 +83,8 @@
   (setq org-tags-column 0
         org-hide-emphasis-markers t
         org-hide-leading-stars t
-        indent-tabs-mode nil
-        org-startup-with-inline-images t))
+        indent-tabs-mode nil)
+  (add-hook! 'org-mode-hook #'auto-fill-mode))
 
 (after! org-superstar
   (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
