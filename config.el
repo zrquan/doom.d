@@ -31,6 +31,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-nord)
+(setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -42,18 +43,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
 
-
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-
-
 ;; 窗口最大化
 (push '(fullscreen . maximized) default-frame-alist)
 
@@ -64,20 +53,23 @@
 ;; 用 df 代替 esc
 (setq evil-escape-key-sequence "df")
 
-;; org mode
 (after! org
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
         indent-tabs-mode nil)
-  (add-hook! 'org-mode-hook #'auto-fill-mode))
+  (add-hook! 'org-mode-hook #'auto-fill-mode)
+  (map! :g "C-," #'org-cycle-agenda-files
+        :map org-mode-map
+        "C-j" #'org-next-visible-heading
+        "C-k" #'org-previous-visible-heading))
 
 (after! org-superstar
   (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
         org-superstar-cycle-headline-bullets nil))
 
-;; org download
 (after! org-download
   (setq org-download-method 'directory
+        org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
         org-download-abbreviate-filename-function 'file-relative-name
         org-download-heading-lvl 0
         org-download-image-org-width 600))
@@ -89,7 +81,10 @@
         '(("d" "default" plain "%?"
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
-           :unnarrowed t))))
+           :unnarrowed t)))
+  (map! :leader
+        :desc "Capture today" "n n" #'org-roam-dailies-capture-today
+        :desc "Goto today" "n N" #'org-roam-dailies-goto-today))
 
 (use-package! websocket
     :after org-roam)
@@ -111,8 +106,27 @@
   (setq gist-ask-for-filename t
         gist-ask-for-description t))
 
-(map! :map doom-leader-map "s y" 'youdao-dictionary-search-at-point-posframe)
+;; turnoff company-ispell
+(after! company
+  (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
+  (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
-;; Local Variables:
-;; eval: (page-break-lines-mode 1)
-;; End:
+(map! :map doom-leader-map "s y" #'youdao-dictionary-search-at-point-posframe
+      :map doom-leader-map "s w" #'youdao-dictionary-search-from-input)
+
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+;; 分割窗口时询问要打开的 buffer
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+
+;; 取消中文补全
+(after! pyim
+  (defun eh-company-dabbrev--prefix (orig-fun)
+    (let ((string (pyim-char-before-to-string 0)))
+      (if (pyim-string-match-p "\\cc" string)
+          nil
+        (funcall orig-fun))))
+  (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix))
