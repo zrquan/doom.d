@@ -6,6 +6,15 @@
   ;; Always insert `real' space in org-mode.
   (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t))
 
+(use-package! go-translate
+  :config
+  (setq gts-translate-list '(("en" "zh")))
+  (setq gts-default-translator
+        (gts-translator
+         :picker (gts-prompt-picker)
+         :engines (list (gts-google-engine))
+         :render (gts-posframe-pop-render))))
+
 (use-package! liberime
   :init
   (progn
@@ -46,17 +55,18 @@
   (advice-add 'pyim-self-insert-command :around #'my-pyim-self-insert-command)
   ;;;;;;;;;;;;;;;;;;;;
 
-  ;; 中/英文切换
+  ;; 中/英文自动切换
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-auto-english
                   pyim-probe-isearch-mode
                   pyim-probe-org-structure-template))
-  ;; 全/半角标点切换
+
+  ;; 全/半角标点自动切换
   (setq-default pyim-punctuation-half-width-functions
                 '(pyim-probe-punctuation-line-beginning
                   pyim-probe-punctuation-after-punctuation))
 
-  (global-set-key (kbd "C-c \\") 'pyim-convert-string-at-point)
+  (global-set-key (kbd "C-x \\") 'pyim-convert-string-at-point)
   (define-key pyim-mode-map "." 'pyim-page-next-page)
   (define-key pyim-mode-map "," 'pyim-page-previous-page))
 

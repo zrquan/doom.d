@@ -1,0 +1,19 @@
+#+TITLE:   input/chinese
+
+* Description
+主要提供中文输入和英文翻译功能
+
+** Module Flags
+This module provides no flags.
+
+** Plugins
++ [[https://github.com/tumashu/pyim][pyim]]
++ [[https://github.com/merrickluo/liberime][liberime]]
++ [[https://github.com/coldnew/pangu-spacing][pangu-spacing]]
++ [[https://github.com/xuchunyang/youdao-dictionary.el][youdao-dictionary]]
++ [[https://github.com/lorniu/go-translate][go-translate]]
+
+* TODO Prerequisites
+* TODO Features
+* TODO Configuration
+* TODO Troubleshooting
