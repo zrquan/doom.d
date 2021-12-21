@@ -74,6 +74,9 @@
         org-download-heading-lvl 0
         org-download-image-org-width 600))
 
+(after! org-fancy-priorities
+  (setq org-fancy-priorities-list '("⚡" "🔖" "☕")))
+
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
   (setq org-roam-title-sources '((title) alias))
@@ -84,7 +87,7 @@
            :unnarrowed t)))
   (map! :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto today" "n N" #'org-roam-dailies-goto-today))
+        :desc "Goto date" "n N" #'org-roam-dailies-goto-date))
 
 (use-package! websocket
     :after org-roam)
@@ -130,3 +133,12 @@
           nil
         (funcall orig-fun))))
   (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix))
+
+(after! pyvenv
+  (map! :map python-mode-map
+        :localleader
+        :prefix ("v" . "pyvenv")
+        :desc "workon"     "w" #'pyvenv-workon
+        :desc "activate"   "a" #'pyvenv-activate
+        :desc "deactivate" "d" #'pyvenv-deactivate
+        :desc "create"     "c" #'pyvenv-create))
