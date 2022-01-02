@@ -22,36 +22,56 @@
 (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
       doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
 
-(defun +my/set-fonts ()
+(defun setup-emoji-font ()
   (interactive)
   (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-(add-hook! 'window-setup-hook :append '+my/set-fonts) ;🙂
+(add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
+;; You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function.
 (setq doom-theme 'doom-nord)
 (setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/org/"
+(setq org-directory          "~/Dropbox/org/"
       org-download-image-dir "~/Dropbox/org/org-download"
-      org-agenda-files '("~/Dropbox/org/roam/daily/"))
+      org-agenda-files     '("~/Dropbox/org/roam/daily/")
+      org-hugo-base-dir      "~/hugo/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
 
-;; 窗口最大化
+;; 启动时最大化窗口
 (push '(fullscreen . maximized) default-frame-alist)
 
-(setq evil-snipe-override-evil-repeat-keys nil)
-(setq doom-localleader-key ",")
-(setq doom-localleader-alt-key "M-,")
-
-;; 用 df 代替 esc
+;; 连击 df 进入 normal mode
 (setq evil-escape-key-sequence "df")
+
+(setq evil-snipe-override-evil-repeat-keys nil)
+(setq doom-localleader-key ","
+      doom-localleader-alt-key "M-,")
+
+(when IS-MAC
+  ;; Mac 原生的全屏模式无法正常使用 posframe
+  (setq ns-use-native-fullscreen nil
+        ns-use-fullscreen-animation nil)
+  ;; 设置 ClashX 代理
+  (setq url-gateway-method 'socks
+        socks-server '("Default server" "127.0.0.1" 7890 5)
+        url-gateway-local-host-regexp
+        (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
+  )
+
+;; 分割窗口时从右方或下方打开新窗口
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+;; 分割窗口时询问要打开的 buffer
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
 
 (after! org
   (setq org-hide-emphasis-markers t
@@ -85,10 +105,14 @@
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)))
+  ;; 调整 capture window 的高度
+  (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
+
   (map! :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
         :desc "Goto date" "n N" #'org-roam-dailies-goto-date))
 
+;; Dependency of org-roam-ui
 (use-package! websocket
     :after org-roam)
 
@@ -100,32 +124,17 @@
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
-;; Mac 原生的全屏模式无法正常使用 posframe
-(if IS-MAC
-    (setq ns-use-native-fullscreen nil
-          ns-use-fullscreen-animation nil))
-
 (after! gist
   (setq gist-ask-for-filename t
         gist-ask-for-description t))
 
-;; turnoff company-ispell
 (after! company
+  (setq company-format-margin-function #'company-text-icons-margin)
+  ;; turnoff company-ispell
   (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
   (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
-(map! :map doom-leader-map "s y" #'youdao-dictionary-search-at-point-posframe
-      :map doom-leader-map "s w" #'youdao-dictionary-search-from-input)
-
-(setq evil-vsplit-window-right t
-      evil-split-window-below t)
-
-;; 分割窗口时询问要打开的 buffer
-(defadvice! prompt-for-buffer (&rest _)
-  :after '(evil-window-split evil-window-vsplit)
-  (consult-buffer))
-
-;; 取消中文补全
+;; 禁止 company 补全中文
 (after! pyim
   (defun eh-company-dabbrev--prefix (orig-fun)
     (let ((string (pyim-char-before-to-string 0)))
@@ -142,3 +151,8 @@
         :desc "activate"   "a" #'pyvenv-activate
         :desc "deactivate" "d" #'pyvenv-deactivate
         :desc "create"     "c" #'pyvenv-create))
+
+(map! :leader
+      :desc "Translate word" "s y" #'youdao-dictionary-search-at-point-posframe
+      :desc "Translate input" "s w" #'youdao-dictionary-search-from-input
+      :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)

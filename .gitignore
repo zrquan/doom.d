@@ -1,6 +1,5 @@
 *.env
 
-**/rime/build
-**/rime/luna_pinyin.userdb
-**/rime/installation.yaml
-**/rime/user.yaml
+modules/input/chinese/rime/*
+!modules/input/chinese/rime/default.custom.yaml
+!modules/input/chinese/rime/double_pinyin_mspy.schema.yaml
