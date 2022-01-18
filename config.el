@@ -19,12 +19,19 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
-      doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
+(if IS-MAC
+    (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
+          doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
+  ;; on Windows
+  (setq doom-font (font-spec :family "Jetbrains Mono" :size 18)
+        doom-unicode-font (font-spec :family "楷体" :size 22)))
 
 (defun setup-emoji-font ()
   (interactive)
-  (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+  (if IS-MAC
+      (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+    ;; on Windows
+    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)))
 (add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
 
 ;; You can either set `doom-theme' or manually load a theme with the
