@@ -163,3 +163,39 @@
       :desc "Translate word" "s y" #'youdao-dictionary-search-at-point-posframe
       :desc "Translate input" "s w" #'youdao-dictionary-search-from-input
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
+
+(use-package! org-ref
+  :after org
+  :config
+  (setq org-ref-default-bibliography '("~/Dropbox/org/ref.bib")
+        org-ref-pdf-directory "~/Dropbox/org/bibtex-pdfs/"
+        org-ref-bibliographt-notes "~/Dropbox/org/bibtex-notes.org"))
+
+(use-package! org-roam-bibtex
+  :after org-roam
+  :config
+  (org-roam-bibtex-mode t))
+
+(use-package! ivy-bibtex
+  :init
+  (setq bibtex-completion-bibliography '("~/Dropbox/org/ref.bib")
+        bibtex-completion-notes-path "~/Dropbox/org/bibtex-notes.org"
+        bibtex-completion-library-path '("~/Dropbox/org/bibtex-pdfs/")
+
+        bibtex-completion-additional-search-fields '(keywords)
+
+        ;; open pdf in external viewer
+        bibtex-completion-pdf-open-function
+        (lambda (fpath)
+          (call-process "open" nil 0 nil fpath)))
+
+  (map! :leader
+        :desc "Bibtex" "n b" #'ivy-bibtex))
+
+(after! pangu-spacing
+  (defun pangu-spacing-org-mode-at-property ()
+    (let ((element (org-element-at-point)))
+      (when (eq (org-element-type element) 'node-property)
+        t)))
+  (push '(org-mode . pangu-spacing-org-mode-at-property)
+        pangu-spacing-special-region-func-alist))
