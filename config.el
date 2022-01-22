@@ -46,6 +46,8 @@
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/hugo/")
 
+(setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
@@ -184,6 +186,12 @@
 
         bibtex-completion-additional-search-fields '(keywords)
 
+        bibtex-completion-display-formats
+        '((inbook . "${author:26} ${title:*} :: ${chapter:32} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}")
+          (t      . "${author:26} ${title:*} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}"))
+        bibtex-completion-notes-symbol "✎"
+        bibtex-completion-pdf-symbol ""
+
         ;; open pdf in external viewer
         bibtex-completion-pdf-open-function
         (lambda (fpath)
@@ -193,9 +201,9 @@
         :desc "Bibtex" "n b" #'ivy-bibtex))
 
 (after! pangu-spacing
-  (defun pangu-spacing-org-mode-at-property ()
+  (defun pangu-spacing-org-mode-noreal ()
     (let ((element (org-element-at-point)))
-      (when (eq (org-element-type element) 'node-property)
+      (when (member (org-element-type element) '(node-property paragraph))
         t)))
-  (push '(org-mode . pangu-spacing-org-mode-at-property)
+  (push '(org-mode . pangu-spacing-org-mode-noreal)
         pangu-spacing-special-region-func-alist))
