@@ -3,8 +3,15 @@
 (use-package! pangu-spacing
   :hook (text-mode . pangu-spacing-mode)
   :config
-  ;; Always insert `real' space in org-mode.
-  (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t))
+  (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t)
+
+  ;; 在某些位置不插入空格字符
+  (defun pangu-spacing-org-mode-noreal ()
+    (let ((element (org-element-at-point)))
+      (when (member (org-element-type element) '(node-property paragraph))
+        t)))
+  (push '(org-mode . pangu-spacing-org-mode-noreal)
+        pangu-spacing-special-region-func-alist))
 
 (use-package! go-translate
   :config
@@ -18,8 +25,8 @@
 (use-package! liberime
   :init
   (progn
-    (setq liberime-module-file (file-truename "~/.doom.d/modules/input/chinese/liberime-core.so")
-          liberime-user-data-dir (file-truename "~/.doom.d/modules/input/chinese/rime/"))
+    (setq liberime-module-file (concat doom-local-dir "liberime-core.so")
+          liberime-user-data-dir (file-truename "~/.doom.d/modules/input/chinese/rime"))
     (liberime-load))
   :config
   (liberime-select-schema "double_pinyin_mspy"))
@@ -53,7 +60,6 @@
         (call-interactively orig-func)
         (set (make-local-variable 'last-event-time) (float-time)))))
   (advice-add 'pyim-self-insert-command :around #'my-pyim-self-insert-command)
-  ;;;;;;;;;;;;;;;;;;;;
 
   ;; 中/英文自动切换
   (setq-default pyim-english-input-switch-functions
