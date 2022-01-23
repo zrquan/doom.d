@@ -200,10 +200,3 @@
   (map! :leader
         :desc "Bibtex" "n b" #'ivy-bibtex))
 
-(after! pangu-spacing
-  (defun pangu-spacing-org-mode-noreal ()
-    (let ((element (org-element-at-point)))
-      (when (member (org-element-type element) '(node-property paragraph))
-        t)))
-  (push '(org-mode . pangu-spacing-org-mode-noreal)
-        pangu-spacing-special-region-func-alist))
