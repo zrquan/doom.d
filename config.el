@@ -42,7 +42,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory          "~/Dropbox/org/"
-      org-download-image-dir "~/Dropbox/org/org-download"
+      org-download-image-dir "~/Dropbox/org/images"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/hugo/")
 
@@ -90,7 +90,16 @@
   (map! :g "C-," #'org-cycle-agenda-files
         :map org-mode-map
         "C-j" #'org-next-visible-heading
-        "C-k" #'org-previous-visible-heading))
+        "C-k" #'org-previous-visible-heading
+        :localleader
+        "x" nil  ;先清除原来的绑定
+        :prefix ("x" . "emphasis")
+        :desc "code" "c" (lambda () (interactive) (org-emphasize ?~))
+        :desc "bold" "b" (lambda () (interactive) (org-emphasize ?*))
+        :desc "underline" "u" (lambda () (interactive) (org-emphasize ?_))
+        :desc "italic" "i" (lambda () (interactive) (org-emphasize ?/))
+        :desc "strike" "s" (lambda () (interactive) (org-emphasize ?+))
+        ))
 
 (after! org-superstar
   (setq org-superstar-headline-bullets-list '("¶" "#" 9673)

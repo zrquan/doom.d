@@ -1,0 +1,15 @@
+#+TITLE:   Configuration of Doom Emacs
+#+SINCE:   <replace with next tagged release version>
+#+STARTUP: inlineimages nofold
+
+1. +download plantuml from [[https://github.com/plantuml/plantuml/releases][github release]]+ just call ~plantuml-download-jar~ function
+
+2. install graphviz from [[https://www.graphviz.org/download/][here]], or from brew if you use mac:
+   #+begin_src
+   brew install libtool
+   brew link libtool
+   brew install graphviz
+   brew link --overwrite graphviz
+   #+end_src
+
+3. install [[https://github.com/BurntSushi/ripgrep][ripgrep]]
