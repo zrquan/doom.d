@@ -8,7 +8,7 @@
   ;; 在某些位置不插入空格字符
   (defun pangu-spacing-org-mode-noreal ()
     (let ((element (org-element-at-point)))
-      (when (member (org-element-type element) '(node-property paragraph))
+      (when (member (org-element-type element) '(node-property))
         t)))
   (push '(org-mode . pangu-spacing-org-mode-noreal)
         pangu-spacing-special-region-func-alist))
