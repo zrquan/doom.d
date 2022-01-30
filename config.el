@@ -204,7 +204,9 @@
         ;; open pdf in external viewer
         bibtex-completion-pdf-open-function
         (lambda (fpath)
-          (call-process "open" nil 0 nil fpath)))
+          (if IS-MAC
+              (call-process "open" nil 0 nil fpath)
+            (browse-url-default-windows-browser fpath))))
 
   (map! :leader
         :desc "Bibtex" "n b" #'ivy-bibtex))
