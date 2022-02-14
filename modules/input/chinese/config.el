@@ -29,7 +29,8 @@
           liberime-user-data-dir (file-truename "~/.doom.d/modules/input/chinese/rime"))
     (liberime-load))
   :config
-  (liberime-select-schema "double_pinyin_mspy"))
+  (liberime-select-schema "double_pinyin_mspy")
+  (add-hook 'after-init-hook #'liberime-sync))
 
 (use-package! pyim
   :after liberime
