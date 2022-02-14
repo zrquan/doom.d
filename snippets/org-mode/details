@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: details
+# key: <de
+# --
+#+begin_details
+#+begin_summary
+${1:summary}
+#+end_summary
+
+$0
+#+end_details
