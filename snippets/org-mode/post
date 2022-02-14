@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: hugo post
+# key: hpo
+# --
+#+TITLE: ${1:article title}
+#+hugo_base_dir: ~/hugo/
+#+hugo_locale: zh_CH
+#+hugo_draft: true
+#+hugo_tags: ${2:tags}
+#+hugo_publishdate: ${3:timestamp}
+
+<!--more-->
+
+$0
