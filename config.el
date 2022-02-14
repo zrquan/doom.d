@@ -122,7 +122,13 @@
         '(("d" "default" plain "%?"
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
-           :unnarrowed t)))
+           :unnarrowed t))
+
+        org-roam-dailies-capture-templates
+        '(("d" "default" entry "* %?"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+           :empty-lines-before 1
+           :jump-to-captured t)))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
 
