@@ -36,7 +36,8 @@
 
 ;; You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
-(setq doom-theme 'doom-nord)
+;; (setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-monokai-octagon)
 (setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -113,7 +114,7 @@
         org-download-image-org-width 600))
 
 (after! org-fancy-priorities
-  (setq org-fancy-priorities-list '("⚡" "🔖" "☕")))
+  (setq org-fancy-priorities-list '("" "" "")))
 
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
@@ -217,3 +218,15 @@
   (map! :leader
         :desc "Bibtex" "n b" #'ivy-bibtex))
 
+;; 在 terminal 使用系统剪贴板
+(defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
+  ad-do-it
+  (when (and (equal system-type 'darwin)
+              (not (display-graphic-p))
+              (not (window-system))
+              (equal (ad-get-arg 0) 'CLIPBOARD))
+    (let ((process-connection-type nil)  ;; use pipe
+          (default-directory "~/"))
+      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+        (process-send-string proc (ad-get-arg 1))
+        (process-send-eof proc)))))
