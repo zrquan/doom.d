@@ -114,22 +114,30 @@
         org-download-image-org-width 600))
 
 (after! org-fancy-priorities
-  (setq org-fancy-priorities-list '("" "" "")))
+  (setq org-fancy-priorities-list '("" "" "")))
 
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
   (setq org-roam-title-sources '((title) alias))
   (setq org-roam-capture-templates
-        '(("d" "default" plain "%?"
+        '(("d" " default" plain "%?"
            :if-new (file+head "${slug}.org"
+                              "#+title: ${title}\n")
+           :unnarrowed t)
+          ("j" " java" plain "%?"
+           :if-new (file+head "java/${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t))
 
         org-roam-dailies-capture-templates
-        '(("d" "default" entry "* %?"
+        '(("d" " default" entry "* %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
-           :jump-to-captured t)))
+           :jump-to-captured t)
+          ("t" " todo" entry "* TODO [#B] %?"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+           :empty-lines-before 1)
+          ))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
 
