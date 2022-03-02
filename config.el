@@ -40,6 +40,8 @@
 (setq doom-theme 'doom-monokai-octagon)
 (setq doom-modeline-icon nil)
 
+(setq fancy-splash-image "~/.doom.d/banner.jpeg")
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory          "~/Dropbox/org/"
@@ -134,9 +136,9 @@
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
-          ("t" " todo" entry "* TODO [#B] %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1)
+          ;; ("t" " todo" entry "* TODO [#B] %?"
+          ;;  :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+          ;;  :empty-lines-before 1)
           ))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
