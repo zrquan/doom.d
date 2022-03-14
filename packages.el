@@ -57,3 +57,5 @@
 (package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
 (unpin! org-ref)
 (unpin! bibtex-completion ivy-bibtex)
+
+(package! dirvish)

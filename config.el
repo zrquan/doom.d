@@ -240,3 +240,16 @@
       (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
         (process-send-string proc (ad-get-arg 1))
         (process-send-eof proc)))))
+
+(use-package! dirvish
+  :init
+  (dirvish-override-dired-mode)
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$"))
+  (map! :map dired-mode-map
+        :n "b" #'dirvish-goto-bookmark
+        :n "z" #'dirvish-show-history
+        :n "f" #'dirvish-file-info-menu
+        :n "F" #'dirvish-toggle-fullscreen
+        :n "l" #'dired-find-file
+        :n "h" #'dired-up-directory
+        :n "C-h" #'dired-omit-mode))
