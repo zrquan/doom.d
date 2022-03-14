@@ -1,5 +1,7 @@
 *.env
 
+custom.el
+
 modules/input/chinese/rime/*
 !modules/input/chinese/rime/default.custom.yaml
 !modules/input/chinese/rime/double_pinyin_mspy.schema.yaml
