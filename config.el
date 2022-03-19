@@ -242,9 +242,11 @@
         (process-send-eof proc)))))
 
 (use-package! dirvish
-  :init
-  (dirvish-override-dired-mode)
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$"))
+  :init (dirvish-override-dired-mode)
+  :config
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
+        dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
+
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
         :n "z" #'dirvish-show-history
