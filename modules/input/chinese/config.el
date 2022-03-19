@@ -22,6 +22,11 @@
          :engines (list (gts-google-engine))
          :render (gts-posframe-pop-render))))
 
+(use-package! youdao-dictionary
+  :config
+  (map! :map youdao-dictionary-mode-map
+        :n "q" #'quit-window))
+
 (use-package! liberime
   :init
   (progn
