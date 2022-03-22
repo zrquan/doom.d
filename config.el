@@ -45,9 +45,10 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory          "~/Dropbox/org/"
-      org-download-image-dir "~/Dropbox/org/images"
+      org-roam-directory     "~/Dropbox/org/roam/"
+      org-download-image-dir "~/Dropbox/org/images/"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
-      org-hugo-base-dir      "~/hugo/")
+      org-hugo-base-dir      "~/Dropbox/hugo/")
 
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
@@ -136,16 +137,18 @@
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
-          ;; ("t" " todo" entry "* TODO [#B] %?"
-          ;;  :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-          ;;  :empty-lines-before 1)
+          ("t" " todo" entry "* TODO [#B] %?"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+           :empty-lines-before 1)
           ))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
 
   (map! :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto date" "n N" #'org-roam-dailies-goto-date))
+        :desc "Goto date" "n N" (lambda ()
+                                  (interactive)
+                                  (org-roam-dailies-goto-date nil "d"))))
 
 ;; Dependency of org-roam-ui
 (use-package! websocket
