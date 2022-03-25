@@ -89,7 +89,8 @@
 (after! org
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
-        indent-tabs-mode nil)
+        indent-tabs-mode nil
+        org-capture-bookmark nil)
   (add-hook! 'org-mode-hook #'auto-fill-mode)
   (map! :g "C-," #'org-cycle-agenda-files
         :map org-mode-map
