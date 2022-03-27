@@ -199,9 +199,8 @@
 (use-package! org-ref
   :after org
   :config
-  (setq org-ref-default-bibliography '("~/Dropbox/org/ref.bib")
-        org-ref-pdf-directory "~/Dropbox/org/bibtex-pdfs/"
-        org-ref-bibliographt-notes "~/Dropbox/org/bibtex-notes.org"))
+  (setq org-ref-default-bibliography `(,(expand-file-name "ref.bib" org-directory))
+        org-ref-pdf-directory (expand-file-name "bibtex-pdfs" org-directory)))
 
 (use-package! org-roam-bibtex
   :after org-roam
@@ -210,9 +209,8 @@
 
 (use-package! ivy-bibtex
   :init
-  (setq bibtex-completion-bibliography '("~/Dropbox/org/ref.bib")
-        bibtex-completion-notes-path "~/Dropbox/org/bibtex-notes.org"
-        bibtex-completion-library-path '("~/Dropbox/org/bibtex-pdfs/")
+  (setq bibtex-completion-bibliography `(,(expand-file-name "ref.bib" org-directory))
+        bibtex-completion-library-path `(,(expand-file-name "bibtex-pdfs" org-directory))
 
         bibtex-completion-additional-search-fields '(keywords)
 
