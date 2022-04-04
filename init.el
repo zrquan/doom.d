@@ -153,6 +153,7 @@
         +roam2
         +hugo
         +pretty
+        +present
         +dragndrop)
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more

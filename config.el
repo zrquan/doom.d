@@ -36,8 +36,7 @@
 
 ;; You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
-;; (setq doom-theme 'doom-nord)
-(setq doom-theme 'doom-monokai-octagon)
+(setq doom-theme 'doom-nord)
 (setq doom-modeline-icon nil)
 
 (setq fancy-splash-image "~/.doom.d/banner.jpeg")
@@ -45,6 +44,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory          "~/Dropbox/org/"
+      org-id-locations-file  "~/Dropbox/org/.orgids"
       org-roam-directory     "~/Dropbox/org/roam/"
       org-download-image-dir "~/Dropbox/org/images/"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
@@ -91,7 +91,7 @@
         org-hide-leading-stars t
         indent-tabs-mode nil
         org-capture-bookmark nil)
-  (add-hook! 'org-mode-hook #'auto-fill-mode)
+  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h)
   (map! :g "C-," #'org-cycle-agenda-files
         :map org-mode-map
         "C-j" #'org-next-visible-heading
