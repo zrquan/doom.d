@@ -20,12 +20,18 @@
         (gts-translator
          :picker (gts-prompt-picker)
          :engines (list (gts-google-engine))
-         :render (gts-posframe-pop-render))))
+         :render (gts-posframe-pop-render)))
+
+  ;; 翻译时消除换行符以提高准确度
+  (cl-defmethod gts-translate :before ((o gts-engine) task callback)
+    (with-slots (text) task
+      (setf text (replace-regexp-in-string "[ \t\n]+" " " text))))
+  )
 
 (use-package! youdao-dictionary
   :config
   (map! :map youdao-dictionary-mode-map
-        :n "q" #'quit-window))
+        :n "q" #'kill-buffer-and-window))
 
 (use-package! liberime
   :init
