@@ -128,6 +128,10 @@
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
+          ("k" " kotlin" plain "%?"
+           :if-new (file+head "kotlin/${slug}.org"
+                              "#+title: ${title}\n")
+           :unnarrowed t)
           ("j" " java" plain "%?"
            :if-new (file+head "java/${slug}.org"
                               "#+title: ${title}\n")
