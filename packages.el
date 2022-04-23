@@ -59,3 +59,5 @@
 (unpin! bibtex-completion ivy-bibtex)
 
 (package! dirvish)
+
+(package! sicp :recipe (:host github :repo "webframp/sicp-info"))

@@ -21,6 +21,7 @@
          :picker (gts-prompt-picker)
          :engines (list (gts-google-engine))
          :render (gts-posframe-pop-render)))
+  (setq gts-posframe-pop-render-timeout 999)
 
   ;; 翻译时消除换行符以提高准确度
   (cl-defmethod gts-translate :before ((o gts-engine) task callback)

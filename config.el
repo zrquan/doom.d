@@ -46,7 +46,6 @@
 (setq org-directory          "~/Dropbox/org/"
       org-id-locations-file  "~/Dropbox/org/.orgids"
       org-roam-directory     "~/Dropbox/org/roam/"
-      org-download-image-dir "~/Dropbox/org/images/"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
@@ -54,7 +53,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
+(setq display-line-numbers-type t)
 
 ;; 启动时最大化窗口
 (push '(fullscreen . maximized) default-frame-alist)
@@ -196,8 +195,8 @@
         :desc "create"     "c" #'pyvenv-create))
 
 (map! :leader
-      :desc "Translate word" "s y" #'youdao-dictionary-search-at-point-posframe
-      :desc "Translate input" "s w" #'youdao-dictionary-search-from-input
+      :desc "Translate word" "s w" #'youdao-dictionary-search-at-point-posframe
+      :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
 
 (use-package! org-ref
@@ -250,6 +249,7 @@
 (use-package! dirvish
   :init (dirvish-override-dired-mode)
   :config
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
 
