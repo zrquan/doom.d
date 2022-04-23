@@ -54,7 +54,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
+(setq display-line-numbers-type t)
 
 ;; 启动时最大化窗口
 (push '(fullscreen . maximized) default-frame-alist)
@@ -250,6 +250,7 @@
 (use-package! dirvish
   :init (dirvish-override-dired-mode)
   :config
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
 
