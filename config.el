@@ -46,7 +46,6 @@
 (setq org-directory          "~/Dropbox/org/"
       org-id-locations-file  "~/Dropbox/org/.orgids"
       org-roam-directory     "~/Dropbox/org/roam/"
-      org-download-image-dir "~/Dropbox/org/images/"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
@@ -196,8 +195,8 @@
         :desc "create"     "c" #'pyvenv-create))
 
 (map! :leader
-      :desc "Translate word" "s y" #'youdao-dictionary-search-at-point-posframe
-      :desc "Translate input" "s w" #'youdao-dictionary-search-from-input
+      :desc "Translate word" "s w" #'youdao-dictionary-search-at-point-posframe
+      :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
 
 (use-package! org-ref
