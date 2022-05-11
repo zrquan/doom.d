@@ -8,10 +8,11 @@
   ;; 在某些位置不插入空格字符
   (defun pangu-spacing-org-mode-noreal ()
     (let ((element (org-element-at-point)))
-      (when (member (org-element-type element) '(node-property))
+      (when (or (pangu-spacing-org-mode-at-special-region)
+                (member (org-element-type element) '(node-property)))
         t)))
-  (push '(org-mode . pangu-spacing-org-mode-noreal)
-        pangu-spacing-special-region-func-alist))
+  (setq pangu-spacing-special-region-func-alist
+        '((org-mode . pangu-spacing-org-mode-noreal))))
 
 (use-package! go-translate
   :config
