@@ -90,20 +90,7 @@
         org-hide-leading-stars t
         indent-tabs-mode nil
         org-capture-bookmark nil)
-  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h)
-  (map! :g "C-," #'org-cycle-agenda-files
-        :map org-mode-map
-        "C-j" #'org-next-visible-heading
-        "C-k" #'org-previous-visible-heading
-        :localleader
-        "x" nil  ;先清除原来的绑定
-        :prefix ("x" . "emphasis")
-        :desc "code" "c" (lambda () (interactive) (org-emphasize ?~))
-        :desc "bold" "b" (lambda () (interactive) (org-emphasize ?*))
-        :desc "underline" "u" (lambda () (interactive) (org-emphasize ?_))
-        :desc "italic" "i" (lambda () (interactive) (org-emphasize ?/))
-        :desc "strike" "s" (lambda () (interactive) (org-emphasize ?+))
-        ))
+  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
 (after! org-superstar
   (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
@@ -261,3 +248,7 @@
         :n "l" #'dired-find-file
         :n "h" #'dired-up-directory
         :n "C-h" #'dired-omit-mode))
+
+(map! :map emacs-lisp-mode-map
+      :localleader
+      :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
