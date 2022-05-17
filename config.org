@@ -32,7 +32,7 @@
 (add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
 #+end_src
 
-主体和 banner（第三次冲击！）
+主题和 banner（第三次冲击！）
 #+attr_org: :width 200px
 [[file:banner.jpeg]]
 #+begin_src elisp
