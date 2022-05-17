@@ -1,8 +1,21 @@
-;;; -*- lexical-binding: t; -*-
+#+title: config.org
 
+使用 literate module 来管理 config.el 文件，每次保存文件或者执行 ~doom sync~ 命令
+都会自动将代码块 tangle 到 config.el 文件下
+
+使用词法作用域
+#+begin_src elisp
+;;; -*- lexical-binding: t; -*-
+#+end_src
+
+个人信息，在使用 github, gist 或者生成 licence 时会用到
+#+begin_src elisp
 (setq user-full-name "4shen0ne"
       user-mail-address "4shen.01@gmail.com")
+#+end_src
 
+配置字体和 emoji, 中文和英文需要分别设置，不然 org table 不能对齐
+#+begin_src elisp
 (if IS-MAC
     (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
           doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
@@ -17,12 +30,20 @@
     ;; on Windows
     (set-fontset-font "fontset-default" 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)))
 (add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
+#+end_src
 
+主体和 banner（第三次冲击！）
+#+attr_org: :width 200px
+[[file:banner.jpeg]]
+#+begin_src elisp
 (setq doom-theme 'doom-nord)
 (setq doom-modeline-icon nil)
 
 (setq fancy-splash-image "~/.doom.d/banner.jpeg")
+#+end_src
 
+设置一些路径变量，我的 org 目录和博客目录都用 Dropbox 同步
+#+begin_src elisp
 (setq org-directory          "~/Dropbox/org/"
       org-id-locations-file  "~/Dropbox/org/.orgids"
       org-roam-directory     "~/Dropbox/org/roam/"
@@ -30,13 +51,26 @@
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
+#+end_src
 
+This determines the style of line numbers in effect. If set to `nil', line
+numbers are disabled. For relative line numbers, set this to `relative'.
+#+begin_src elisp
 (setq display-line-numbers-type t)
+#+end_src
 
+启动时将最大化窗口
+#+begin_src elisp
 (push '(fullscreen . maximized) default-frame-alist)
+#+end_src
 
+df 二连可以进入 normal mode, 不需要 esc 了
+#+begin_src elisp
 (setq evil-escape-key-sequence "df")
+#+end_src
 
+org mode 相关的配置
+#+begin_src elisp
 (after! org
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
@@ -115,7 +149,9 @@
   :after org-roam
   :config
   (org-roam-bibtex-mode t))
+#+end_src
 
+#+begin_src elisp
 (setq evil-snipe-override-evil-repeat-keys nil)
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
@@ -228,3 +264,4 @@
 (map! :map emacs-lisp-mode-map
       :localleader
       :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
+#+end_src
