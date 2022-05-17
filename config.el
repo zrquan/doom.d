@@ -114,7 +114,7 @@
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
-          ("k" " kotlin" plain "%?"
+          ("k" " kotlin" plain "%?"
            :if-new (file+head "kotlin/${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
@@ -205,8 +205,8 @@
         bibtex-completion-additional-search-fields '(keywords)
 
         bibtex-completion-display-formats
-        '((inbook . "${author:26} ${title:*} :: ${chapter:32} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}")
-          (t      . "${author:26} ${title:*} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}"))
+        '((inbook . "${title:*} :: ${chapter:32} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}")
+          (t      . "${title:*} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}"))
         bibtex-completion-notes-symbol "✎"
         bibtex-completion-pdf-symbol ""
 
