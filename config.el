@@ -188,39 +188,29 @@
       :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
 
-(use-package! org-ref
-  :after org
-  :config
-  (setq org-ref-default-bibliography `(,(expand-file-name "ref.bib" org-directory))
-        org-ref-pdf-directory (expand-file-name "bibtex-pdfs" org-directory)))
-
 (use-package! org-roam-bibtex
   :after org-roam
   :config
   (org-roam-bibtex-mode t))
 
-(use-package! ivy-bibtex
-  :init
-  (setq bibtex-completion-bibliography `(,(expand-file-name "ref.bib" org-directory))
-        bibtex-completion-library-path `(,(expand-file-name "bibtex-pdfs" org-directory))
+(after! citar
+  (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
+        citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
+        citar-file-open-function (lambda (fpath)
+                                   (if IS-MAC
+                                       (call-process "open" nil 0 nil fpath)
+                                     (browse-url-default-windows-browser fpath)))
+        citar-notes-paths `(,org-roam-directory)
+        citar-open-note-function 'orb-citar-edit-note
 
-        bibtex-completion-additional-search-fields '(keywords)
+        citar-symbols '((file "" . " ")
+                        (note "✎" . " ")
+                        (link "" . " "))
 
-        bibtex-completion-display-formats
-        '((inbook . "${title:*} :: ${chapter:32} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}")
-          (t      . "${title:*} ${year:4} ${=type=:7} ${=has-pdf=:2}${=has-note=:2}"))
-        bibtex-completion-notes-symbol "✎"
-        bibtex-completion-pdf-symbol ""
-
-        ;; open pdf in external viewer
-        bibtex-completion-pdf-open-function
-        (lambda (fpath)
-          (if IS-MAC
-              (call-process "open" nil 0 nil fpath)
-            (browse-url-default-windows-browser fpath))))
-
-  (map! :leader
-        :desc "Bibtex" "n b" #'ivy-bibtex))
+        citar-templates '((main . "${date year issued:4}     ${title:48}")
+                          (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
+                          (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+                          (note . "Notes on ${author editor}, ${title}"))))
 
 ;; 在 terminal 使用系统剪贴板
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
@@ -241,26 +231,6 @@
   (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
-
-  ;; See: https://github.com/alexluigit/dirvish/issues/43
-  (defadvice! counsel-bookmark-in-place ()
-    "Forward to `bookmark-jump' or `bookmark-set' if bookmark doesn't exist."
-    :override #'counsel-bookmark
-    (require 'bookmark)
-    (ivy-read "Create or jump to bookmark: "
-              (bookmark-all-names)
-              :history 'bookmark-history
-              :action (lambda (x)
-                        (cond ((and counsel-bookmark-avoid-dired
-                                    (member x (bookmark-all-names))
-                                    (file-directory-p (bookmark-location x)))
-                               (let ((default-directory (bookmark-location x)))
-                                 (counsel-find-file)))
-                              ((member x (bookmark-all-names))
-                               (bookmark-jump x))
-                              (t
-                               (bookmark-set x))))
-              :caller 'counsel-bookmark))
 
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
