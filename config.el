@@ -143,15 +143,15 @@
 
 ;; Dependency of org-roam-ui
 (use-package! websocket
-    :after org-roam)
+  :after org-roam)
 
 (use-package! org-roam-ui
-    :after org-roam
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (after! gist
   (setq gist-ask-for-filename t
@@ -170,7 +170,9 @@
       (if (pyim-string-match-p "\\cc" string)
           nil
         (funcall orig-fun))))
-  (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix))
+  (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix)
+
+  (setq pyim-indicator-cursor-color '("red")))
 
 (after! pyvenv
   (map! :map python-mode-map
@@ -224,9 +226,9 @@
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
   ad-do-it
   (when (and (equal system-type 'darwin)
-              (not (display-graphic-p))
-              (not (window-system))
-              (equal (ad-get-arg 0) 'CLIPBOARD))
+             (not (display-graphic-p))
+             (not (window-system))
+             (equal (ad-get-arg 0) 'CLIPBOARD))
     (let ((process-connection-type nil)  ;; use pipe
           (default-directory "~/"))
       (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
