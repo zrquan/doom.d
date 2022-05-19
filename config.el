@@ -242,6 +242,26 @@
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
 
+  ;; See: https://github.com/alexluigit/dirvish/issues/43
+  (defadvice! counsel-bookmark-in-place ()
+    "Forward to `bookmark-jump' or `bookmark-set' if bookmark doesn't exist."
+    :override #'counsel-bookmark
+    (require 'bookmark)
+    (ivy-read "Create or jump to bookmark: "
+              (bookmark-all-names)
+              :history 'bookmark-history
+              :action (lambda (x)
+                        (cond ((and counsel-bookmark-avoid-dired
+                                    (member x (bookmark-all-names))
+                                    (file-directory-p (bookmark-location x)))
+                               (let ((default-directory (bookmark-location x)))
+                                 (counsel-find-file)))
+                              ((member x (bookmark-all-names))
+                               (bookmark-jump x))
+                              (t
+                               (bookmark-set x))))
+              :caller 'counsel-bookmark))
+
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
         :n "z" #'dirvish-show-history
