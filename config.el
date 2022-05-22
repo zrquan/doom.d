@@ -19,20 +19,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(if IS-MAC
-    (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
-          doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
-  ;; on Windows
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 18)
-        doom-unicode-font (font-spec :family "楷体" :size 22)))
-
-(defun setup-emoji-font ()
-  (interactive)
-  (if IS-MAC
-      (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
-    ;; on Windows
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)))
-(add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
+(setq doom-font (font-spec :family "Fira Code" :size 18)
+      doom-unicode-font (font-spec :family "华文楷体" :size 22))
 
 ;; You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
@@ -65,16 +53,10 @@
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 
-(when IS-MAC
-  ;; Mac 原生的全屏模式无法正常使用 posframe
-  (setq ns-use-native-fullscreen nil
-        ns-use-fullscreen-animation nil)
-  ;; 设置 ClashX 代理
-  (setq url-gateway-method 'socks
-        socks-server '("Default server" "127.0.0.1" 7890 5)
-        url-gateway-local-host-regexp
-        (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
-  )
+(setq url-gateway-method 'socks
+      socks-server '("Default server" "127.0.0.1" 10808 5)
+      url-gateway-local-host-regexp
+      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
 
 ;; 分割窗口时从右方或下方打开新窗口
 (setq evil-vsplit-window-right t
@@ -103,32 +85,29 @@
         org-download-heading-lvl 0
         org-download-image-org-width 600))
 
-(after! org-fancy-priorities
-  (setq org-fancy-priorities-list '("" "" "")))
-
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
   (setq org-roam-title-sources '((title) alias))
   (setq org-roam-capture-templates
-        '(("d" " default" plain "%?"
+        '(("d" "default" plain "%?"
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
-          ("k" " kotlin" plain "%?"
+          ("k" "kotlin" plain "%?"
            :if-new (file+head "kotlin/${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
-          ("j" " java" plain "%?"
+          ("j" "java" plain "%?"
            :if-new (file+head "java/${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t))
 
         org-roam-dailies-capture-templates
-        '(("d" " default" entry "* %?"
+        '(("d" "default" entry "* %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
-          ("t" " todo" entry "* TODO [#B] %?"
+          ("t" "todo" entry "* TODO [#B] %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1)
           ))
@@ -196,16 +175,9 @@
 (after! citar
   (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
         citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
-        citar-file-open-function (lambda (fpath)
-                                   (if IS-MAC
-                                       (call-process "open" nil 0 nil fpath)
-                                     (browse-url-default-windows-browser fpath)))
+        citar-file-open-function (lambda (fpath) (browse-url-default-windows-browser fpath))
         citar-notes-paths `(,org-roam-directory)
         citar-open-note-function 'orb-citar-edit-note
-
-        citar-symbols '((file "" . " ")
-                        (note "✎" . " ")
-                        (link "" . " "))
 
         citar-templates '((main . "${date year issued:4}     ${title:48}")
                           (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
@@ -230,7 +202,8 @@
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
-        dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
+        dirvish-cache-dir (concat doom-cache-dir "dirvish/")
+        dirvish-attributes '(file-size all-the-icons))
 
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
