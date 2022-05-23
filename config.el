@@ -26,16 +26,7 @@
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 18)
         doom-unicode-font (font-spec :family "楷体" :size 22)))
 
-(defun setup-emoji-font ()
-  (interactive)
-  (if IS-MAC
-      (set-fontset-font "fontset-default" 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
-    ;; on Windows
-    (set-fontset-font "fontset-default" 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)))
-(add-hook! 'window-setup-hook :append #'setup-emoji-font) ;🙂
-
-;; You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function.
+;; My favourite themes are doom-nord[-light], doom-solarized-light
 (setq doom-theme 'doom-nord)
 (setq doom-modeline-icon nil)
 
@@ -230,7 +221,8 @@
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
-        dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
+        dirvish-cache-dir (concat doom-cache-dir "dirvish/")
+        dirvish-attributes '(file-size all-the-icons vc-state))
 
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
