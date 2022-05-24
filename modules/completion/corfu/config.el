@@ -38,7 +38,8 @@
   (corfu-preview-current nil)    ;; Disable current candidate preview
   (corfu-auto t)
   (corfu-on-exact-match nil)
-  (corfu-quit-no-match 'separator)
+  (corfu-quit-no-match t)
+  (corfu-excluded-modes '(org-mode))
   :hook
   (doom-first-buffer . global-corfu-mode)
   :bind (:map corfu-map

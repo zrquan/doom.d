@@ -83,10 +83,6 @@
         org-capture-bookmark nil)
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
-(after! evil-org
-  ;; delete insert state bindings
-  (evil-org-set-key-theme '(textobjects navigation additional shift todo)))
-
 (after! org-superstar
   (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
         org-superstar-cycle-headline-bullets nil))
