@@ -19,8 +19,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "Fira Code" :size 18)
-      doom-unicode-font (font-spec :family "华文楷体" :size 22))
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 26)
+      doom-unicode-font doom-font)
 
 ;; You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
@@ -72,10 +72,11 @@
         org-hide-leading-stars t
         indent-tabs-mode nil
         org-capture-bookmark nil)
+  (setq system-time-locale "C")
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
 (after! org-superstar
-  (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
+  (setq org-superstar-headline-bullets-list '("¶" "#")
         org-superstar-cycle-headline-bullets nil))
 
 (after! org-download
@@ -116,9 +117,7 @@
 
   (map! :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto date" "n N" (lambda ()
-                                  (interactive)
-                                  (org-roam-dailies-goto-date nil "d"))))
+        :desc "Goto date" "n N" #'org-roam-dailies-goto-date))
 
 ;; Dependency of org-roam-ui
 (use-package! websocket
