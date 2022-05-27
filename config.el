@@ -81,6 +81,7 @@
         org-hide-leading-stars t
         indent-tabs-mode nil
         org-capture-bookmark nil)
+  (setq system-time-locale "C")         ;日期使用英文
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
 (after! org-superstar

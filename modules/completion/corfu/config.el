@@ -21,14 +21,6 @@
           (lambda ()
             (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless))))))
 
-;; Set bindings
-(map! (:prefix "C-x"
-       :i "C-k" #'cape-dict
-       :i "C-f" #'cape-file
-       :i "s" #'cape-ispell
-       :i "C-n" #'cape-keyword
-       :i "C-s" #'dabbrev-completion))
-
 ;; Fallback cleanly to consult in TUI
 (setq-default completion-in-region-function #'consult-completion-in-region)
 
@@ -44,9 +36,7 @@
   (doom-first-buffer . global-corfu-mode)
   :bind (:map corfu-map
          ("SPC" . corfu-insert-separator)
-         ([tab] . corfu-next)
          ("C-j" . corfu-next)
-         ([backtab] . corfu-previous)
          ("C-k" . corfu-previous))
   :config
   ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
