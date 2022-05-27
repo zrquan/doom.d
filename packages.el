@@ -50,11 +50,11 @@
 ;(unpin! t)
 
 
-(unpin! org-roam)
+(package! org-roam-ui :pin "9474a254390b1e42488a1801fed5826b32a8030b")
 
-(package! org-roam-ui)
-
-(package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex")
+  :pin "efdac6fe4134c33f50b06a0a6d192003d0e5094c")
 
 (package! dirvish)
 
