@@ -59,3 +59,5 @@
 (package! dirvish)
 
 (package! sicp :recipe (:host github :repo "webframp/sicp-info"))
+
+(package! org-fancy-priorities :disable t)

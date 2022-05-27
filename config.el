@@ -19,7 +19,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 26)
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 25)
       doom-unicode-font doom-font)
 
 ;; You can either set `doom-theme' or manually load a theme with the
@@ -44,7 +44,7 @@
 (setq display-line-numbers-type t)
 
 ;; 启动时最大化窗口
-(push '(fullscreen . maximized) default-frame-alist)
+(push '(fullscreen . fullboth) default-frame-alist)
 
 ;; 连击 df 进入 normal mode
 (setq evil-escape-key-sequence "df")
@@ -199,10 +199,15 @@
 (use-package! dirvish
   :init (dirvish-override-dired-mode)
   :config
-  (add-hook 'dired-mode-hook 'dired-omit-mode)
+  (add-hook! dired-mode #'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/")
         dirvish-attributes '(file-size all-the-icons))
+
+  (setq dirvish-bookmarks-alist '(("h" "~/" "Home")
+                                  ("d" "~/Downloads/" "Downloads")
+                                  ("o" "~/Dropbox/org/" "Org")
+                                  ("c" "~/Code/" "Code")))
 
   (map! :map dired-mode-map
         :n "b" #'dirvish-goto-bookmark
