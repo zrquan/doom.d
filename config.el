@@ -202,7 +202,7 @@
   (add-hook! dired-mode #'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size all-the-icons))
+        dirvish-attributes '(file-size all-the-icons vc-state))
 
   (setq dirvish-bookmarks-alist '(("h" "~/" "Home")
                                   ("d" "~/Downloads/" "Downloads")
