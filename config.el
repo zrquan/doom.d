@@ -19,12 +19,13 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 25)
-      doom-unicode-font doom-font)
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
+      doom-unicode-font doom-font
+      doom-variable-pitch-font doom-font)
 
 ;; You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-wilmersdorf)
 (setq doom-modeline-icon nil)
 
 (setq fancy-splash-image "~/.doom.d/banner.jpeg")
@@ -43,7 +44,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-;; 启动时最大化窗口
 (push '(fullscreen . fullboth) default-frame-alist)
 
 ;; 连击 df 进入 normal mode
@@ -53,6 +53,7 @@
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 
+;; socks proxy
 (setq url-gateway-method 'socks
       socks-server '("Default server" "127.0.0.1" 10808 5)
       url-gateway-local-host-regexp
@@ -73,11 +74,12 @@
         indent-tabs-mode nil
         org-capture-bookmark nil)
   (setq system-time-locale "C")
+  (setq org-export-backends '(md html))
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
-(after! org-superstar
-  (setq org-superstar-headline-bullets-list '("¶" "#")
-        org-superstar-cycle-headline-bullets nil))
+;; (after! org-superstar
+;;   (setq org-superstar-headline-bullets-list '("¶" "#")
+;;         org-superstar-cycle-headline-bullets nil))
 
 (after! org-download
   (setq org-download-method 'directory
@@ -108,9 +110,9 @@
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
-          ("t" "todo" entry "* TODO [#B] %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1)
+          ;; ("t" "todo" entry "* TODO [#B] %?"
+          ;;  :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+          ;;  :empty-lines-before 1)
           ))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
@@ -135,22 +137,22 @@
   (setq gist-ask-for-filename t
         gist-ask-for-description t))
 
-(after! company
-  (setq company-format-margin-function #'company-text-icons-margin)
-  ;; turnoff company-ispell
-  (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
-  (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
+;; (after! company
+;;   (setq company-format-margin-function #'company-text-icons-margin)
+;;   ;; turnoff company-ispell
+;;   (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
+;;   (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
 ;; 禁止 company 补全中文
-(after! pyim
-  (defun eh-company-dabbrev--prefix (orig-fun)
-    (let ((string (pyim-char-before-to-string 0)))
-      (if (pyim-string-match-p "\\cc" string)
-          nil
-        (funcall orig-fun))))
-  (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix)
+;; (after! pyim
+;;   (defun eh-company-dabbrev--prefix (orig-fun)
+;;     (let ((string (pyim-char-before-to-string 0)))
+;;       (if (pyim-string-match-p "\\cc" string)
+;;           nil
+;;         (funcall orig-fun))))
+;;   (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix)
 
-  (setq pyim-indicator-cursor-color '("red")))
+;;   (setq pyim-indicator-cursor-color '("red")))
 
 (after! pyvenv
   (map! :map python-mode-map
@@ -164,6 +166,7 @@
 (map! :leader
       :desc "Translate word" "s w" #'youdao-dictionary-search-at-point-posframe
       :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
+      :desc "Google translate" "s g" #'gts-do-translate
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
 
 (use-package! org-roam-bibtex
@@ -197,7 +200,9 @@
         (process-send-eof proc)))))
 
 (use-package! dirvish
-  :init (dirvish-override-dired-mode)
+  :init
+  (dirvish-override-dired-mode)
+  (setq dirvish-header-style 'normal)
   :config
   (add-hook! dired-mode #'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")

@@ -19,9 +19,11 @@
   (setq gts-translate-list '(("en" "zh")))
   (setq gts-default-translator
         (gts-translator
-         :picker (gts-prompt-picker)
-         :engines (list (gts-google-engine))
-         :render (gts-posframe-pop-render)))
+         :picker (gts-noprompt-picker)
+         :engines (list
+                   (gts-google-engine :parser (gts-google-summary-parser))
+                   (gts-bing-engine))
+         :render (gts-buffer-render)))
   (setq gts-posframe-pop-render-timeout 999)
 
   ;; 翻译时消除换行符以提高准确度

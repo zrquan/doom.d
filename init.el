@@ -153,7 +153,6 @@
        (org               ; organize your plain life in plain text
         +roam2
         +hugo
-        +pretty
         +present
         +dragndrop)
        ;;php               ; perl's insecure younger brother
