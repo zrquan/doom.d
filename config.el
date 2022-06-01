@@ -20,7 +20,7 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
 (setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
-      doom-unicode-font doom-font
+      doom-unicode-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
 ;; You can either set `doom-theme' or manually load a theme with the
@@ -44,7 +44,8 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-(push '(fullscreen . fullboth) default-frame-alist)
+(setq initial-frame-alist
+       '((top . 0.3) (left . 0.5) (width . 120) (height . 50)))
 
 ;; 连击 df 进入 normal mode
 (setq evil-escape-key-sequence "df")
