@@ -54,7 +54,7 @@
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
+       ;;file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
@@ -80,7 +80,7 @@
        ;;vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
+       ;;syntax              ; tasing you for every semicolon you forget
        ;;(spell +flyspell) ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
 
@@ -120,7 +120,7 @@
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
-       data              ; config/data formats
+       ;;data              ; config/data formats
        ;;(dart +flutter)   ; paint ui and not much else
        ;;dhall
        ;;elixir            ; erlang done right
@@ -141,7 +141,7 @@
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       kotlin            ; a better, slicker Java(Script)
+       ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be

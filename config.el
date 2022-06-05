@@ -75,7 +75,7 @@
         indent-tabs-mode nil
         org-capture-bookmark nil)
   (setq system-time-locale "C")
-  (setq org-export-backends '(md html))
+  ;; (setq org-export-backends '(md html))
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
 
 ;; (after! org-superstar
@@ -175,12 +175,16 @@
   :config
   (org-roam-bibtex-mode t))
 
+(after! bibtex-completion
+  (setq bibtex-completion-bibliography `(,(expand-file-name "ref.bib" org-directory))
+        bibtex-completion-library-path `(,(expand-file-name "bibtex-pdfs" org-directory))
+        bibtex-completion-notes-path org-roam-directory))
+
 (after! citar
   (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
         citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
         citar-file-open-function (lambda (fpath) (browse-url-default-windows-browser fpath))
         citar-notes-paths `(,org-roam-directory)
-        citar-open-note-function 'orb-citar-edit-note
 
         citar-templates '((main . "${date year issued:4}     ${title:48}")
                           (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
