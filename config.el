@@ -19,7 +19,10 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
+(setq current-monitor-attrs (display-monitor-attributes-list (selected-frame)))
+(setq current-display-name (cdr (assoc 'name (car current-monitor-attrs))))
+(setq doom-font (font-spec :family "LXGW WenKai Mono"
+                           :size (if (string-suffix-p "DISPLAY1" current-display-name) 24 20))
       doom-unicode-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
@@ -109,8 +112,7 @@
         org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1
-           :jump-to-captured t)
+           :empty-lines-before 1)
           ;; ("t" "todo" entry "* TODO [#B] %?"
           ;;  :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
           ;;  :empty-lines-before 1)
@@ -120,7 +122,7 @@
 
   (map! :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto date" "n N" #'org-roam-dailies-goto-date))
+        :desc "Goto date" "n N" #'org-roam-dailies-find-directory))
 
 ;; Dependency of org-roam-ui
 (use-package! websocket
@@ -168,7 +170,8 @@
       :desc "Translate word" "s w" #'youdao-dictionary-search-at-point-posframe
       :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
       :desc "Google translate" "s g" #'gts-do-translate
-      :desc "Kill buffer & window" "b x" #'kill-buffer-and-window)
+      :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
+      :desc "Go home" "o h" (lambda () (interactive) (find-file "~")))
 
 (use-package! org-roam-bibtex
   :after org-roam
@@ -212,7 +215,7 @@
   (add-hook! dired-mode #'dired-omit-mode)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
         dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size all-the-icons vc-state))
+        dirvish-attributes '(file-size all-the-icons))
 
   (setq dirvish-bookmarks-alist '(("h" "~/" "Home")
                                   ("d" "~/Downloads/" "Downloads")
@@ -220,14 +223,16 @@
                                   ("c" "~/Code/" "Code")))
 
   (map! :map dired-mode-map
-        :n "b" #'dirvish-goto-bookmark
+        :n "b" #'dirvish-bookmark-goto
         :n "z" #'dirvish-show-history
         :n "f" #'dirvish-file-info-menu
         :n "F" #'dirvish-toggle-fullscreen
         :n "l" #'dired-find-file
         :n "h" #'dired-up-directory
-        :n "C-h" #'dired-omit-mode))
+        :n "C-h" #'dired-omit-mode
+        :n "o" #'dirvish-quicksort))
 
 (map! :map emacs-lisp-mode-map
       :localleader
       :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
+

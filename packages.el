@@ -54,10 +54,13 @@
 
 (package! org-roam-ui)
 
-(package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
 
-(package! dirvish)
+(package! dirvish
+  :recipe (:host github :repo "alexluigit/dirvish"))
 
-(package! sicp :recipe (:host github :repo "webframp/sicp-info"))
+(package! sicp
+  :recipe (:host github :repo "webframp/sicp-info"))
 
 (package! org-fancy-priorities :disable t)

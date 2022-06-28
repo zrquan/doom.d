@@ -2,8 +2,7 @@
 
 (use-package! pangu-spacing
   :hook (text-mode . pangu-spacing-mode)
-  :config
-  (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t)
+  :custom (pangu-spacing-real-insert-separtor t)
 
   ;; 在某些位置不插入空格字符
   (defun pangu-spacing-org-mode-noreal ()
