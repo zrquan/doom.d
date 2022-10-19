@@ -56,24 +56,24 @@
     (setq pyim-default-scheme 'microsoft-shuangpin))
 
   ;; 兼容`evil-escape'
-  (defun my-pyim-self-insert-command (orig-func)
-    (interactive "*")
-    (if (and (local-variable-p 'last-event-time)
-             (floatp last-event-time)
-             (< (- (float-time) last-event-time) 0.2))
-        (set (make-local-variable 'temp-evil-escape-mode) t)
-      (set (make-local-variable 'temp-evil-escape-mode) nil))
-    (if (and temp-evil-escape-mode
-             (equal (pyim-entered-get) "d")
-             (equal last-command-event ?f))
-        (progn
-          (push last-command-event unread-command-events)
-          (pyim-process-outcome-handle 'pyim-entered)
-          (pyim-process-terminate))
-      (progn
-        (call-interactively orig-func)
-        (set (make-local-variable 'last-event-time) (float-time)))))
-  (advice-add 'pyim-self-insert-command :around #'my-pyim-self-insert-command)
+  ;; (defun my-pyim-self-insert-command (orig-func)
+  ;;   (interactive "*")
+  ;;   (if (and (local-variable-p 'last-event-time)
+  ;;            (floatp last-event-time)
+  ;;            (< (- (float-time) last-event-time) 0.2))
+  ;;       (set (make-local-variable 'temp-evil-escape-mode) t)
+  ;;     (set (make-local-variable 'temp-evil-escape-mode) nil))
+  ;;   (if (and temp-evil-escape-mode
+  ;;            (equal (pyim-entered-get) "d")
+  ;;            (equal last-command-event ?f))
+  ;;       (progn
+  ;;         (push last-command-event unread-command-events)
+  ;;         (pyim-process-outcome-handle 'pyim-entered)
+  ;;         (pyim-process-terminate))
+  ;;     (progn
+  ;;       (call-interactively orig-func)
+  ;;       (set (make-local-variable 'last-event-time) (float-time)))))
+  ;; (advice-add 'pyim-self-insert-command :around #'my-pyim-self-insert-command)
 
   ;; 中/英文自动切换
   (setq-default pyim-english-input-switch-functions

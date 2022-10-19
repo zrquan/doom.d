@@ -56,6 +56,11 @@
   :recipe (:host github :repo "org-roam/org-roam-bibtex")
   :pin "efdac6fe4134c33f50b06a0a6d192003d0e5094c")
 
+(package! org-modern
+  :recipe (:host github :repo "minad/org-modern"))
+
 (package! dirvish)
+
+(package! php-mode)
 
 (package! sicp :recipe (:host github :repo "webframp/sicp-info"))

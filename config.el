@@ -22,9 +22,9 @@
 (if IS-MAC
     (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
           doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
-  ;; on Windows
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 18)
-        doom-unicode-font (font-spec :family "楷体" :size 22)))
+  (setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
+        doom-unicode-font (font-spec :family "LXGW WenKai Mono")
+        doom-variable-pitch-font doom-font))
 
 ;; My favourite themes are doom-nord[-light], doom-solarized-light
 (setq doom-theme 'doom-nord)
@@ -82,11 +82,11 @@
         indent-tabs-mode nil
         org-capture-bookmark nil)
   (setq system-time-locale "C")         ;日期使用英文
-  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")))
+  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h #'global-org-modern-mode))
 
-(after! org-superstar
-  (setq org-superstar-headline-bullets-list '("¶" "#" 9673)
-        org-superstar-cycle-headline-bullets nil))
+(after! org-modern
+  (setq org-modern-star '("¶" "◈" "#")))
 
 (after! org-download
   (setq org-download-method 'directory
@@ -95,8 +95,8 @@
         org-download-heading-lvl 0
         org-download-image-org-width 600))
 
-(after! org-fancy-priorities
-  (setq org-fancy-priorities-list '("" "" "")))
+;; (after! org-fancy-priorities
+;;   (setq org-fancy-priorities-list '("" "" "")))
 
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
@@ -221,18 +221,23 @@
   :init (dirvish-override-dired-mode)
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")
-        dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size all-the-icons vc-state))
-
+  (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
+        dirvish-attributes '(file-size all-the-icons vc-state)
+        dirvish-quick-access-entries '(("h" "~/" "Home")
+                                       ("d" "~/Downloads/" "Downloads")
+                                       ("o" "~/Dropbox/org/" "Org")
+                                       ("c" "~/code/" "Code")))
   (map! :map dired-mode-map
-        :n "b" #'dirvish-goto-bookmark
-        :n "z" #'dirvish-show-history
+        :n "b" #'dirvish-quick-access
+        :n "z" #'dirvish-history-jump
         :n "f" #'dirvish-file-info-menu
-        :n "F" #'dirvish-toggle-fullscreen
+        :n "F" #'dirvish-layout-toggle
+        :n "<tab>" #'dirvish-subtree-toggle
         :n "l" #'dired-find-file
         :n "h" #'dired-up-directory
         :n "C-h" #'dired-omit-mode))
+
+(use-package! php-mode)
 
 (map! :map emacs-lisp-mode-map
       :localleader
