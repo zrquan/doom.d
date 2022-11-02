@@ -56,16 +56,10 @@
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 
-(when IS-MAC
-  ;; Mac 原生的全屏模式无法正常使用 posframe
-  (setq ns-use-native-fullscreen nil
-        ns-use-fullscreen-animation nil)
-  ;; 设置 ClashX 代理
-  (setq url-gateway-method 'socks
-        socks-server '("Default server" "127.0.0.1" 7890 5)
-        url-gateway-local-host-regexp
-        (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
-  )
+(setq url-gateway-method 'socks
+      socks-server '("Default server" "127.0.0.1" 10808 5)
+      url-gateway-local-host-regexp
+      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
 
 ;; 分割窗口时从右方或下方打开新窗口
 (setq evil-vsplit-window-right t
@@ -228,6 +222,7 @@
                                        ("o" "~/Dropbox/org/" "Org")
                                        ("c" "~/code/" "Code")))
   (map! :map dired-mode-map
+        :n "q" #'dirvish-quit
         :n "b" #'dirvish-quick-access
         :n "z" #'dirvish-history-jump
         :n "f" #'dirvish-file-info-menu
