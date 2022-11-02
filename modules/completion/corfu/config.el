@@ -45,14 +45,14 @@
   (evil-make-overriding-map corfu-map))
 
 (use-package orderless
-  :when (featurep! +orderless)
+  :when (modulep! +orderless)
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
 (use-package kind-all-the-icons
-  :when (featurep! +icon)
+  :when (modulep! +icon)
   :after corfu
   :config
   (add-to-list 'corfu-margin-formatters #'kind-all-the-icons-margin-formatter))
