@@ -4,52 +4,41 @@
 ;; sync' after modifying this file!
 
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;; Some functionality uses this to identify you.
 (setq user-full-name "4shen0ne"
       user-mail-address "4shen.01@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Set the font to LXGW WenKai(霞鹜文楷).
+;; Homepage: https://github.com/lxgw/LxgwWenKai
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string.
-(if IS-MAC
-    (setq doom-font (font-spec :family "Monaco" :size 14) ;14 15 16
-          doom-unicode-font (font-spec :family "楷体-简" :size 16)) ;16 18 20
-  (setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
-        doom-unicode-font (font-spec :family "LXGW WenKai Mono")
-        doom-variable-pitch-font doom-font))
+;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
+;; there will be problems with Chinese scaling.
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
+      doom-unicode-font (font-spec :family "LXGW WenKai Mono")
+      doom-variable-pitch-font doom-font)
 
-;; My favourite themes are doom-nord[-light], doom-solarized-light
-(setq doom-theme 'doom-nord)
-(setq doom-modeline-icon nil)
-
-(setq fancy-splash-image "~/.doom.d/banner.jpeg")
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
+;; Set path variables related to org-mode. I use dropbox to backup and sync my
+;; org files, and integrate org-roam dailies with org-agenda-files.
 (setq org-directory          "~/Dropbox/org/"
       org-id-locations-file  "~/Dropbox/org/.orgids"
       org-roam-directory     "~/Dropbox/org/roam/"
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
+(setq doom-theme 'doom-nord)
+(setq doom-modeline-icon nil)
+(setq fancy-splash-image "~/.doom.d/banner.jpeg")
+(setq display-line-numbers-type nil)
+
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+;; Use chrome as default browser.
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome-stable")
 
-;; 启动时最大化窗口
 (push '(fullscreen . maximized) default-frame-alist)
 
-;; 连击 df 进入 normal mode
+;; Use <df> instead of <Esc>.
 (setq evil-escape-key-sequence "df")
 
 (setq evil-snipe-override-evil-repeat-keys nil)
@@ -61,7 +50,6 @@
       url-gateway-local-host-regexp
       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
 
-;; 分割窗口时从右方或下方打开新窗口
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
@@ -82,9 +70,10 @@
 (after! org-modern
   (setq org-modern-star '("¶" "◈" "#")))
 
+;; (advice-remove 'org-download--delete #'+org--fix-org-download-delete-a)
 (after! org-download
   (setq org-download-method 'directory
-        org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
+        ;; org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
         org-download-abbreviate-filename-function 'file-relative-name
         org-download-heading-lvl 0
         org-download-image-org-width 600))
@@ -96,12 +85,8 @@
   (setq +org-roam-open-buffer-on-find-file nil)
   (setq org-roam-title-sources '((title) alias))
   (setq org-roam-capture-templates
-        '(("d" " default" plain "%?"
+        '(("n" " note" plain "%?"
            :if-new (file+head "${slug}.org"
-                              "#+title: ${title}\n")
-           :unnarrowed t)
-          ("k" " kotlin" plain "%?"
-           :if-new (file+head "kotlin/${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
           ("j" " java" plain "%?"
@@ -110,14 +95,13 @@
            :unnarrowed t))
 
         org-roam-dailies-capture-templates
-        '(("d" " default" entry "* %?"
+        '(("n" " note" entry "* %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
           ("t" " todo" entry "* TODO [#B] %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1)
-          ))
+           :empty-lines-before 1)))
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
 
@@ -125,7 +109,7 @@
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
         :desc "Goto date" "n N" (lambda ()
                                   (interactive)
-                                  (org-roam-dailies-goto-date nil "d"))))
+                                  (org-roam-dailies-goto-date nil "n"))))
 
 ;; Dependency of org-roam-ui
 (use-package! websocket
@@ -180,17 +164,21 @@
   (org-roam-bibtex-mode t))
 
 (after! citar
+  (setq citar-file-open-functions (list (cons "html" #'citar-file-open-external)
+                                        (cons "pdf" #'citar-file-open-external)
+                                        (cons t #'find-file)))
+
   (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
         citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
         citar-file-open-function (lambda (fpath)
                                    (if IS-MAC
                                        (call-process "open" nil 0 nil fpath)
-                                     (browse-url-default-windows-browser fpath)))
+                                     (browse-url-default-browser fpath)))
         citar-notes-paths `(,org-roam-directory)
         citar-open-note-function 'orb-citar-edit-note
 
         citar-symbols '((file "" . " ")
-                        (note "✎" . " ")
+                        (note "" . " ")
                         (link "" . " "))
 
         citar-templates '((main . "${date year issued:4}     ${title:48}")
@@ -224,6 +212,7 @@
   (map! :map dired-mode-map
         :n "q" #'dirvish-quit
         :n "b" #'dirvish-quick-access
+        :n "s" #'dirvish-quicksort
         :n "z" #'dirvish-history-jump
         :n "f" #'dirvish-file-info-menu
         :n "F" #'dirvish-layout-toggle
@@ -237,3 +226,5 @@
 (map! :map emacs-lisp-mode-map
       :localleader
       :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
+
+(setq lsp-warn-no-matched-clients nil)
