@@ -68,7 +68,9 @@
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h #'global-org-modern-mode))
 
 (after! org-modern
-  (setq org-modern-star '("¶" "◈" "#")))
+  (setq org-modern-star '("¶" "◈" "#")
+        org-modern-priority nil
+        org-modern-block-name '("⌜" . "⌞")))
 
 ;; (advice-remove 'org-download--delete #'+org--fix-org-download-delete-a)
 (after! org-download
