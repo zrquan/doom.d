@@ -19,3 +19,7 @@
    git config --global github.user <your-github-user-name>
    git config --global github.oauth-token <your-personal-access-token-with-gist-scope>
    #+end_src
+
+helps to make banner:
+- https://convertio.co/zh/
+- https://www.iloveimg.com/zh-cn

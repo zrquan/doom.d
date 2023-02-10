@@ -25,9 +25,9 @@
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-nord-light)
 (setq doom-modeline-icon nil)
-(setq fancy-splash-image "~/.doom.d/banner.jpeg")
+(setq fancy-splash-image "~/.doom.d/banner.svg")
 (setq display-line-numbers-type nil)
 
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
