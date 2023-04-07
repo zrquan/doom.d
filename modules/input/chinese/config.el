@@ -42,7 +42,7 @@
           liberime-user-data-dir (file-truename "~/.doom.d/modules/input/chinese/rime"))
     (liberime-load))
   :config
-  (liberime-select-schema "double_pinyin_mspy")
+  (liberime-select-schema "double_pinyin")
   (add-hook 'after-init-hook #'liberime-sync))
 
 (use-package! pyim
@@ -86,7 +86,7 @@
                 '(pyim-probe-punctuation-line-beginning
                   pyim-probe-punctuation-after-punctuation))
 
-  (global-set-key (kbd "C-x \\") 'pyim-convert-string-at-point)
+  (global-set-key (kbd "C-|") 'pyim-convert-string-at-point)
   (define-key pyim-mode-map "." 'pyim-page-next-page)
   (define-key pyim-mode-map "," 'pyim-page-previous-page))
 

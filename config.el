@@ -13,7 +13,7 @@
 ;;
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 20)
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 22)
       doom-unicode-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
@@ -25,18 +25,16 @@
       org-agenda-files     '("~/Dropbox/org/roam/daily/")
       org-hugo-base-dir      "~/Dropbox/hugo/")
 
-(setq doom-theme 'doom-nord-light)
+(setq doom-theme 'doom-nord-aurora)
 (setq doom-modeline-icon nil)
 (setq fancy-splash-image "~/.doom.d/banner.svg")
-(setq display-line-numbers-type nil)
+;; (setq display-line-numbers-type nil)
 
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
-;; Use chrome as default browser.
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome-stable")
-
-(push '(fullscreen . maximized) default-frame-alist)
+;; (push '(fullscreen . maximized) default-frame-alist)
+(setq initial-frame-alist
+      '((top . 0.3) (left . 0.4) (width . 150) (height . 55)))
 
 ;; Use <df> instead of <Esc>.
 (setq evil-escape-key-sequence "df")
@@ -58,6 +56,10 @@
   :after '(evil-window-split evil-window-vsplit)
   (consult-buffer))
 
+;; 禁止 emacsclient 打开新的工作区
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override -1))
+
 (after! org
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
@@ -72,16 +74,13 @@
         org-modern-priority nil
         org-modern-block-name '("⌜" . "⌞")))
 
-;; (advice-remove 'org-download--delete #'+org--fix-org-download-delete-a)
+(advice-remove 'org-download--delete #'+org--fix-org-download-delete-a)
 (after! org-download
   (setq org-download-method 'directory
-        ;; org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
+         org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
         org-download-abbreviate-filename-function 'file-relative-name
         org-download-heading-lvl 0
         org-download-image-org-width 600))
-
-;; (after! org-fancy-priorities
-;;   (setq org-fancy-priorities-list '("" "" "")))
 
 (after! org-roam
   (setq +org-roam-open-buffer-on-find-file nil)
@@ -210,7 +209,7 @@
         dirvish-quick-access-entries '(("h" "~/" "Home")
                                        ("d" "~/Downloads/" "Downloads")
                                        ("o" "~/Dropbox/org/" "Org")
-                                       ("c" "~/code/" "Code")))
+                                       ("c" "~/Code/" "Code")))
   (map! :map dired-mode-map
         :n "q" #'dirvish-quit
         :n "b" #'dirvish-quick-access
@@ -223,6 +222,10 @@
         :n "h" #'dired-up-directory
         :n "C-h" #'dired-omit-mode))
 
+(after! dired-x
+  ;; Make dired-omit-mode hide all "dotfiles"
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
+
 (use-package! php-mode)
 
 (map! :map emacs-lisp-mode-map
@@ -230,3 +233,7 @@
       :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
 
 (setq lsp-warn-no-matched-clients nil)
+
+(after! emacs-codeql
+  (setq codeql-transient-binding "C-c q")
+  (setq codeql-configure-eglot-lsp t))

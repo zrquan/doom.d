@@ -20,3 +20,7 @@
 (package! php-mode)
 
 (package! sicp :recipe (:host github :repo "webframp/sicp-info"))
+
+(package! magit-stats :recipe (:host github :repo "LionyxML/magit-stats"))
+
+(package! emacs-codeql :recipe (:host github :repo "anticomputer/emacs-codeql"))
