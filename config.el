@@ -27,14 +27,14 @@
 
 (setq doom-theme 'doom-nord-aurora)
 (setq doom-modeline-icon nil)
-(setq fancy-splash-image "~/.doom.d/banner.svg")
+;; (setq fancy-splash-image "~/.doom.d/banner.svg")
 ;; (setq display-line-numbers-type nil)
 
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
-;; (push '(fullscreen . maximized) default-frame-alist)
+(push '(alpha-background . 92) default-frame-alist)
 (setq initial-frame-alist
-      '((top . 0.3) (left . 0.4) (width . 150) (height . 55)))
+      '((top . 0.3) (left . 0.45) (width . 80) (height . 40)))
 
 ;; Use <df> instead of <Esc>.
 (setq evil-escape-key-sequence "df")
