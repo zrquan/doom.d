@@ -128,22 +128,10 @@
   (setq gist-ask-for-filename t
         gist-ask-for-description t))
 
-(after! company
-  (setq company-format-margin-function #'company-text-icons-margin)
-  ;; turnoff company-ispell
-  (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
-  (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
-
-;; 禁止 company 补全中文
-(after! pyim
-  (defun eh-company-dabbrev--prefix (orig-fun)
-    (let ((string (pyim-char-before-to-string 0)))
-      (if (pyim-string-match-p "\\cc" string)
-          nil
-        (funcall orig-fun))))
-  (advice-add 'company-dabbrev--prefix :around #'eh-company-dabbrev--prefix)
-
-  (setq pyim-indicator-cursor-color '("red")))
+;; (after! corfu
+;;   (setq corfu-separator ?\s)
+;;   (map! :map corfu-map
+;;         :desc "" "SPC" #'corfu-insert-separator))
 
 (after! pyvenv
   (map! :map python-mode-map
