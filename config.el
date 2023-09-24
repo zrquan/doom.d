@@ -167,6 +167,17 @@
   (org-roam-bibtex-mode t))
 
 (after! citar
+  (require 'citar-org-roam)
+  (citar-register-notes-source
+   'orb-citar-source (list :name "Org-Roam Notes"
+          :category 'org-roam-node
+          :items #'citar-org-roam--get-candidates
+          :hasitems #'citar-org-roam-has-notes
+          :open #'citar-org-roam-open-note
+          :create #'orb-citar-edit-note
+          :annotate #'citar-org-roam--annotate))
+
+  (setq citar-notes-source 'orb-citar-source)
   (setq citar-file-open-functions (list (cons "html" #'citar-file-open-external)
                                         (cons "pdf" #'citar-file-open-external)
                                         (cons t #'find-file)))
@@ -211,7 +222,8 @@
         dirvish-quick-access-entries '(("h" "~/" "Home")
                                        ("d" "~/Downloads/" "Downloads")
                                        ("o" "~/Dropbox/org/" "Org")
-                                       ("c" "~/Code/" "Code"))
+                                       ("c" "~/Code/" "Code")
+                                       ("w" "~/Dropbox/work/" "Work"))
         dirvish-side-width 45)
   (map! :map dired-mode-map
         :n "q" #'dirvish-quit
@@ -223,7 +235,8 @@
         :n "<tab>" #'dirvish-subtree-toggle
         :n "l" #'dired-find-file
         :n "h" #'dired-up-directory
-        :n "C-h" #'dired-omit-mode))
+        :n "C-h" #'dired-omit-mode
+        :n "C-f" #'dirvish-fd))
 
 (after! dired-x
   ;; Make dired-omit-mode hide all "dotfiles"
@@ -235,7 +248,8 @@
       :localleader
       :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
 
-(setq lsp-warn-no-matched-clients nil)
+(setq lsp-warn-no-matched-clients nil
+      lsp-completion-provider :none)
 
 (after! emacs-codeql
   (setq codeql-transient-binding "C-c q")

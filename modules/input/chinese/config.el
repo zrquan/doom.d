@@ -42,6 +42,7 @@
   (setq rime-share-data-dir "~/.config/ibus/rime/"
         rime-translate-keybindings '("C-g" "C-j" "C-k" "C-," "C-.")
         rime-show-candidate 'posframe
-        rime-posframe-style 'vertical))
+        rime-posframe-style 'vertical
+        rime-posframe-properties '(:internal-border-width 2)))
 
 ;;; end
