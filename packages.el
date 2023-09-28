@@ -5,7 +5,6 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-
 (package! org-roam-ui :pin "9474a254390b1e42488a1801fed5826b32a8030b")
 
 (package! org-roam-bibtex
@@ -18,10 +17,10 @@
 
 (package! dirvish)
 
-(package! php-mode)
+;; (package! sicp :recipe (:host github :repo "webframp/sicp-info"))
 
-(package! sicp :recipe (:host github :repo "webframp/sicp-info"))
-
-(package! magit-stats :recipe (:host github :repo "LionyxML/magit-stats"))
+;; (package! magit-stats :recipe (:host github :repo "LionyxML/magit-stats"))
 
 (package! emacs-codeql :recipe (:host github :repo "anticomputer/emacs-codeql"))
+
+(package! org-super-agenda :recipe (:host github :repo "alphapapa/org-super-agenda"))
