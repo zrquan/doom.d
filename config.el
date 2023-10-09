@@ -60,6 +60,10 @@
       evil-vsplit-window-right t
       evil-split-window-below t)
 
+;; 禁止 emacsclient 打开新的工作区
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override -1))
+
 ;; 在 terminal 使用系统剪贴板
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
   ad-do-it
@@ -107,7 +111,7 @@
         org-roam-title-sources '((title) alias)
 
         org-roam-capture-templates
-        '(("n" " note" plain "%?"
+        '(("n" "󱞁 note" plain "%?"
            :if-new (file+head "${slug}.org"
                               "#+title: ${title}\n")
            :unnarrowed t)
@@ -117,11 +121,11 @@
            :unnarrowed t))
 
         org-roam-dailies-capture-templates
-        '(("n" " note" entry "* %?"
+        '(("n" "󱞁 note" entry "* %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1
            :jump-to-captured t)
-          ("t" " todo" entry "* TODO [#B] %?"
+          ("t" " todo" entry "* TODO [#B] %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
            :empty-lines-before 1)))
 
@@ -200,10 +204,6 @@
         citar-notes-paths `(,org-roam-directory)
         citar-open-note-function 'orb-citar-edit-note
 
-        citar-symbols '((file "" . " ")
-                        (note "" . " ")
-                        (link "" . " "))
-
         citar-templates '((main . "${date year issued:4}     ${title:48}")
                           (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
                           (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
@@ -215,7 +215,7 @@
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size all-the-icons vc-state)
+        dirvish-attributes '(file-size nerd-icons vc-state)
         dirvish-side-width 45
 
         dirvish-quick-access-entries
