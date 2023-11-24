@@ -11,8 +11,8 @@
 
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 22)
-      doom-unicode-font (font-spec :family "LXGW WenKai Mono")
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 26)
+      doom-symbol-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
 
@@ -26,12 +26,12 @@
 
 
 ;; UI configs
-(setq doom-theme 'doom-nord-aurora
+(setq doom-theme 'doom-dracula
       doom-modeline-icon t
-      ;; fancy-splash-image "~/.doom.d/banner.svg"
+      fancy-splash-image "~/.doom.d/banner.svg"
       display-line-numbers-type t
       initial-frame-alist '((top . 0.3) (left . 0.45) (width . 80) (height . 40)))
-(push '(alpha-background . 92) default-frame-alist)
+;; (push '(alpha-background . 92) default-frame-alist)
 
 
 ;; Keymaps
@@ -163,16 +163,6 @@
 ;;         :desc "" "SPC" #'corfu-insert-separator))
 
 
-;; (after! pyvenv
-;;   (map! :map python-mode-map
-;;         :localleader
-;;         :prefix ("v" . "pyvenv")
-;;         :desc "workon"     "w" #'pyvenv-workon
-;;         :desc "activate"   "a" #'pyvenv-activate
-;;         :desc "deactivate" "d" #'pyvenv-deactivate
-;;         :desc "create"     "c" #'pyvenv-create))
-
-
 (use-package! org-roam-bibtex
   :after org-roam
   :config
@@ -213,7 +203,7 @@
 (use-package! dirvish
   :init (dirvish-override-dired-mode)
   :config
-  (add-hook 'dired-mode-hook 'dired-omit-mode)
+  ;; (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
         dirvish-attributes '(file-size nerd-icons vc-state)
         dirvish-side-width 45
@@ -252,53 +242,3 @@
 (setq lsp-warn-no-matched-clients nil
       lsp-completion-provider :none)
 
-
-(after! emacs-codeql
-  (setq codeql-transient-binding "C-c q")
-  (setq codeql-configure-eglot-lsp t))
-
-
-(use-package! org-super-agenda
-  :init (add-hook 'org-agenda-mode-hook #'org-super-agenda-mode)
-  :config
-  (setq org-super-agenda-groups
-        '(;; Each group has an implicit boolean OR operator between its selectors.
-          (:name "Today"  ; Optionally specify section name
-           :time-grid t  ; Items that appear on the time grid
-           :todo "TODAY")  ; Items that have this TODO keyword
-          (:name "Important"
-           ;; Single arguments given alone
-           :tag ("work" "important")
-           :priority "A")
-          ;; Set order of multiple groups at once
-          (:order-multi (2 (:name "Shopping in town"
-                            ;; Boolean AND group matches items that match all subgroups
-                            :and (:tag "shopping" :tag "@town"))
-                           (:name "Food-related"
-                            ;; Multiple args given in list with implicit OR
-                            :tag ("food" "dinner"))
-                           (:name "Personal"
-                            :habit t
-                            :tag "personal")
-                           (:name "Space-related (non-moon-or-planet-related)"
-                            ;; Regexps match case-insensitively on the entire entry
-                            :and (:regexp ("space" "NASA")
-                                  ;; Boolean NOT also has implicit OR between selectors
-                                  :not (:regexp "moon" :tag "planet")))))
-          ;; Groups supply their own section names when none are given
-          (:todo "WAITING" :order 8)  ; Set order of this section
-          (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
-           ;; Show this group at the end of the agenda (since it has the
-           ;; highest number). If you specified this group last, items
-           ;; with these todo keywords that e.g. have priority A would be
-           ;; displayed in that group instead, because items are grouped
-           ;; out in the order the groups are listed.
-           :order 9)
-          (:priority<= "B"
-           ;; Show this section after "Today" and "Important", because
-           ;; their order is unspecified, defaulting to 0. Sections
-           ;; are displayed lowest-number-first.
-           :order 1)
-          ;; After the last group, the agenda will display items that didn't
-          ;; match any of these groups, with the default order position of 99
-          )))
