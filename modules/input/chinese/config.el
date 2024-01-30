@@ -29,11 +29,10 @@
       (setf text (replace-regexp-in-string "[ \t\n]+" " " text)))))
 
 
-(use-package! sdcv
-  :config
-  (setq sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
-        sdcv-dictionary-simple-list '("简明英汉字典增强版")
-        sdcv-dictionary-complete-list '("简明英汉字典增强版")))
+(use-package! youdao-dictionary
+ :config
+ (map! :map youdao-dictionary-mode-map
+       :n "q" #'kill-buffer-and-window))
 
 
 (use-package! rime
@@ -41,7 +40,7 @@
   :config
   (setq rime-share-data-dir "~/.config/ibus/rime/"
         rime-translate-keybindings '("C-g" "C-j" "C-k" "C-," "C-.")
-        rime-show-candidate 'minibuffer
+        rime-show-candidate 'posframe
         rime-disable-predicates '(rime-predicate-evil-mode-p
                                   rime-predicate-current-uppercase-letter-p
                                   rime-predicate-prog-in-code-p))
