@@ -28,10 +28,10 @@
 ;; UI configs
 (setq doom-theme 'doom-dracula
       doom-modeline-icon t
-      fancy-splash-image "~/.doom.d/banner.svg"
+      fancy-splash-image "~/.doom.d/seele.png"
       display-line-numbers-type t
       initial-frame-alist '((top . 0.3) (left . 0.45) (width . 80) (height . 40)))
-;; (push '(alpha-background . 92) default-frame-alist)
+(push '(alpha . 92) default-frame-alist)
 
 
 ;; Keymaps
@@ -97,13 +97,12 @@
         org-modern-block-name '("⌜" . "⌞")))
 
 
-(advice-remove 'org-download--delete #'+org--fix-org-download-delete-a)
 (after! org-download
   (setq org-download-method 'directory
         org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
         org-download-abbreviate-filename-function 'file-relative-name
         org-download-heading-lvl 0
-        org-download-image-org-width 600))
+        org-download-image-org-width 800))
 
 
 (after! org-roam
@@ -203,17 +202,18 @@
 (use-package! dirvish
   :init (dirvish-override-dired-mode)
   :config
-  ;; (add-hook 'dired-mode-hook 'dired-omit-mode)
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
   (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size nerd-icons vc-state)
+        dirvish-attributes '(file-size nerd-icons)
         dirvish-side-width 45
 
         dirvish-quick-access-entries
         '(("h" "~/" "Home")
           ("d" "~/Downloads/" "Downloads")
           ("o" "~/Dropbox/org/" "Org")
-          ("c" "~/Code/" "Code")
-          ("w" "~/Dropbox/work/" "Work")))
+          ("p" "~/Projects/" "Projects")
+          ("c" "~/Documents/ctf/" "CTF")
+          ("w" "~/Documents/work/" "Work")))
 
   (map! :map dired-mode-map
         :n "q" #'dirvish-quit
