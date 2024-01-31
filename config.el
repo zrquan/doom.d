@@ -151,9 +151,9 @@
         org-roam-ui-open-on-start t))
 
 
-(after! gist
-  (setq gist-ask-for-filename t
-        gist-ask-for-description t))
+;; (after! gist
+;;   (setq gist-ask-for-filename t
+;;         gist-ask-for-description t))
 
 
 ;; (after! corfu
