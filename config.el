@@ -55,14 +55,10 @@
       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
 
 
-;;;;;;;;;;;;;;;;;;;; Unorganized ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; Misc ;;;;;;;;;;;;;;;;;;;;
 (setq auth-sources '("~/.authinfo" "~/.authinfo.gpg")
       evil-vsplit-window-right t
       evil-split-window-below t)
-
-;; 禁止 emacsclient 打开新的工作区
-(after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override -1))
 
 ;; 在 terminal 使用系统剪贴板
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
@@ -76,6 +72,13 @@
       (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
         (process-send-string proc (ad-get-arg 1))
         (process-send-eof proc)))))
+
+(map! :map emacs-lisp-mode-map
+      :localleader
+      :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
+
+(setq lsp-warn-no-matched-clients nil
+      lsp-completion-provider :none)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -234,11 +237,6 @@
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
 
 
-(map! :map emacs-lisp-mode-map
-      :localleader
-      :desc "edebug-remove-instrumentation" "d r" #'edebug-remove-instrumentation)
-
-
-(setq lsp-warn-no-matched-clients nil
-      lsp-completion-provider :none)
-
+;; 禁止 emacsclient 打开新的工作区
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override -1))
