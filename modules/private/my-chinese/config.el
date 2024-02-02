@@ -32,6 +32,7 @@
 
 
 (use-package! youdao-dictionary
+  :defer t
   :config
   (map! :map youdao-dictionary-mode-map
         :n "q" #'kill-buffer-and-window))
