@@ -1,25 +1,15 @@
-#+TITLE:   Configuration of Doom Emacs
+#+TITLE:   My Doom Emacs config
 #+SINCE:   <replace with next tagged release version>
-#+STARTUP: inlineimages nofold
+#+STARTUP: inlineimages fold
 
-1. +download plantuml from [[https://github.com/plantuml/plantuml/releases][github release]]+ just call ~plantuml-download-jar~ function
+This is my personal Doom Emacs configuration for:
+1. note: awesome org-mode & org-roam
+2. blog: export org-mode to hugo-compatible markdown
+3. file management: use dirvish
+4. version control: use magit
+5. text manipulation: yaml, json, csv, log, etc
 
-2. install graphviz from [[https://www.graphviz.org/download/][here]], or from brew if you use mac:
-   #+begin_src
-   brew install libtool
-   brew link libtool
-   brew install graphviz
-   brew link --overwrite graphviz
-   #+end_src
+Used for programming? Just uncomment specific module in [[file:init.el][init.el]] and enjoy! (I
+prefer to use IDEs🫣)
 
-3. install [[https://github.com/BurntSushi/ripgrep][ripgrep]]
-
-4. enable gist.el
-   #+begin_src
-   git config --global github.user <your-github-user-name>
-   git config --global github.oauth-token <your-personal-access-token-with-gist-scope>
-   #+end_src
-
-helps to make banner:
-- https://convertio.co/zh/
-- https://www.iloveimg.com/zh-cn
+[[file:.images/screenshot.png]]
