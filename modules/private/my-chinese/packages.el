@@ -1,5 +1,5 @@
 ;; -*- no-byte-compile: t; -*-
-;;; input/chinese/packages.el
+;;; private/my-chinese/packages.el
 
 (package! names)
 (package! youdao-dictionary)

@@ -1,4 +1,5 @@
-;;; input/chinese/config.el -*- lexical-binding: t; -*-
+;;; private/my-chinese/config.el -*- lexical-binding: t; -*-
+
 
 (use-package! pangu-spacing
   :hook (text-mode . pangu-spacing-mode)
@@ -6,7 +7,7 @@
   (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t)
   (setq pangu-spacing-special-region-func-alist
         '((org-mode . pangu-spacing-org-mode-noreal)))
-  ;; 在某些位置不插入空格字符
+  ;; 不要在node-property中使用real-insert
   (defun pangu-spacing-org-mode-noreal ()
     (let ((element (org-element-at-point)))
       (when (or (pangu-spacing-org-mode-at-special-region)
@@ -15,6 +16,7 @@
 
 
 (use-package! go-translate
+  :defer t
   :config
   (setq gts-translate-list '(("en" "zh"))
         gts-default-translator
@@ -30,12 +32,13 @@
 
 
 (use-package! youdao-dictionary
- :config
- (map! :map youdao-dictionary-mode-map
-       :n "q" #'kill-buffer-and-window))
+  :config
+  (map! :map youdao-dictionary-mode-map
+        :n "q" #'kill-buffer-and-window))
 
 
 (use-package! rime
+  :defer t
   :custom (default-input-method "rime")
   :config
   (setq rime-share-data-dir "~/.config/ibus/rime/"
@@ -45,7 +48,7 @@
                                   rime-predicate-current-uppercase-letter-p
                                   rime-predicate-prog-in-code-p))
 
-  ;; 结合 evil-escape 一起使用
+  ;; 结合evil-escape一起使用
   (defun rime-evil-escape-advice (orig-fun key)
     "advice for `rime-input-method' to make it work together with `evil-escape'.
         Mainly modified from `evil-escape-pre-command-hook'"
@@ -78,5 +81,3 @@
             (apply orig-fun (list key)))))))
 
   (advice-add 'rime-input-method :around #'rime-evil-escape-advice))
-
-;;; end
