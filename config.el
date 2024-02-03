@@ -10,8 +10,8 @@
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 (map! :leader
-      :desc "Translate word" "s w" #'youdao-dictionary-search-at-point-posframe
-      :desc "Translate input" "s W" #'youdao-dictionary-search-from-input
+      :desc "Translate word" "s w" #'sdcv-search-pointer+
+      :desc "Translate input" "s W" #'sdcv-search-input+
       :desc "Google Translate" "s g" #'gts-do-translate
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
       :desc "Dirvish sidebar" "o o" #'dirvish-side)

@@ -31,11 +31,11 @@
       (setf text (replace-regexp-in-string "[ \t\n]+" " " text)))))
 
 
-(use-package! youdao-dictionary
+(use-package! sdcv
   :defer t
   :config
-  (map! :map youdao-dictionary-mode-map
-        :n "q" #'kill-buffer-and-window))
+  (setq sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
+        sdcv-dictionary-simple-list '("简明英汉字典增强版")))
 
 
 (use-package! rime
