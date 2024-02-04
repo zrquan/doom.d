@@ -22,6 +22,11 @@
       evil-vsplit-window-right t
       evil-split-window-below t)
 
+(defun display-ansi-colors ()
+  "Display ANSI color codes in current buffer"
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
 ;; Load separate configs
 (load! "+ui")
 (load! "+os")
