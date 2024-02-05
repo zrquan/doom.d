@@ -10,11 +10,19 @@
 (setq doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 (map! :leader
-      :desc "Translate word" "s w" #'sdcv-search-pointer+
-      :desc "Translate input" "s W" #'sdcv-search-input+
-      :desc "Google Translate" "s g" #'gts-do-translate
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
-      :desc "Dirvish sidebar" "o o" #'dirvish-side)
+      :desc "Dirvish sidebar" "o o" #'dirvish-side
+      (:when (modulep! :private my-chinese)
+        :leader
+        :desc "sdcv-search-pointer+" "s w" #'sdcv-search-pointer+
+        :desc "sdcv-search-input+" "s W" #'sdcv-search-input+
+        :desc "gts-do-translate" "s g" #'gts-do-translate)
+      (:when (modulep! :lang org +roam2)
+        :leader
+        :desc "Capture today" "n n" #'org-roam-dailies-capture-today
+        :desc "Goto date" "n N" (lambda ()
+                                  (interactive)
+                                  (org-roam-dailies-goto-date nil "n"))))
 
 ;; Evil
 (setq evil-escape-key-sequence "df"

@@ -29,6 +29,8 @@
         org-download-image-org-width 800))
 
 (after! org-roam
+  ;; 调整 capture window 的高度
+  ;; (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
   (setq +org-roam-open-buffer-on-find-file nil
         org-roam-title-sources '((title) alias)
 
@@ -49,16 +51,7 @@
            :jump-to-captured t)
           ("t" " todo" entry "* TODO [#B] %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1)))
-
-  ;; 调整 capture window 的高度
-  ;; (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
-
-  (map! :leader
-        :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto date" "n N" (lambda ()
-                                  (interactive)
-                                  (org-roam-dailies-goto-date nil "n"))))
+           :empty-lines-before 1))))
 
 (use-package! org-roam-ui
   :after org-roam
