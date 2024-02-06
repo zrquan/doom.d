@@ -14,6 +14,14 @@
         indent-tabs-mode nil
         org-capture-bookmark nil
         system-time-locale "C"          ;日期使用英文
+        org-structure-template-alist '(("c" . "comment")
+                                       ("e" . "example")
+                                       ("q" . "quote")
+                                       ("s" . "src")
+                                       ("sb" . "src bash")
+                                       ("sp" . "src python")
+                                       ("sj" . "src java")
+                                       ("sr" . "src restclient"))
         org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
 
 (after! org-modern
