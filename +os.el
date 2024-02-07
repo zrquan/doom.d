@@ -38,8 +38,10 @@
   :init (dirvish-override-dired-mode)
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
+  (setq dirvish-side-auto-close t
+        dirvish-side-auto-expand nil)
   (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size nerd-icons)
+        dirvish-attributes '(file-size nerd-icons vc-state)
         ;; dirvish-side-width 45
         dirvish-quick-access-entries
         '(("h" "~/" "Home")
