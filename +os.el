@@ -41,7 +41,7 @@
   (setq dirvish-side-auto-close t
         dirvish-side-auto-expand nil)
   (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
-        dirvish-attributes '(file-size nerd-icons vc-state)
+        dirvish-attributes '(file-size file-time nerd-icons vc-state)
         ;; dirvish-side-width 45
         dirvish-quick-access-entries
         '(("h" "~/" "Home")
