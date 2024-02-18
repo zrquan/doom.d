@@ -12,7 +12,7 @@
 
 (package! dirvish)
 
-(package! magit-stats :recipe (:host github :repo "LionyxML/magit-stats"))
+(package! devdocs :recipe (:host github :repo "astoff/devdocs.el"))
 
 ;; (package! emacs-codeql :recipe (:host github :repo "anticomputer/emacs-codeql"))
 ;; (package! sicp :recipe (:host github :repo "webframp/sicp-info"))
