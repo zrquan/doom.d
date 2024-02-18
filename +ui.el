@@ -3,7 +3,7 @@
 
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 26)
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 28)
       doom-symbol-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
