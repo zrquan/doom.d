@@ -44,12 +44,16 @@
 
         org-roam-capture-templates
         '(("n" "󱞁 note" plain "%?"
-           :if-new (file+head "${slug}.org"
-                              "#+title: ${title}\n")
+           :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+           :empty-lines-before 1
            :unnarrowed t)
           ("j" " java" plain "%?"
-           :if-new (file+head "java/${slug}.org"
-                              "#+title: ${title}\n")
+           :if-new (file+head "java/${slug}.org" "#+title: ${title}\n")
+           :empty-lines-before 1
+           :unnarrowed t)
+          ("c" "󱙓 cheatsheet" plain "%?"
+           :if-new (file+head "cheatsheet/${slug}.org" "#+title: ${title}\n")
+           :empty-lines-before 1
            :unnarrowed t))
 
         org-roam-dailies-capture-templates
