@@ -35,6 +35,10 @@
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
+(after! lsp-mode
+  ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
+  (delete 'lsp-terraform lsp-client-packages))
+
 ;; Load separate configs
 (load! "+ui")
 (load! "+os")
