@@ -42,7 +42,7 @@
   :defer t
   :custom (default-input-method "rime")
   :config
-  (setq rime-share-data-dir "~/.config/ibus/rime/"
+  (setq rime-share-data-dir "~/.local/share/fcitx5/rime/"
         rime-translate-keybindings '("C-g" "C-j" "C-k" "C-," "C-.")
         rime-show-candidate 'posframe
         rime-disable-predicates '(rime-predicate-evil-mode-p
