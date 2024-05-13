@@ -9,6 +9,7 @@
 
 (after! org
   (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h #'global-org-modern-mode)
+  (add-hook 'org-mode-hook (lambda () (setq-local line-spacing 0.25)))
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars t
         indent-tabs-mode nil
@@ -25,9 +26,9 @@
         org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
 
 (after! org-modern
-  (setq org-modern-star '("¶" "◈" "#")
-        org-modern-priority t
-        org-modern-block-name '("⌜" . "⌞")))
+  (setq org-modern-star 'replace
+        org-modern-replace-stars "¶◈#"
+        org-modern-priority t))
 
 (after! org-download
   (setq org-download-method 'directory

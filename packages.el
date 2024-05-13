@@ -11,9 +11,3 @@
 (unpin! org-roam)
 
 (package! dirvish)
-
-(package! devdocs :recipe (:host github :repo "astoff/devdocs.el"))
-
-;; (package! emacs-codeql :recipe (:host github :repo "anticomputer/emacs-codeql"))
-;; (package! sicp :recipe (:host github :repo "webframp/sicp-info"))
-;; (package! org-super-agenda :recipe (:host github :repo "alphapapa/org-super-agenda"))
