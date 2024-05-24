@@ -7,7 +7,7 @@
   :recipe (:host github :repo "minad/org-modern"))
 
 ;; https://github.com/org-roam/org-roam-bibtex#doom-emacs
-(package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-(unpin! org-roam)
+;; (package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+;; (unpin! org-roam)
 
 (package! dirvish)

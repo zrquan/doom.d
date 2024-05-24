@@ -30,10 +30,15 @@
       evil-vsplit-window-right t
       evil-split-window-below t)
 
-(defun display-ansi-colors ()
+(defun zrq/display-ansi-colors ()
   "Display ANSI color codes in current buffer"
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
+
+(defun zrq/md-to-org-region (start end)
+  "Convert region from markdown to org, replacing selection"
+  (interactive "r")
+  (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
 ;; (after! lsp-mode
 ;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622

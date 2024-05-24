@@ -75,35 +75,35 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(use-package! org-roam-bibtex
-  :after org-roam
-  :config
-  (org-roam-bibtex-mode t))
+;; (use-package! org-roam-bibtex
+;;   :after org-roam
+;;   :config
+;;   (org-roam-bibtex-mode t))
 
-(after! citar
-  (require 'citar-org-roam)
-  (citar-register-notes-source
-   'orb-citar-source (list :name "Org-Roam Notes"
-                           :category 'org-roam-node
-                           :items #'citar-org-roam--get-candidates
-                           :hasitems #'citar-org-roam-has-notes
-                           :open #'citar-org-roam-open-note
-                           :create #'orb-citar-edit-note
-                           :annotate #'citar-org-roam--annotate))
+;; (after! citar
+;;   (require 'citar-org-roam)
+;;   (citar-register-notes-source
+;;    'orb-citar-source (list :name "Org-Roam Notes"
+;;                            :category 'org-roam-node
+;;                            :items #'citar-org-roam--get-candidates
+;;                            :hasitems #'citar-org-roam-has-notes
+;;                            :open #'citar-org-roam-open-note
+;;                            :create #'orb-citar-edit-note
+;;                            :annotate #'citar-org-roam--annotate))
 
-  (setq citar-notes-source 'orb-citar-source)
-  (setq citar-file-open-functions (list (cons "html" #'citar-file-open-external)
-                                        (cons "pdf" #'citar-file-open-external)
-                                        (cons t #'find-file)))
-  (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
-        citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
-        citar-file-open-function (lambda (fpath)
-                                   (if IS-MAC
-                                       (call-process "open" nil 0 nil fpath)
-                                     (browse-url-default-browser fpath)))
-        citar-notes-paths `(,org-roam-directory)
-        citar-open-note-function 'orb-citar-edit-note
-        citar-templates '((main . "${date year issued:4}     ${title:48}")
-                          (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
-                          (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-                          (note . "Notes on ${author editor}, ${title}"))))
+;;   (setq citar-notes-source 'orb-citar-source)
+;;   (setq citar-file-open-functions (list (cons "html" #'citar-file-open-external)
+;;                                         (cons "pdf" #'citar-file-open-external)
+;;                                         (cons t #'find-file)))
+;;   (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
+;;         citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
+;;         citar-file-open-function (lambda (fpath)
+;;                                    (if IS-MAC
+;;                                        (call-process "open" nil 0 nil fpath)
+;;                                      (browse-url-default-browser fpath)))
+;;         citar-notes-paths `(,org-roam-directory)
+;;         citar-open-note-function 'orb-citar-edit-note
+;;         citar-templates '((main . "${date year issued:4}     ${title:48}")
+;;                           (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
+;;                           (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+;;                           (note . "Notes on ${author editor}, ${title}"))))
