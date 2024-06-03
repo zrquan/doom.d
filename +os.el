@@ -2,7 +2,7 @@
 
 
 ;; Socks proxy
-(setq url-gateway-method 'socks
+(setq! url-gateway-method 'socks
       socks-server '("Default server" "127.0.0.1" 10808 5)
       url-gateway-local-host-regexp
       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
@@ -22,7 +22,7 @@
 
 ;; 禁止emacsclient打开新的工作区
 (after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override -1))
+  (setq! persp-emacsclient-init-frame-behaviour-override -1))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -31,16 +31,16 @@
 
 (after! dired-x
   ;; Make dired-omit-mode hide all "dotfiles"
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
+  (setq! dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
 
 (use-package! dirvish
   :defer t
   :init (dirvish-override-dired-mode)
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
-  (setq dirvish-side-auto-close t
+  (setq! dirvish-side-auto-close t
         dirvish-side-auto-expand nil)
-  (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/")
+  (setq! dirvish-cache-dir (concat doom-cache-dir "dirvish/")
         dirvish-attributes '(file-size file-time nerd-icons vc-state)
         ;; dirvish-side-width 45
         dirvish-quick-access-entries

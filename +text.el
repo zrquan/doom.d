@@ -1,79 +1,81 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
-(setq org-directory          "~/Dropbox/org/"
-      org-id-locations-file  "~/Dropbox/org/.orgids"
-      org-roam-directory     "~/Dropbox/org/roam/"
-      org-agenda-files     '("~/Dropbox/org/roam/daily/")
-      org-hugo-base-dir      "~/Dropbox/hugo/")
+(setq! org-directory          "~/Documents/org/"
+       org-roam-directory     "~/Documents/org/roam/"
+       org-agenda-files     '("~/Documents/org/roam/daily/")
+       org-hugo-base-dir      "~/Documents/hugo/")
 
 (after! org
-  (add-hook! 'org-mode-hook #'auto-fill-mode #'+org-init-keybinds-h #'global-org-modern-mode)
-  (add-hook 'org-mode-hook (lambda () (setq-local line-spacing 0.25)))
-  (setq org-hide-emphasis-markers t
-        org-hide-leading-stars t
-        indent-tabs-mode nil
-        org-capture-bookmark nil
-        system-time-locale "C"          ;日期使用英文
-        org-structure-template-alist '(("c" . "comment")
-                                       ("e" . "example")
-                                       ("q" . "quote")
-                                       ("s" . "src")
-                                       ("sb" . "src bash")
-                                       ("sp" . "src python")
-                                       ("sj" . "src java")
-                                       ("sr" . "src restclient"))
-        org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
+  (add-hook! 'org-mode-hook
+             #'auto-fill-mode
+             #'+org-init-keybinds-h
+             #'global-org-modern-mode
+             #'org-appear-mode)
+  (add-hook 'org-mode-hook
+            (lambda () (setq-local line-spacing 0.25)))
+  (setq! org-hide-emphasis-markers t
+         org-hide-leading-stars t
+         indent-tabs-mode nil
+         org-capture-bookmark nil
+         system-time-locale "C"          ;日期使用英文
+         org-structure-template-alist '(("c" . "comment")
+                                        ("e" . "example")
+                                        ("q" . "quote")
+                                        ("s" . "src")
+                                        ("sb" . "src bash")
+                                        ("sp" . "src python")
+                                        ("sj" . "src java")
+                                        ("sr" . "src restclient"))
+         org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
 
 (after! org-modern
-  (setq org-modern-star 'replace
-        org-modern-replace-stars "¶◈#"
-        org-modern-priority t))
+  (setq! org-modern-star 'replace
+         org-modern-replace-stars "¶◈#"
+         org-modern-priority t))
 
 (after! org-download
-  (setq org-download-method 'directory
-        org-download-link-format "[[file:%s]]\n" ;保证顺利删除文件
-        org-download-abbreviate-filename-function 'file-relative-name
-        org-download-heading-lvl 0
-        org-download-image-org-width 800))
+  (setq! org-download-method 'directory
+         org-download-link-format "[[file:%s]]\n"
+         org-download-abbreviate-filename-function 'file-relative-name
+         org-download-heading-lvl nil
+         org-download-image-org-width 100)) ; TODO: 设置宽度为 100%
 
 (after! org-roam
   ;; 调整 capture window 的高度
   ;; (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
-  (setq +org-roam-open-buffer-on-find-file nil
-        org-roam-title-sources '((title) alias)
+  (setq! +org-roam-open-buffer-on-find-file nil
+         org-roam-title-sources '((title) alias)
 
-        org-roam-capture-templates
-        '(("n" "󱞁 note" plain "%?"
-           :if-new (file+head "${slug}.org" "#+title: ${title}\n")
-           :empty-lines-before 1
-           :unnarrowed t)
-          ("j" " java" plain "%?"
-           :if-new (file+head "java/${slug}.org" "#+title: ${title}\n")
-           :empty-lines-before 1
-           :unnarrowed t)
-          ("c" "󱙓 cheatsheet" plain "%?"
-           :if-new (file+head "cheatsheet/${slug}.org" "#+title: ${title}\n")
-           :empty-lines-before 1
-           :unnarrowed t))
+         org-roam-capture-templates
+         '(("d" "󱞁 default" plain "%?"
+            :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+            :empty-lines-before 1
+            :unnarrowed t)
+           ("c" "󱙓 cheatsheet" plain "%?"
+            :if-new (file+head "cheatsheet/${slug}.org" "#+title: ${title}\n")
+            :empty-lines-before 1
+            :unnarrowed t))
 
-        org-roam-dailies-capture-templates
-        '(("n" "󱞁 note" entry "* %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1
-           :jump-to-captured t)
-          ("t" " todo" entry "* TODO [#B] %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :empty-lines-before 1))))
+         org-roam-dailies-capture-templates
+         '(("d" "󱞁 default" entry "* %?"
+            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+            :empty-lines-before 1
+            :jump-to-captured t)
+           ("t" " todo" entry "* TODO %?"
+            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+            :empty-lines-before 1))))
 
 (use-package! org-roam-ui
   :after org-roam
   :config
   (require 'websocket)
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+  (setq! org-roam-ui-sync-theme t
+         org-roam-ui-follow t
+         org-roam-ui-update-on-save t
+         org-roam-ui-open-on-start t)
+  ;; 避免 org-roam-ui 重复添加 headline
+  (setq! org-footnote-section nil))
 
 ;; (use-package! org-roam-bibtex
 ;;   :after org-roam
@@ -91,11 +93,11 @@
 ;;                            :create #'orb-citar-edit-note
 ;;                            :annotate #'citar-org-roam--annotate))
 
-;;   (setq citar-notes-source 'orb-citar-source)
-;;   (setq citar-file-open-functions (list (cons "html" #'citar-file-open-external)
+;;   (setq! citar-notes-source 'orb-citar-source)
+;;   (setq! citar-file-open-functions (list (cons "html" #'citar-file-open-external)
 ;;                                         (cons "pdf" #'citar-file-open-external)
 ;;                                         (cons t #'find-file)))
-;;   (setq citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
+;;   (setq! citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
 ;;         citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
 ;;         citar-file-open-function (lambda (fpath)
 ;;                                    (if IS-MAC

@@ -5,7 +5,7 @@
   :hook (text-mode . pangu-spacing-mode)
   :config
   (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t)
-  (setq pangu-spacing-special-region-func-alist
+  (setq! pangu-spacing-special-region-func-alist
         '((org-mode . pangu-spacing-org-mode-noreal)))
   ;; 不要在node-property中使用real-insert
   (defun pangu-spacing-org-mode-noreal ()
@@ -18,7 +18,7 @@
 (use-package! go-translate
   :defer t
   :config
-  (setq gts-translate-list '(("en" "zh"))
+  (setq! gts-translate-list '(("en" "zh"))
         gts-default-translator
         (gts-translator
          :picker (gts-prompt-picker)
@@ -34,7 +34,7 @@
 (use-package! sdcv
   :defer t
   :config
-  (setq sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
+  (setq! sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
         sdcv-dictionary-simple-list '("简明英汉字典增强版")))
 
 
@@ -42,11 +42,12 @@
   :defer t
   :custom (default-input-method "rime")
   :config
-  (setq rime-share-data-dir "~/.local/share/fcitx5/rime/"
+  (setq! rime-share-data-dir "~/.local/share/fcitx5/rime/"
         rime-translate-keybindings '("C-g" "C-j" "C-k" "C-," "C-.")
         rime-show-candidate 'posframe
         rime-disable-predicates '(rime-predicate-evil-mode-p
                                   rime-predicate-current-uppercase-letter-p
+                                  rime-predicate-punctuation-line-begin-p
                                   rime-predicate-prog-in-code-p))
 
   ;; 结合evil-escape一起使用
@@ -77,7 +78,7 @@
                   (apply orig-fun (list key))
                   (if (numberp evt)
                       (apply orig-fun (list evt))
-                    (setq unread-command-events (append unread-command-events (list evt))))))
+                    (setq! unread-command-events (append unread-command-events (list evt))))))
                 )
             (apply orig-fun (list key)))))))
 

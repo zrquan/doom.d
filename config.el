@@ -2,12 +2,12 @@
 
 
 ;; Some functionality uses this to identify you.
-(setq user-full-name "4shen0ne"
+(setq! user-full-name "4shen0ne"
       user-mail-address "4shen.01@gmail.com")
 
-(setq auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
+(setq! auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
-(setq doom-localleader-key ","
+(setq! doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 (map! :leader
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
@@ -22,10 +22,10 @@
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today
         :desc "Goto date" "n N" (lambda ()
                                   (interactive)
-                                  (org-roam-dailies-goto-date nil "n"))))
+                                  (org-roam-dailies-goto-date nil "d"))))
 
 ;; Evil
-(setq evil-escape-key-sequence "df"
+(setq! evil-escape-key-sequence "df"
       evil-snipe-override-evil-repeat-keys nil
       evil-vsplit-window-right t
       evil-split-window-below t)

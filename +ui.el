@@ -3,13 +3,13 @@
 
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 28)
+(setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 28)
       doom-symbol-font (font-spec :family "LXGW WenKai Mono")
       doom-variable-pitch-font doom-font)
 
 (push '(alpha . 92) default-frame-alist)
 
-(setq doom-theme 'doom-dracula
+(setq! doom-theme 'doom-dracula
       doom-modeline-icon t
       fancy-splash-image "~/.doom.d/seele.png"
       display-line-numbers-type t
