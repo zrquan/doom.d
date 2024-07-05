@@ -16,7 +16,7 @@
         :leader
         :desc "sdcv-search-pointer+" "s w" #'sdcv-search-pointer+
         :desc "sdcv-search-input+" "s W" #'sdcv-search-input+
-        :desc "gts-do-translate" "s g" #'gts-do-translate)
+        :desc "gts-do-translate" "s g" #'gt-do-translate)
       (:when (modulep! :lang org +roam2)
         :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today

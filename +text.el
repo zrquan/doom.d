@@ -39,7 +39,7 @@
          org-download-link-format "[[file:%s]]\n"
          org-download-abbreviate-filename-function 'file-relative-name
          org-download-heading-lvl nil
-         org-download-image-org-width 100)) ; TODO: 设置宽度为 100%
+         org-download-image-attr-list '("#+attr_org: :width 100%")))
 
 (after! org-roam
   ;; 调整 capture window 的高度

@@ -10,13 +10,13 @@
 ;; 在terminal使用系统剪贴板
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
   ad-do-it
-  (when (and (equal system-type 'darwin)
+  (when (and (equal system-type 'gnu/linux)
              (not (display-graphic-p))
              (not (window-system))
              (equal (ad-get-arg 0) 'CLIPBOARD))
     (let ((process-connection-type nil) ;use pipe
           (default-directory "~/"))
-      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (let ((proc (start-process "wl-copy" "*Messages*" "wl-copy")))
         (process-send-string proc (ad-get-arg 1))
         (process-send-eof proc)))))
 

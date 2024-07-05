@@ -18,17 +18,11 @@
 (use-package! go-translate
   :defer t
   :config
-  (setq! gts-translate-list '(("en" "zh"))
-        gts-default-translator
-        (gts-translator
-         :picker (gts-prompt-picker)
-         :engines (list (gts-google-engine))
-         :render (gts-buffer-render))
-        gts-posframe-pop-render-timeout 999)
-  ;; 翻译时消除换行符以提高准确度
-  (cl-defmethod gts-translate :before ((o gts-engine) task callback)
-    (with-slots (text) task
-      (setf text (replace-regexp-in-string "[ \t\n]+" " " text)))))
+  (setq! gt-langs '(en zh))
+  (setq! gt-default-translator
+         (gt-translator
+          :engines (list (gt-google-engine :if 'not-word) (gt-youdao-dict-engine :if 'word))
+          :render  (gt-posframe-pop-render))))
 
 
 (use-package! sdcv
