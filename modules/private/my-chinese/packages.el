@@ -5,6 +5,6 @@
 
 (package! pangu-spacing)
 
-(package! rime)
+;; (package! rime)
 
 (package! sdcv :recipe (:host github :repo "manateelazycat/sdcv"))
