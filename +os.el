@@ -53,7 +53,7 @@
   (map! :map dired-mode-map
         :n "<tab>" #'dirvish-subtree-toggle
         :n "C-h" #'dired-omit-mode
-        :n "C-f" #'dirvish-fd
+        :n "C-f" #'dirvish-fd-ask
         :n "q" #'dirvish-quit
         :n "b" #'dirvish-quick-access
         :n "s" #'dirvish-quicksort
