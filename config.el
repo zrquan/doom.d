@@ -50,6 +50,12 @@
         (browse-url url))
     (message "No text selected.")))
 
+(defun zrq/reset-amend ()
+  "当你提交一个 commit 但不小心使用了 amend 选项时，使用该函数撤回 amend 部分"
+  (interactive)
+  (magit-reset-soft "HEAD@{1}")
+  (magit-commit:--reuse-message "HEAD@{1}"))
+
 ;; (after! lsp-mode
 ;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
 ;;   (delete 'lsp-terraform lsp-client-packages))
