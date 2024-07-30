@@ -16,7 +16,7 @@
              (equal (ad-get-arg 0) 'CLIPBOARD))
     (let ((process-connection-type nil) ;use pipe
           (default-directory "~/"))
-      (let ((proc (start-process "wl-copy" "*Messages*" "wl-copy")))
+      (let ((proc (start-process "xclip" "*Messages*" "xclip" "-sel" "clip")))
         (process-send-string proc (ad-get-arg 1))
         (process-send-eof proc)))))
 

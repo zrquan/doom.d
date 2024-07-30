@@ -30,6 +30,38 @@
        evil-vsplit-window-right t
        evil-split-window-below t)
 
+(after! corfu
+  (map! :map corfu-map
+        :desc "" "SPC" #'corfu-insert-separator))
+
+(defun zrq/cve-at-point ()
+  "Return the CVE ID at point."
+  (let ((word-chars "-A-Za-z0-9"))
+    (skip-chars-backward word-chars)
+    (let ((start (point)))
+      (skip-chars-forward word-chars)
+      (let ((end (point)))
+        (if (> start end)
+            (message "No word at point")
+          (let ((word (buffer-substring-no-properties start end)))
+            (if (string-match-p "^CVE-[0-9]+-[0-9]+$" (upcase word))
+                word
+              nil)))))))
+
+(defun zrq/cnvd-at-point ()
+  "Return the CNVD ID at point."
+  (let ((word-chars "-A-Za-z0-9"))
+    (skip-chars-backward word-chars)
+    (let ((start (point)))
+      (skip-chars-forward word-chars)
+      (let ((end (point)))
+        (if (> start end)
+            (message "No word at point")
+          (let ((word (buffer-substring-no-properties start end)))
+            (if (string-match-p "^CNVD-[0-9]+-[0-9]+$" (upcase word))
+                word
+              nil)))))))
+
 (defun zrq/display-ansi-colors ()
   "Display ANSI color codes in current buffer"
   (interactive)
@@ -41,14 +73,24 @@
   (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
 (defun zrq/nvd-search ()
-  "Search NVD for the selected text."
+  "Search CVE Vulnerability."
   (interactive)
-  (if (use-region-p)
-      (let* ((selection (buffer-substring-no-properties (region-beginning) (region-end)))
-             (query (url-hexify-string selection))
+  (let ((cve (zrq/cve-at-point)))
+    (if cve
+      (let* ((query (url-hexify-string cve))
              (url (concat "https://nvd.nist.gov/vuln/detail/" query)))
         (browse-url url))
-    (message "No text selected.")))
+      (message "No CVE ID at point"))))
+
+(defun zrq/cnvd-search ()
+  "Search CNVD Vulnerability."
+  (interactive)
+  (let ((cnvd (zrq/cnvd-at-point)))
+    (if cnvd
+      (let* ((query (url-hexify-string cnvd))
+             (url (concat "https://www.cnvd.org.cn/flaw/show/" query)))
+        (browse-url url))
+      (message "No CNVD ID at point"))))
 
 (defun zrq/reset-amend ()
   "当你提交一个 commit 但不小心使用了 amend 选项时，使用该函数撤回 amend 部分"
