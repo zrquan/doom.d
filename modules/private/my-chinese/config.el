@@ -6,7 +6,7 @@
   :config
   (setq-hook! 'org-mode-hook pangu-spacing-real-insert-separtor t)
   (setq! pangu-spacing-special-region-func-alist
-        '((org-mode . pangu-spacing-org-mode-noreal)))
+         '((org-mode . pangu-spacing-org-mode-noreal)))
   ;; 不要在node-property中使用real-insert
   (defun pangu-spacing-org-mode-noreal ()
     (let ((element (org-element-at-point)))
@@ -30,7 +30,7 @@
   :config
   (set-face-attribute 'sdcv-tooltip-face nil :foreground (catppuccin-get-color 'green) :background (catppuccin-get-color 'surface0))
   (setq! sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
-        sdcv-dictionary-simple-list '("简明英汉字典增强版")))
+         sdcv-dictionary-simple-list '("简明英汉字典增强版")))
 
 
 ;; (use-package! rime

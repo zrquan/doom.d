@@ -77,9 +77,9 @@
   (interactive)
   (let ((cve (zrq/cve-at-point)))
     (if cve
-      (let* ((query (url-hexify-string cve))
-             (url (concat "https://nvd.nist.gov/vuln/detail/" query)))
-        (browse-url url))
+        (let* ((query (url-hexify-string cve))
+               (url (concat "https://nvd.nist.gov/vuln/detail/" query)))
+          (browse-url url))
       (message "No CVE ID at point"))))
 
 (defun zrq/cnvd-search ()
@@ -87,9 +87,9 @@
   (interactive)
   (let ((cnvd (zrq/cnvd-at-point)))
     (if cnvd
-      (let* ((query (url-hexify-string cnvd))
-             (url (concat "https://www.cnvd.org.cn/flaw/show/" query)))
-        (browse-url url))
+        (let* ((query (url-hexify-string cnvd))
+               (url (concat "https://www.cnvd.org.cn/flaw/show/" query)))
+          (browse-url url))
       (message "No CNVD ID at point"))))
 
 (defun zrq/reset-amend ()
