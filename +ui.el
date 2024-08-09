@@ -11,9 +11,6 @@
 
 (use-package! catppuccin-theme
   :config
-  (custom-set-faces!
-    '(diff-refine-added :inherit diff-added :background "#a6e3a1" :foreground "black")
-    '(diff-refine-removed :inherit diff-removed :background "#f38ba8" :foreground "black"))
   (setq! catppuccin-height-doc-title 1.3
          catppuccin-height-title-1 1.1
          catppuccin-height-title-2 1.0

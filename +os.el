@@ -2,10 +2,10 @@
 
 
 ;; Socks proxy
-(setq! url-gateway-method 'socks
-      socks-server '("Default server" "127.0.0.1" 10808 5)
-      url-gateway-local-host-regexp
-      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
+;; (setq! url-gateway-method 'socks
+;;       socks-server '("Default server" "127.0.0.1" 10808 5)
+;;       url-gateway-local-host-regexp
+;;       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
 
 ;; 在terminal使用系统剪贴板
 (defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)

@@ -61,10 +61,7 @@
          '(("d" "󱞁 default" entry "* %?"
             :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
             :empty-lines-before 1
-            :jump-to-captured t)
-           ("t" " todo" entry "* TODO %?"
-            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-            :empty-lines-before 1))))
+            :jump-to-captured nil))))
 
 (use-package! org-roam-ui
   :after org-roam
