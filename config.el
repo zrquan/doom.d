@@ -102,6 +102,14 @@
 ;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
 ;;   (delete 'lsp-terraform lsp-client-packages))
 
+(use-package! gitmoji
+  :commands (gitmoji-insert))
+
+(use-package! verb
+  :config (progn
+            (setq verb-trim-body-end "[ \t\n\r]+")
+            (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
+
 ;; Load separate configs
 (load! "+ui")
 (load! "+os")

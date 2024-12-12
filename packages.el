@@ -1,7 +1,7 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-(package! org-roam-ui)
+;; (package! org-roam-ui)
 
 ;; https://github.com/minad/org-modern/issues/220
 (unpin! compat)
@@ -16,3 +16,13 @@
 (package! dirvish)
 
 (package! catppuccin-theme)
+
+(package! verb)
+
+(package! igist :recipe (:host github :repo "KarimAziev/igist"))
+
+(package! emacsploit
+  :recipe (:local-repo "~/.doom.d/packages/emacsploit/"))
+
+(package! gitmoji
+  :recipe (:local-repo "~/.doom.d/packages/gitmoji/"))
