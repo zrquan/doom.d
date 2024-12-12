@@ -62,3 +62,21 @@
         :n "F" #'dirvish-layout-toggle
         :n "l" #'dired-find-file
         :n "h" #'dired-up-directory))
+
+(after! prodigy
+  (prodigy-define-service
+    :name "quartz"
+    :command "npx"
+    :args '("quartz" "build" "--serve")
+    :url "http://localhost:8080"
+    :cwd "~/Documents/notes/"
+    :stop-signal 'sigkill
+    :kill-process-buffer-on-stop t)
+  (prodigy-define-service
+    :name "hugo"
+    :command "hugo"
+    :args '("server" "-D")
+    :url "http://localhost:1313"
+    :cwd "~/Documents/blog/"
+    :stop-signal 'sigkill
+    :kill-process-buffer-on-stop t))
