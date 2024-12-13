@@ -1,10 +1,49 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
-(setq! org-directory          "~/Documents/org/"
-       org-roam-directory     "~/Documents/org/roam/"
-       org-agenda-files     '("~/Documents/org/roam/daily/")
-       org-hugo-base-dir      "~/Documents/hugo/")
+(setq! org-directory          "~/Dropbox/org/"
+       org-roam-directory     "~/Dropbox/org/roam/"
+       org-agenda-files     '("~/Dropbox/org/roam/daily/")
+       org-hugo-base-dir      "~/Documents/blog/")
+
+(defun ox-hugo/export-all (&optional org-files-root-dir do-recurse)
+  "Export all Org files under ORG-FILES-ROOT-DIR.
+
+All valid post subtrees in all Org files are exported using
+`org-hugo-export-wim-to-md'.
+
+If optional arg ORG-FILES-ROOT-DIR is nil, all Org files in
+current buffer's directory are exported.
+
+If optional arg DO-RECURSE is non-nil, all Org files in
+ORG-FILES-ROOT-DIR in all subdirectories are exported. Else, only
+the Org files directly present in the current directory are
+exported. If this function is called interactively with
+\\[universal-argument] prefix, DO-RECURSE is set to non-nil.
+
+Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
+  (interactive)
+  (let* ((org-files-root-dir (or org-files-root-dir default-directory))
+         (do-recurse (or do-recurse (and current-prefix-arg t)))
+         (search-path (file-name-as-directory (expand-file-name org-files-root-dir)))
+         (org-files (if do-recurse
+                        (directory-files-recursively search-path "\.org$")
+                      (directory-files search-path :full "\.org$")))
+         (num-files (length org-files))
+         (cnt 1))
+    (if (= 0 num-files)
+        (message (format "No Org files found in %s" search-path))
+      (progn
+        (message (format (if do-recurse
+                             "[ox-hugo/export-all] Exporting %d files recursively from %S .."
+                           "[ox-hugo/export-all] Exporting %d files from %S ..")
+                         num-files search-path))
+        (dolist (org-file org-files)
+          (with-current-buffer (find-file-noselect org-file)
+            (message (format "[ox-hugo/export-all file %d/%d] Exporting %s" cnt num-files org-file))
+            (org-hugo-export-wim-to-md :all-subtrees)
+            (setq cnt (1+ cnt))))
+        (message "Done!")))))
 
 (after! org
   (add-hook! 'org-mode-hook
@@ -12,8 +51,6 @@
              #'+org-init-keybinds-h
              #'global-org-modern-mode
              #'org-appear-mode)
-  (add-hook 'org-mode-hook
-            (lambda () (setq-local line-spacing 0.25)))
   (setq! org-hide-emphasis-markers t
          org-hide-leading-stars t
          indent-tabs-mode nil
@@ -63,16 +100,20 @@
             :empty-lines-before 1
             :jump-to-captured nil))))
 
-(use-package! org-roam-ui
-  :after org-roam
+(use-package! igist
   :config
-  (require 'websocket)
-  (setq! org-roam-ui-sync-theme t
-         org-roam-ui-follow t
-         org-roam-ui-update-on-save t
-         org-roam-ui-open-on-start t)
-  ;; 避免 org-roam-ui 重复添加 headline
-  (setq! org-footnote-section nil))
+  (setq igist-auth-marker 'igist))
+
+;; (use-package! org-roam-ui
+;;   :after org-roam
+;;   :config
+;;   (require 'websocket)
+;;   (setq! org-roam-ui-sync-theme t
+;;          org-roam-ui-follow t
+;;          org-roam-ui-update-on-save t
+;;          org-roam-ui-open-on-start t)
+;;   ;; 避免 org-roam-ui 重复添加 headline
+;;   (setq! org-footnote-section nil))
 
 ;; (use-package! org-roam-bibtex
 ;;   :after org-roam

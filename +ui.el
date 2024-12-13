@@ -21,3 +21,6 @@
        fancy-splash-image "~/.doom.d/seele.png"
        display-line-numbers-type t
        initial-frame-alist '((top . 0.3) (left . 0.45) (width . 80) (height . 40)))
+
+(after! vertico
+  (setq! vertico-posframe-poshandler #'posframe-poshandler-frame-bottom-center))
