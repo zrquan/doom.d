@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Blog post
+# condition: t
+# --
+#+TITLE: ${1:Title}
+#+hugo_locale: zh
+#+hugo_draft: true
+#+hugo_tags: ${2:Tags}
+#+hugo_publishdate: `(format-time-string "%Y-%m-%d %a")`
+
+#+hugo: more
+
+$0
