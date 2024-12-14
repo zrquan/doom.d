@@ -7,6 +7,8 @@
 
 (setq! auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
+(setq gcmh-high-cons-threshold 1073741824)
+
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
 (map! :leader
