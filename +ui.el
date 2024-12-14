@@ -8,6 +8,7 @@
        doom-variable-pitch-font doom-font)
 
 (push '(alpha . 92) default-frame-alist)
+(push '(width . 120) default-frame-alist)
 
 (use-package! catppuccin-theme
   :config

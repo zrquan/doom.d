@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: plantuml
-# key: <uml
-# condition: t
-# --
-#+begin_src plantuml :file .images/${1:filename}
-$0
-#+end_src

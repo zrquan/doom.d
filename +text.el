@@ -66,6 +66,13 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
                                         ("sr" . "src restclient"))
          org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
 
+(after! ox-hugo
+  (setq org-hugo-auto-set-lastmod t))
+
+(use-package! d2-mode
+  :config
+  (setq d2-flags '("-s" "-t" "4" "--dark-theme" "200")))
+
 (after! org-modern
   (setq! org-modern-star 'replace
          org-modern-replace-stars "¶◈#"
@@ -80,7 +87,7 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
 
 (after! org-roam
   ;; 调整 capture window 的高度
-  ;; (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.4)
+  (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.7)
   (setq! +org-roam-open-buffer-on-find-file nil
          org-roam-title-sources '((title) alias)
 

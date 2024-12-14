@@ -19,6 +19,8 @@
 
 (package! verb)
 
+(package! d2-mode)
+
 (package! igist :recipe (:host github :repo "KarimAziev/igist"))
 
 (package! emacsploit
