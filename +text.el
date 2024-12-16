@@ -1,11 +1,6 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
-(setq! org-directory          "~/Dropbox/org/"
-       org-roam-directory     "~/Dropbox/org/roam/"
-       org-agenda-files     '("~/Dropbox/org/roam/daily/")
-       org-hugo-base-dir      "~/Documents/blog/")
-
 (defun ox-hugo/export-all (&optional org-files-root-dir do-recurse)
   "Export all Org files under ORG-FILES-ROOT-DIR.
 
@@ -51,39 +46,31 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
              #'+org-init-keybinds-h
              #'global-org-modern-mode
              #'org-appear-mode)
-  (setq! org-hide-emphasis-markers t
-         org-hide-leading-stars t
-         indent-tabs-mode nil
+  (setq! indent-tabs-mode nil
          org-capture-bookmark nil
          system-time-locale "C"          ;日期使用英文
          org-structure-template-alist '(("c" . "comment")
                                         ("e" . "example")
+                                        ("E" . "export")
                                         ("q" . "quote")
                                         ("s" . "src")
-                                        ("sb" . "src bash")
+                                        ("ss" . "src shell")
                                         ("sp" . "src python")
                                         ("sj" . "src java")
                                         ("sr" . "src restclient"))
-         org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "IDEA(i)" "|" "DONE(d)" "KILL(k)"))))
-
-(after! ox-hugo
-  (setq org-hugo-auto-set-lastmod t))
+         org-todo-keywords '((sequence "TODO(t)" "WAIT(w@)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)"))))
 
 (use-package! d2-mode
   :config
   (setq d2-flags '("-s" "-t" "4" "--dark-theme" "200")))
-
-(after! org-modern
-  (setq! org-modern-star 'replace
-         org-modern-replace-stars "¶◈#"
-         org-modern-priority t))
 
 (after! org-download
   (setq! org-download-method 'directory
          org-download-link-format "[[file:%s]]\n"
          org-download-abbreviate-filename-function 'file-relative-name
          org-download-heading-lvl nil
-         org-download-image-attr-list '("#+attr_org: :width 100%")))
+         org-download-image-attr-list '("#+attr_org: :width 100%"))
+  (org-download-enable))
 
 (after! org-roam
   ;; 调整 capture window 的高度

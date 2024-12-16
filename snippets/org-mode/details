@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
-# name: details
+# name: Details
+# key: spdetails
 # --
 #+begin_details
 #+begin_summary

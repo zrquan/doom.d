@@ -10,7 +10,7 @@ This module adds support for Chinese script.
 
 ** Packages
 - [[doom-package:pangu-spacing]]
-- [[doom-package:rime]]
+- +[[doom-package:rime]]+
 - [[doom-package:sdcv]]
 - [[doom-package:go-translate]]
 

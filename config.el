@@ -5,6 +5,11 @@
 (setq! user-full-name "4shen0ne"
        user-mail-address "4shen.01@gmail.com")
 
+(setq! org-directory          "~/Dropbox/org/"
+       org-roam-directory     "~/Dropbox/org/roam/"
+       org-agenda-files     '("~/Dropbox/org/roam/daily/")
+       org-hugo-base-dir      "~/Documents/blog/")
+
 (setq! auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
 
 (setq gcmh-high-cons-threshold 1073741824)
@@ -36,7 +41,7 @@
   (map! :map corfu-map
         :desc "" "SPC" #'corfu-insert-separator))
 
-(defun zrq/cve-at-point ()
+(defun zrquan/cve-at-point ()
   "Return the CVE ID at point."
   (let ((word-chars "-A-Za-z0-9"))
     (skip-chars-backward word-chars)
@@ -50,7 +55,7 @@
                 word
               nil)))))))
 
-(defun zrq/cnvd-at-point ()
+(defun zrquan/cnvd-at-point ()
   "Return the CNVD ID at point."
   (let ((word-chars "-A-Za-z0-9"))
     (skip-chars-backward word-chars)
@@ -64,37 +69,37 @@
                 word
               nil)))))))
 
-(defun zrq/display-ansi-colors ()
+(defun zrquan/display-ansi-colors ()
   "Display ANSI color codes in current buffer"
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
-(defun zrq/md-to-org-region (start end)
+(defun zrquan/md-to-org-region (start end)
   "Convert region from markdown to org, replacing selection"
   (interactive "r")
   (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
-(defun zrq/nvd-search ()
+(defun zrquan/nvd-search ()
   "Search CVE Vulnerability."
   (interactive)
-  (let ((cve (zrq/cve-at-point)))
+  (let ((cve (zrquan/cve-at-point)))
     (if cve
         (let* ((query (url-hexify-string cve))
                (url (concat "https://nvd.nist.gov/vuln/detail/" query)))
           (browse-url url))
       (message "No CVE ID at point"))))
 
-(defun zrq/cnvd-search ()
+(defun zrquan/cnvd-search ()
   "Search CNVD Vulnerability."
   (interactive)
-  (let ((cnvd (zrq/cnvd-at-point)))
+  (let ((cnvd (zrquan/cnvd-at-point)))
     (if cnvd
         (let* ((query (url-hexify-string cnvd))
                (url (concat "https://www.cnvd.org.cn/flaw/show/" query)))
           (browse-url url))
       (message "No CNVD ID at point"))))
 
-(defun zrq/reset-amend ()
+(defun zrquan/reset-amend ()
   "当你提交一个 commit 但不小心使用了 amend 选项时，使用该函数撤回 amend 部分"
   (interactive)
   (magit-reset-soft "HEAD@{1}")

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Obsidian callout
+# uuid:
+# key: spcallout
+# condition: t
+# --
+#+begin_export md
+> [!$1]
+> $0
+#+end_export
