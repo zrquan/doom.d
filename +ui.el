@@ -1,4 +1,5 @@
 ;;; $DOOMDIR/+ui.el -*- lexical-binding: t; -*-
+;; Package-Requires: ((dash "2.19.1"))
 
 
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
@@ -7,6 +8,7 @@
        doom-symbol-font (font-spec :family "LXGW WenKai Mono")
        doom-variable-pitch-font doom-font)
 
+(require 'dash)
 (setq default-frame-alist
       ;; require `dash.el'
       (-union default-frame-alist
@@ -24,30 +26,8 @@
        doom-modeline-icon t
        fancy-splash-image "~/.doom.d/seele.png"
        display-line-numbers-type t
-       initial-frame-alist '((top . 0.3) (left . 0.45) (width . 80) (height . 40)))
+       initial-frame-alist '((top . 0.2) (left . 0.45) (width . 120) (height . 43)))
 
 (after! vertico
   (vertico-indexed-mode 1)
   (setq! vertico-posframe-poshandler #'posframe-poshandler-frame-bottom-center))
-
-(after! org
-  (setq
-   ;; Edit settings
-   org-auto-align-tags nil
-   org-tags-column 0
-   org-fold-catch-invisible-edits 'show-and-error
-   org-special-ctrl-a/e t
-   org-insert-heading-respect-content t
-
-   ;; Org styling, hide markup etc.
-   org-hide-leading-stars t
-   org-hide-emphasis-markers t)
-
-  ;; Ellipsis styling
-  (setq org-ellipsis "…")
-  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil))
-
-(after! org-modern
-  (setq! org-modern-star 'replace
-         org-modern-replace-stars "¶◈#"
-         org-modern-priority t))

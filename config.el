@@ -7,12 +7,10 @@
 
 (setq! org-directory          "~/Dropbox/org/"
        org-roam-directory     "~/Dropbox/org/roam/"
-       org-agenda-files     '("~/Dropbox/org/roam/daily/")
+       org-agenda-files     '("~/Dropbox/org/todo.org" "~/Dropbox/org/roam/daily/")
        org-hugo-base-dir      "~/Documents/blog/")
 
-(setq! auth-sources '("~/.authinfo" "~/.authinfo.gpg"))
-
-(setq gcmh-high-cons-threshold 1073741824)
+(setq gcmh-high-cons-threshold (* 128 1024 1024)) ;128MB
 
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
@@ -112,12 +110,11 @@
 (use-package! gitmoji
   :commands (gitmoji-insert))
 
-(use-package! verb
-  :config (progn
-            (setq verb-trim-body-end "[ \t\n\r]+")
-            (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
+(use-package! igist
+  :config
+  (setq igist-auth-marker 'igist))
 
 ;; Load separate configs
 (load! "+ui")
 (load! "+os")
-(load! "+text")
+(load! "+org")

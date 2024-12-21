@@ -28,7 +28,12 @@
 (use-package! sdcv
   :defer t
   :config
-  (set-face-attribute 'sdcv-tooltip-face nil :foreground (catppuccin-get-color 'green) :background (catppuccin-get-color 'surface0))
+  ;; (set-face-attribute
+  ;;  'sdcv-tooltip-face
+  ;;  nil
+  ;;  :foreground (doom-color 'green)
+  ;;  :background (doom-color 'gray)
+  ;;  :inherit 'region)
   (setq! sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
          sdcv-dictionary-simple-list '("简明英汉字典增强版")))
 
