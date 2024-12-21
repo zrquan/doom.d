@@ -17,25 +17,18 @@
 
 (use-package! go-translate
   :defer t
+  :after (plz)
   :config
   (setq! gt-langs '(en zh))
   (setq! gt-default-translator
          (gt-translator
-          :engines (list (gt-google-engine :if 'not-word) (gt-youdao-dict-engine :if 'word))
-          :render  (gt-posframe-pop-render))))
-
-
-(use-package! sdcv
-  :defer t
-  :config
-  ;; (set-face-attribute
-  ;;  'sdcv-tooltip-face
-  ;;  nil
-  ;;  :foreground (doom-color 'green)
-  ;;  :background (doom-color 'gray)
-  ;;  :inherit 'region)
-  (setq! sdcv-dictionary-data-dir (expand-file-name "~/.stardict/dic/")
-         sdcv-dictionary-simple-list '("简明英汉字典增强版")))
+          :engines (list
+                    (gt-google-engine :if 'not-word)
+                    (gt-stardict-engine :if 'word :dir "~/.stardict/dic/" :dict "简明英汉字典增强版"))
+          :render  (gt-posframe-pop-render :frame-params
+                                           (list :border-width 1
+                                                 :background-color (doom-color "black")
+                                                 :foreground-color (doom-color "white"))))))
 
 
 ;; (use-package! rime

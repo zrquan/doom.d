@@ -2,9 +2,12 @@
 ;; Package-Requires: ((dash "2.19.1"))
 
 
+(display-time-mode)
+(display-battery-mode)
+
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
-(setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 30)
+(setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 32)
        doom-symbol-font (font-spec :family "LXGW WenKai Mono")
        doom-variable-pitch-font doom-font)
 
@@ -12,8 +15,7 @@
 (setq default-frame-alist
       ;; require `dash.el'
       (-union default-frame-alist
-              '((width . 120)
-                (height . 43))))
+              '((top . 0.2) (left . 0.45) (width . 120) (height . 43))))
 
 (use-package! catppuccin-theme
   :config
@@ -22,7 +24,7 @@
          catppuccin-height-title-2 1.0
          catppuccin-height-title-3 1.0))
 
-(setq! doom-theme 'catppuccin
+(setq! doom-theme 'doom-gruvbox-light
        doom-modeline-icon t
        fancy-splash-image "~/.doom.d/seele.png"
        display-line-numbers-type t
