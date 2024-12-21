@@ -19,9 +19,7 @@
       :desc "Dirvish sidebar" "o o" #'dirvish-side
       (:when (modulep! :private my-chinese)
         :leader
-        :desc "sdcv-search-pointer+" "s w" #'sdcv-search-pointer+
-        :desc "sdcv-search-input+" "s W" #'sdcv-search-input+
-        :desc "gts-do-translate" "s g" #'gt-do-translate)
+        :desc "gt-do-translate" "s g" #'gt-do-translate)
       (:when (modulep! :lang org +roam2)
         :leader
         :desc "Capture today" "n n" #'org-roam-dailies-capture-today

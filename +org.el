@@ -2,8 +2,20 @@
 
 
 (after! org
+  ;; Fancy soft wrapping
+  (setq dlukes/org-category-table (copy-category-table))
+  (dolist (char '(?- ?+ ?_ ?| ?. ?, ?， ?； ?。))
+    (modify-category-entry char ?| dlukes/org-category-table))
+  (add-hook! '(org-mode-hook markdown-mode-hook)
+    (set-category-table dlukes/org-category-table)
+    (setq-local word-wrap-by-category t)
+    (display-line-numbers-mode -1)
+    (visual-line-fill-column-mode))
+  (setq! visual-fill-column-width 90
+         visual-fill-column-enable-sensible-window-split t
+         visual-fill-column-center-text t)
+
   ;; https://emacs-china.org/t/org-mode/22313
-  ;; 对于多行的文本依然会显示空格
   (font-lock-add-keywords 'org-mode
                           '(("\\cc\\( \\)[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)?\\cc?"
                              (1 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
@@ -12,11 +24,13 @@
                           'append)
   (with-eval-after-load 'ox
     (defun eli-strip-ws-maybe (text _backend _info)
-      (let* ((text (replace-regexp-in-string
+      (let* ((double-byte "[^\x00-\xff]")
+             ;; remove whitespace from line break
+             (text (replace-regexp-in-string
                     "\\(\\cc\\) *\n *\\(\\cc\\)"
-                    "\\1\\2" text));; remove whitespace from line break
+                    "\\1\\2" text))
              ;; remove whitespace from `org-emphasis-alist'
-             (text (replace-regexp-in-string "\\(\\cc\\) \\(.*?\\) \\(\\cc\\)"
+             (text (replace-regexp-in-string (format "\\(\\cc\\) \\([`_\\*~]%s.*?%s[`_\\*~]\\) \\(\\cc\\)" double-byte double-byte)
                                              "\\1\\2\\3" text))
              ;; restore whitespace between English words and Chinese words
              (text (replace-regexp-in-string "\\(\\cc\\)\\(\\(?:<[^>]+>\\)?[a-z0-9A-Z-]+\\(?:<[^>]+>\\)?\\)\\(\\cc\\)"
@@ -25,24 +39,19 @@
     (add-to-list 'org-export-filter-paragraph-functions #'eli-strip-ws-maybe))
 
   (add-hook! 'org-mode-hook
-             #'auto-fill-mode
              #'+org-init-keybinds-h
              #'global-org-modern-mode
              #'org-appear-mode)
+  (dolist (template '(("ss" . "src shell")
+                      ("sj" . "src json")
+                      ("sd" . "src d2")
+                      ("se" . "src elisp")
+                      ("sp" . "src python")
+                      ("sJ" . "src java")))
+    (add-to-list 'org-structure-template-alist template))
   (setq! indent-tabs-mode nil
          org-capture-bookmark nil
          system-time-locale "C"          ;日期使用英文
-         org-structure-template-alist
-         '(("c" . "comment")
-           ("e" . "example")
-           ("E" . "export")
-           ("q" . "quote")
-           ("s" . "src")
-           ("ss" . "src shell")
-           ("sp" . "src python")
-           ("sj" . "src json")
-           ("sJ" . "src java")
-           ("sr" . "src restclient"))
          org-todo-keywords
          '((sequence "TODO(t)" "READ(r)" "WAIT(w@)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")))
 
@@ -96,7 +105,7 @@
          org-download-link-format "[[file:%s]]\n"
          org-download-abbreviate-filename-function 'file-relative-name
          org-download-heading-lvl nil
-         org-download-image-attr-list '("#+attr_org: :width 100%"))
+         org-download-image-attr-list '("#+attr_org: :width 90%"))
   (org-download-enable))
 
 (after! org-roam
