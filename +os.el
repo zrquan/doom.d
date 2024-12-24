@@ -49,19 +49,7 @@
            ("o" "~/Dropbox/org/" "Org")
            ("p" "~/Projects/" "Projects")
            ("c" "~/CTF/" "CTF")
-           ("w" "~/Documents/work/" "Work")))
-  (map! :map dired-mode-map
-        :n "<tab>" #'dirvish-subtree-toggle
-        :n "C-h" #'dired-omit-mode
-        :n "C-f" #'dirvish-fd-ask
-        :n "q" #'dirvish-quit
-        :n "b" #'dirvish-quick-access
-        :n "s" #'dirvish-quicksort
-        :n "z" #'dirvish-history-jump
-        :n "f" #'dirvish-file-info-menu
-        :n "F" #'dirvish-layout-toggle
-        :n "l" #'dired-find-file
-        :n "h" #'dired-up-directory))
+           ("w" "~/Documents/work/" "Work"))))
 
 (after! prodigy
   (prodigy-define-service

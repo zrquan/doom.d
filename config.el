@@ -10,22 +10,11 @@
        org-agenda-files     '("~/Dropbox/org/todo.org" "~/Dropbox/org/roam/daily/")
        org-hugo-base-dir      "~/Documents/blog/")
 
-(setq gcmh-high-cons-threshold (* 128 1024 1024)) ;128MB
+(setq tab-width 4
+      gcmh-high-cons-threshold (* 128 1024 1024)) ;128MB
 
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
-(map! :leader
-      :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
-      :desc "Dirvish sidebar" "o o" #'dirvish-side
-      (:when (modulep! :private my-chinese)
-        :leader
-        :desc "gt-do-translate" "s g" #'gt-do-translate)
-      (:when (modulep! :lang org +roam2)
-        :leader
-        :desc "Capture today" "n n" #'org-roam-dailies-capture-today
-        :desc "Goto date" "n N" (lambda ()
-                                  (interactive)
-                                  (org-roam-dailies-goto-date nil "d"))))
 
 ;; Evil
 (setq! evil-escape-key-sequence "df"
@@ -116,3 +105,41 @@
 (load! "+ui")
 (load! "+os")
 (load! "+org")
+
+;; Keyboard mappings
+;; Global
+(map! :leader
+      :desc "Switch buffer" "." #'consult-buffer
+      :desc "Switch to last buffer" "<" #'evil-switch-to-windows-last-buffer
+      :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
+      :desc "Go translate" "s g" #'gt-do-translate
+      :desc "Dirvish sidebar" "o o" #'dirvish-side
+      :desc "Capture today" "n n" #'org-roam-dailies-capture-today
+      :desc "Goto date" "n N" (lambda ()
+                                (interactive)
+                                (org-roam-dailies-goto-date nil "d")))
+(map! :map org-mode-map
+      :localleader
+      :desc "org-emphasize" "X" #'org-emphasize)
+;; dirvish
+(map! :after dirvish
+      :map dired-mode-map
+      :n "<tab>" #'dirvish-subtree-toggle
+      :n "C-h" #'dired-omit-mode
+      :n "C-f" #'dirvish-fd-ask
+      :n "q" #'dirvish-quit
+      :n "b" #'dirvish-quick-access
+      :n "s" #'dirvish-quicksort
+      :n "z" #'dirvish-history-jump
+      :n "f" #'dirvish-file-info-menu
+      :n "F" #'dirvish-layout-toggle
+      :n "l" #'dired-find-file
+      :n "h" #'dired-up-directory)
+;; verb
+(map! :map org-mode-map
+      :localleader
+      :prefix ("v" . "verb")
+      :desc "send request stay" "r" #'verb-send-request-on-point-other-window-stay
+      :desc "send request" "s" #'verb-send-request-on-point-other-window
+      :desc "show vars" "x" #'verb-show-vars
+      :desc "kill response buffers" "k" #'verb-kill-all-response-buffers)

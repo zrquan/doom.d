@@ -132,8 +132,7 @@
 
 (use-package! verb
   :config (progn
-            (setq verb-trim-body-end "[ \t\n\r]+")
-            (define-key org-mode-map (kbd "C-c C-r") verb-command-map)))
+            (setq verb-trim-body-end "[ \t\n\r]+")))
 
 ;; (use-package! org-roam-ui
 ;;   :after org-roam
