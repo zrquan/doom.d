@@ -15,7 +15,7 @@
 
 (package! dirvish)
 
-(package! catppuccin-theme)
+;; (package! catppuccin-theme)
 
 (package! verb)
 
