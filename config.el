@@ -26,34 +26,6 @@
   (map! :map corfu-map
         :desc "" "SPC" #'corfu-insert-separator))
 
-(defun zrquan/cve-at-point ()
-  "Return the CVE ID at point."
-  (let ((word-chars "-A-Za-z0-9"))
-    (skip-chars-backward word-chars)
-    (let ((start (point)))
-      (skip-chars-forward word-chars)
-      (let ((end (point)))
-        (if (> start end)
-            (message "No word at point")
-          (let ((word (buffer-substring-no-properties start end)))
-            (if (string-match-p "^CVE-[0-9]+-[0-9]+$" (upcase word))
-                word
-              nil)))))))
-
-(defun zrquan/cnvd-at-point ()
-  "Return the CNVD ID at point."
-  (let ((word-chars "-A-Za-z0-9"))
-    (skip-chars-backward word-chars)
-    (let ((start (point)))
-      (skip-chars-forward word-chars)
-      (let ((end (point)))
-        (if (> start end)
-            (message "No word at point")
-          (let ((word (buffer-substring-no-properties start end)))
-            (if (string-match-p "^CNVD-[0-9]+-[0-9]+$" (upcase word))
-                word
-              nil)))))))
-
 (defun zrquan/display-ansi-colors ()
   "Display ANSI color codes in current buffer"
   (interactive)
@@ -64,25 +36,19 @@
   (interactive "r")
   (shell-command-on-region start end "pandoc -f markdown -t org" t t))
 
-(defun zrquan/nvd-search ()
-  "Search CVE Vulnerability."
+(defun zrquan/search-common-vulnerability ()
+  "查看 CVE/CNVD 官方漏洞信息"
   (interactive)
-  (let ((cve (zrquan/cve-at-point)))
-    (if cve
-        (let* ((query (url-hexify-string cve))
-               (url (concat "https://nvd.nist.gov/vuln/detail/" query)))
-          (browse-url url))
-      (message "No CVE ID at point"))))
-
-(defun zrquan/cnvd-search ()
-  "Search CNVD Vulnerability."
-  (interactive)
-  (let ((cnvd (zrquan/cnvd-at-point)))
-    (if cnvd
-        (let* ((query (url-hexify-string cnvd))
-               (url (concat "https://www.cnvd.org.cn/flaw/show/" query)))
-          (browse-url url))
-      (message "No CNVD ID at point"))))
+  (let* ((word (thing-at-point 'symbol))
+         (cve-regexp "^CVE-\\([0-9]\\{4\\}\\)-\\([0-9]\\{4,\\}\\)$")
+         (cnvd-regexp "^CNVD-\\([0-9]\\{4\\}\\)-\\([0-9]\\{4,\\}\\)$")
+         (cve-id (and (string-match cve-regexp word) word))
+         (cnvd-id (and (string-match cnvd-regexp word) word)))
+    (if cve-id
+        (browse-url (format "https://nvd.nist.gov/vuln/detail/%s" cve-id))
+      (if cnvd-id
+          (browse-url (format "https://www.cnvd.org.cn/flaw/show/%s" cnvd-id))
+        (message "当前光标不在 CVE/CNVD 编号上")))))
 
 (defun zrquan/reset-amend ()
   "当你提交一个 commit 但不小心使用了 amend 选项时，使用该函数撤回 amend 部分"

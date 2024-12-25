@@ -23,12 +23,15 @@
   (setq! gt-default-translator
          (gt-translator
           :engines (list
-                    (gt-google-engine :if 'not-word)
-                    (gt-stardict-engine :if 'word :dir "~/.stardict/dic/" :dict "简明英汉字典增强版"))
-          :render  (gt-posframe-pop-render :frame-params
-                                           (list :border-width 1
-                                                 :background-color (doom-color "black")
-                                                 :foreground-color (doom-color "white"))))))
+                    (gt-stardict-engine :if 'word :dir "~/.stardict/dic/" :dict "简明英汉字典增强版")
+                    (gt-google-engine :if 'not-word))
+          :render  (list
+                    (gt-posframe-pop-render :if 'word
+                                            :frame-params
+                                            (list :border-width 1
+                                                  :background-color (doom-color "black")
+                                                  :foreground-color (doom-color "white")))
+                    (gt-buffer-render)))))
 
 
 ;; (use-package! rime

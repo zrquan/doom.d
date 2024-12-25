@@ -33,6 +33,7 @@
   ;; Make dired-omit-mode hide all "dotfiles"
   (setq! dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
 
+(setq! dired-listing-switches "-Al -X")
 (use-package! dirvish
   :defer t
   :init (dirvish-override-dired-mode)
