@@ -38,9 +38,9 @@
         text))
     (add-to-list 'org-export-filter-paragraph-functions #'eli-strip-ws-maybe))
 
+  (global-org-modern-mode 1)
   (add-hook! 'org-mode-hook
              #'+org-init-keybinds-h
-             #'global-org-modern-mode
              #'org-appear-mode)
   (dolist (template '(("ss" . "src shell")
                       ("sj" . "src json")
@@ -105,7 +105,8 @@
          org-download-link-format "[[file:%s]]\n"
          org-download-abbreviate-filename-function 'file-relative-name
          org-download-heading-lvl nil
-         org-download-image-attr-list '("#+attr_org: :width 90%"))
+         org-download-image-attr-list '("#+attr_org: :width 90%")
+         org-download-display-inline-images nil)
   (org-download-enable))
 
 (after! org-roam
@@ -178,8 +179,12 @@
 ;;                           (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
 ;;                           (note . "Notes on ${author editor}, ${title}"))))
 
-(defun ox-hugo/export-all (&optional org-files-root-dir do-recurse)
-  "Export all Org files under ORG-FILES-ROOT-DIR.
+(after! ox-hugo
+  (advice-add 'org-hugo--todo :around
+              (lambda (_fun todo _info)
+                (format "[%s]" todo)))
+  (defun ox-hugo/export-all (&optional org-files-root-dir do-recurse)
+    "Export all Org files under ORG-FILES-ROOT-DIR.
 
 All valid post subtrees in all Org files are exported using
 `org-hugo-export-wim-to-md'.
@@ -194,25 +199,25 @@ exported. If this function is called interactively with
 \\[universal-argument] prefix, DO-RECURSE is set to non-nil.
 
 Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
-  (interactive)
-  (let* ((org-files-root-dir (or org-files-root-dir default-directory))
-         (do-recurse (or do-recurse (and current-prefix-arg t)))
-         (search-path (file-name-as-directory (expand-file-name org-files-root-dir)))
-         (org-files (if do-recurse
-                        (directory-files-recursively search-path "\.org$")
-                      (directory-files search-path :full "\.org$")))
-         (num-files (length org-files))
-         (cnt 1))
-    (if (= 0 num-files)
-        (message (format "No Org files found in %s" search-path))
-      (progn
-        (message (format (if do-recurse
-                             "[ox-hugo/export-all] Exporting %d files recursively from %S .."
-                           "[ox-hugo/export-all] Exporting %d files from %S ..")
-                         num-files search-path))
-        (dolist (org-file org-files)
-          (with-current-buffer (find-file-noselect org-file)
-            (message (format "[ox-hugo/export-all file %d/%d] Exporting %s" cnt num-files org-file))
-            (org-hugo-export-wim-to-md :all-subtrees)
-            (setq cnt (1+ cnt))))
-        (message "Done!")))))
+    (interactive)
+    (let* ((org-files-root-dir (or org-files-root-dir default-directory))
+           (do-recurse (or do-recurse (and current-prefix-arg t)))
+           (search-path (file-name-as-directory (expand-file-name org-files-root-dir)))
+           (org-files (if do-recurse
+                          (directory-files-recursively search-path "\.org$")
+                        (directory-files search-path :full "\.org$")))
+           (num-files (length org-files))
+           (cnt 1))
+      (if (= 0 num-files)
+          (message (format "No Org files found in %s" search-path))
+        (progn
+          (message (format (if do-recurse
+                               "[ox-hugo/export-all] Exporting %d files recursively from %S .."
+                             "[ox-hugo/export-all] Exporting %d files from %S ..")
+                           num-files search-path))
+          (dolist (org-file org-files)
+            (with-current-buffer (find-file-noselect org-file)
+              (message (format "[ox-hugo/export-all file %d/%d] Exporting %s" cnt num-files org-file))
+              (org-hugo-export-wim-to-md :all-subtrees)
+              (setq cnt (1+ cnt))))
+          (message "Done!"))))))

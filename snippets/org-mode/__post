@@ -2,7 +2,7 @@
 # name: Blog post
 # condition: t
 # --
-#+TITLE: ${1:Title}
+#+title: ${1:Title}
 #+hugo_locale: zh
 #+hugo_draft: true
 #+hugo_tags: ${2:Tags}

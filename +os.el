@@ -39,10 +39,10 @@
   :init (dirvish-override-dired-mode)
   :config
   (add-hook 'dired-mode-hook 'dired-omit-mode)
+  (add-to-list 'dirvish-preview-disabled-exts "gif")
   (setq! dirvish-attributes '(file-size file-time nerd-icons vc-state)
-         ;; dirvish-side-width 45
-         ;; dirvish-side-auto-close t
-         ;; dirvish-side-auto-expand nil
+         dirvish-side-auto-close t
+         dirvish-side-auto-expand nil
          dirvish-side-follow-mode t
          dirvish-quick-access-entries
          '(("h" "~/" "Home")
@@ -50,6 +50,7 @@
            ("o" "~/Dropbox/org/" "Org")
            ("p" "~/Projects/" "Projects")
            ("c" "~/CTF/" "CTF")
+           ("a" "~/Armory/" "Armory")
            ("w" "~/Documents/work/" "Work"))))
 
 (after! prodigy

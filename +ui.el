@@ -2,9 +2,6 @@
 ;; Package-Requires: ((dash "2.19.1"))
 
 
-(display-time-mode)
-(display-battery-mode)
-
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
 ;; there will be problems with Chinese scaling.
 (setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 32)

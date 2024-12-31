@@ -44,17 +44,50 @@
          (cnvd-regexp "^CNVD-\\([0-9]\\{4\\}\\)-\\([0-9]\\{4,\\}\\)$")
          (cve-id (and (string-match cve-regexp word) word))
          (cnvd-id (and (string-match cnvd-regexp word) word)))
-    (if cve-id
-        (browse-url (format "https://nvd.nist.gov/vuln/detail/%s" cve-id))
-      (if cnvd-id
-          (browse-url (format "https://www.cnvd.org.cn/flaw/show/%s" cnvd-id))
-        (message "当前光标不在 CVE/CNVD 编号上")))))
+    (cond
+     (cve-id
+      (browse-url (format "https://nvd.nist.gov/vuln/detail/%s" cve-id)))
+     (cnvd-id
+      (browse-url (format "https://www.cnvd.org.cn/flaw/show/%s" cnvd-id)))
+     (t
+      (message "当前光标不在 CVE/CNVD 编号上")))))
 
 (defun zrquan/reset-amend ()
   "当你提交一个 commit 但不小心使用了 amend 选项时，使用该函数撤回 amend 部分"
   (interactive)
   (magit-reset-soft "HEAD@{1}")
   (magit-commit:--reuse-message "HEAD@{1}"))
+
+(defun get-current-graphic-system ()
+  "Determine the current graphic system (X11 or Wayland)."
+  (cond
+   ((getenv "WAYLAND_DISPLAY")
+    "Wayland")
+   ((getenv "DISPLAY")
+    "X11")
+   (t
+    "Unknown")))
+
+(defun zrquan/dired-copy-png ()
+  "Copy the PNG file at point in dired to the clipboard."
+  (interactive)
+  (let ((file (dired-get-file-for-visit))
+        (graphic-system (get-current-graphic-system)))
+    (when (and file (string-match-p "\\.png\\'" file))
+      (cond
+       ((string= graphic-system "Wayland")
+        (with-temp-buffer
+          (insert-file-contents file)
+          (call-process-region (point-min) (point-max) "wl-copy"))
+        (message "Copied %s to clipboard using wl-copy" file))
+       ((string= graphic-system "X11")
+        (shell-command (format "xclip -selection clipboard -t image/png -i %s" file))
+        (message "Copied %s to clipboard using xclip" file))
+       (t
+        (message "Unknown graphic system"))))))
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map (kbd "C-c C-p") 'zrquan/dired-copy-png)))
 
 ;; (after! lsp-mode
 ;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
@@ -79,6 +112,7 @@
       :desc "Switch to last buffer" "<" #'evil-switch-to-windows-last-buffer
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
       :desc "Go translate" "s g" #'gt-do-translate
+      :desc "Copy link" "s L" #'link-hint-copy-link
       :desc "Dirvish sidebar" "o o" #'dirvish-side
       :desc "Capture today" "n n" #'org-roam-dailies-capture-today
       :desc "Goto date" "n N" (lambda ()
@@ -86,7 +120,8 @@
                                 (org-roam-dailies-goto-date nil "d")))
 (map! :map org-mode-map
       :localleader
-      :desc "org-emphasize" "X" #'org-emphasize)
+      :desc "org-emphasize" "X" #'org-emphasize
+      :desc "org-download-delete" "a D" #'org-download-delete)
 ;; dirvish
 (map! :after dirvish
       :map dired-mode-map
