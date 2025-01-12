@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: OrgCSS
+# key: orgcss
+# condition: t
+# --
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

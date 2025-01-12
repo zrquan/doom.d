@@ -8,10 +8,12 @@
 (setq! org-directory          "~/Dropbox/org/"
        org-roam-directory     "~/Dropbox/org/roam/"
        org-agenda-files     '("~/Dropbox/org/todo.org" "~/Dropbox/org/roam/daily/")
-       org-hugo-base-dir      "~/Documents/blog/")
+       org-hugo-base-dir      "~/Documents/blog/"
+       org-attach-id-dir      "~/Documents/org-attach/")
 
 (setq tab-width 4
-      gcmh-high-cons-threshold (* 128 1024 1024)) ;128MB
+      warning-minimum-level :error
+      gcmh-high-cons-threshold (* 1024 1024 1024)) ;1GB
 
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
@@ -89,6 +91,30 @@
           (lambda ()
             (define-key dired-mode-map (kbd "C-c C-p") 'zrquan/dired-copy-png)))
 
+(defun +default/org-notes-headlines ()
+  "Jump to an Org headline in `org-agenda-files'."
+  (interactive)
+  (doom-completing-read-org-headings
+   "Jump to org headline: " org-agenda-files
+   :depth 1
+   :include-files t))
+
+(defun xah-open-in-vscode ()
+  "Open current file or dir in vscode.
+URL `http://xahlee.info/emacs/emacs/emacs_open_in_vscode.html'
+
+Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
+  (interactive)
+  (let ((xpath (if buffer-file-name buffer-file-name (expand-file-name default-directory))))
+    (message "path is %s" xpath)
+    (cond
+     ((eq system-type 'darwin)
+      (shell-command (format "open -a Visual\\ Studio\\ Code.app %s" (shell-quote-argument xpath))))
+     ((eq system-type 'windows-nt)
+      (shell-command (format "code.cmd %s" (shell-quote-argument xpath))))
+     ((eq system-type 'gnu/linux)
+      (shell-command (format "code %s" (shell-quote-argument xpath)))))))
+
 ;; (after! lsp-mode
 ;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
 ;;   (delete 'lsp-terraform lsp-client-packages))
@@ -96,9 +122,9 @@
 (use-package! gitmoji
   :commands (gitmoji-insert))
 
-(use-package! igist
-  :config
-  (setq igist-auth-marker 'igist))
+;; (use-package! igist
+;;   :config
+;;   (setq igist-auth-marker 'igist))
 
 ;; Load separate configs
 (load! "+ui")
@@ -108,6 +134,7 @@
 ;; Keyboard mappings
 ;; Global
 (map! :leader
+      :desc "Visual fill column" "t v" #'visual-line-fill-column-mode
       :desc "Switch buffer" "." #'consult-buffer
       :desc "Switch to last buffer" "<" #'evil-switch-to-windows-last-buffer
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window

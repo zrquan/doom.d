@@ -6,7 +6,9 @@
 ;; there will be problems with Chinese scaling.
 (setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 32)
        doom-symbol-font (font-spec :family "LXGW WenKai Mono")
-       doom-variable-pitch-font doom-font)
+       doom-variable-pitch-font doom-font
+       line-spacing 0.1
+       +fold-ellipsis "  ")
 
 (require 'dash)
 (setq default-frame-alist

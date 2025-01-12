@@ -52,6 +52,7 @@
   (setq! indent-tabs-mode nil
          org-capture-bookmark nil
          system-time-locale "C"          ;日期使用英文
+         org-footnote-section "References"
          org-todo-keywords
          '((sequence "TODO(t)" "READ(r)" "WAIT(w@)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")))
 
@@ -89,12 +90,39 @@
 
   ;; Ellipsis styling
   (setq org-ellipsis "…")
-  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil))
+  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
+  ;; FIXME: not work
+  (set-face-attribute 'org-document-title nil :height 1.3)
+  (set-face-attribute 'org-level-1 nil :height 1.1))
 
 (after! org-modern
   (setq! org-modern-star 'replace
-         org-modern-replace-stars "¶◈#"
-         org-modern-priority t))
+         org-modern-replace-stars "󰚟󰽺󰽬"
+         org-modern-priority nil
+         org-modern-keyword
+         (quote (("title" . "")
+                 ("filetags" . "")
+                 ("attr_org" . "🄾")
+                 ("attr_html" . "🄷")
+                 ("caption" . "≡")
+                 ("startup" . "")
+                 (t . t)))
+         org-modern-list '((?+ . "⇝")
+                           (?- . "︎▪"))
+         org-modern-checkbox '((?X . "✓︎")
+                               (?- . "✗︎")
+                               (?\s . "☐"))
+         org-modern-block-name
+         '((t . t)
+           ("src" "»" "«")
+           ("example" "⁗" "⁗")
+           ("quote" "❝" "❞")
+           ("export" "↦" "↤")
+           ("comment" "##" "##"))
+         org-modern-todo-faces
+         (quote (("READ" :background "SkyBlue4" :foreground "white")
+                 ("WAIT" :background "gray60")
+                 (t . nil)))))
 
 (use-package! d2-mode
   :config
@@ -130,6 +158,13 @@
             :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
             :empty-lines-before 1
             :jump-to-captured nil))))
+
+(use-package! org-tidy
+  :ensure t
+  :hook (org-mode . org-tidy-mode)
+  :config
+  (setq org-tidy-general-drawer-flag nil
+        org-tidy-properties-inline-symbol "⍨"))
 
 (use-package! verb
   :config (progn
