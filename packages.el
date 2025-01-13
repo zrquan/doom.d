@@ -1,8 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-;; (package! org-roam-ui)
-
 ;; https://github.com/minad/org-modern/issues/220
 (unpin! compat)
 (package! org-modern :recipe (:host github :repo "minad/org-modern"))

@@ -90,10 +90,9 @@
 
   ;; Ellipsis styling
   (setq org-ellipsis "…")
-  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
-  ;; FIXME: not work
-  (set-face-attribute 'org-document-title nil :height 1.3)
-  (set-face-attribute 'org-level-1 nil :height 1.1))
+  (add-hook! '(org-mode-hook)
+    (set-face-attribute 'org-document-title nil :height 1.3)
+    (set-face-attribute 'org-level-1 nil :height 1.1)))
 
 (after! org-modern
   (setq! org-modern-star 'replace
@@ -106,6 +105,7 @@
                  ("attr_html" . "🄷")
                  ("caption" . "≡")
                  ("startup" . "")
+                 ("html" . "")
                  (t . t)))
          org-modern-list '((?+ . "⇝")
                            (?- . "︎▪"))
@@ -160,7 +160,6 @@
             :jump-to-captured nil))))
 
 (use-package! org-tidy
-  :ensure t
   :hook (org-mode . org-tidy-mode)
   :config
   (setq org-tidy-general-drawer-flag nil
@@ -169,17 +168,6 @@
 (use-package! verb
   :config (progn
             (setq verb-trim-body-end "[ \t\n\r]+")))
-
-;; (use-package! org-roam-ui
-;;   :after org-roam
-;;   :config
-;;   (require 'websocket)
-;;   (setq! org-roam-ui-sync-theme t
-;;          org-roam-ui-follow t
-;;          org-roam-ui-update-on-save t
-;;          org-roam-ui-open-on-start t)
-;;   ;; 避免 org-roam-ui 重复添加 headline
-;;   (setq! org-footnote-section nil))
 
 ;; (use-package! org-roam-bibtex
 ;;   :after org-roam
