@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [faq]
+# key: cfaq
+# condition: t
+# --
+#+begin_export md
+> [!faq] $1
+> $0
+#+end_export

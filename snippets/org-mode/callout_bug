@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [bug]
+# key: cbug
+# condition: t
+# --
+#+begin_export md
+> [!bug] $1
+> $0
+#+end_export

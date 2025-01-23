@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Hugo draft
+# uuid:
+# key: draft
+# condition: t
+# --
+#+hugo_draft: t

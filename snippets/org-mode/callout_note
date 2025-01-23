@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [note]
+# key: cnote
+# condition: t
+# --
+#+begin_export md
+> [!note] $1
+> $0
+#+end_export

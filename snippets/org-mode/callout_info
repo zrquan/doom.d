@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [info]
+# key: cinfo
+# condition: t
+# --
+#+begin_export md
+> [!info] $1
+> $0
+#+end_export

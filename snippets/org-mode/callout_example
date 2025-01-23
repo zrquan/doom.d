@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [example]
+# key: cexp
+# condition: t
+# --
+#+begin_export md
+> [!example] $1
+> $0
+#+end_export

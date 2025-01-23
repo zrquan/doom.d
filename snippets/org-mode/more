@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Hugo more
+# uuid:
+# key: more
+# condition: t
+# --
+#+hugo: more

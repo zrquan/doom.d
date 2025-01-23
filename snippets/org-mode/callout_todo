@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [todo]
+# key: ctodo
+# condition: t
+# --
+#+begin_export md
+> [!todo] $1
+> $0
+#+end_export

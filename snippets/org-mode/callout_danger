@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [danger]
+# key: cdanger
+# condition: t
+# --
+#+begin_export md
+> [!danger] $1
+> $0
+#+end_export

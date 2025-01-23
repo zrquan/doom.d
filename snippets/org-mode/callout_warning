@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: callout [warning]
+# key: cwarn
+# condition: t
+# --
+#+begin_export md
+> [!warning] $1
+> $0
+#+end_export
