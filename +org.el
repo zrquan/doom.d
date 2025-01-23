@@ -275,4 +275,15 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
            (command (format "sed -i 's/relref \"..\\//relref \"braindump\\//g' %s" md-file)))
       (if (zerop (shell-command command))
           (message (format "Fixed relref links in %s" md-file))
-        (error "Failed to execute sed")))))
+        (error "Failed to execute sed"))))
+
+  (defun zrquan/org-hugo-export-roam-refs (_)
+    "导出 ROAM_REFS 引用的链接"
+    (let ((refs (org-entry-get (point) "ROAM_REFS")))
+      (when refs
+        (save-excursion
+          (goto-char (point-max))
+          (insert "* Refs\n")
+          (dolist (ref (split-string refs))
+            (insert (format "- %s\n" ref)))))))
+  (add-to-list 'org-export-before-parsing-functions #'zrquan/org-hugo-export-roam-refs))

@@ -24,8 +24,9 @@
 ;;          catppuccin-height-title-3 1.0))
 
 (setq! doom-theme 'doom-tokyo-night
-       doom-modeline-icon t
        fancy-splash-image "~/.doom.d/door-white.svg"
+       doom-modeline-icon t
+       doom-modeline-buffer-file-name-style 'truncate-with-project
        display-line-numbers-type t)
 
 (after! vertico
