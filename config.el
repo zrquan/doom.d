@@ -145,6 +145,9 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
       :desc "Goto date" "n N" (lambda ()
                                 (interactive)
                                 (org-roam-dailies-goto-date nil "d")))
+(evil-define-key '(normal visual) evil-org-mode-map
+    (kbd "C-j") #'org-forward-element
+    (kbd "C-k") #'org-backward-element)
 (map! :map org-mode-map
       :localleader
       :desc "org-emphasize" "X" #'org-emphasize
@@ -190,3 +193,46 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
 
 (defalias 'scroll-up-command '+pixel-scroll-interpolate-down)
 (defalias 'scroll-down-command '+pixel-scroll-interpolate-up)
+
+;; 参考 https://hutusi.com/articles/git-paging 实现 git 历史的「翻页」功能
+(defun zrquan/git-first-or-last (&optional last-commit)
+  "Check out the first (or last) commit in the default remote branch."
+  (interactive "P")
+  (let* ((branch (string-trim (shell-command-to-string "git symbolic-ref refs/remotes/origin/HEAD")))
+         (opt (if last-commit "" "--reverse"))
+         (first-commit (string-trim (shell-command-to-string
+                                     (format "git log %s --pretty=%%H %s | head -1" opt branch)))))
+    (if (and branch first-commit (not (string-empty-p first-commit)))
+        (progn
+          (shell-command (format "git checkout %s" first-commit))
+          (revert-buffer :ignore-auto :noconfirm))
+      (error "Could not determine the first commit or branch"))))
+
+(defun zrquan/git-next (&optional n)
+  "Check out the Nth next commit from the current HEAD in the default remote branch.
+If N is not provided, it defaults to 1."
+  (interactive "P")
+  (let* ((branch (string-trim (shell-command-to-string "git symbolic-ref refs/remotes/origin/HEAD")))
+         (current-commit (string-trim (shell-command-to-string "git rev-parse HEAD")))
+         (num (or (and n (prefix-numeric-value n)) 1))
+         (next-commit (string-trim (shell-command-to-string
+                                    (format "git log --reverse --pretty=%%H %s | grep -A %d %s | tail -1"
+                                            branch num current-commit)))))
+    (if (and branch current-commit next-commit (not (string-empty-p next-commit)))
+        (progn
+          (shell-command (format "git checkout %s" next-commit))
+          (revert-buffer :ignore-auto :noconfirm)
+          (message "Checked out next commit: %s" next-commit))
+      (error "Could not determine the next commit"))))
+
+(defun zrquan/git-prev (&optional n)
+  "Check out the Nth previous commit from the current HEAD.
+If N is not provided, it defaults to 1."
+  (interactive "P")
+  (let* ((num (or (and n (prefix-numeric-value n)) 1))
+         (command (format "git checkout HEAD~%d" num)))
+    (if (zerop (shell-command command))
+        (progn
+          (message "Checked out previous commit: HEAD~%d" num)
+          (revert-buffer :ignore-auto :noconfirm))
+      (error "Failed to check out previous commit"))))

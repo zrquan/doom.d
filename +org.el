@@ -206,6 +206,10 @@
   (advice-add 'org-hugo--todo :around
               (lambda (_fun todo _info)
                 (format "[%s]" todo)))
+  (add-to-list 'org-hugo-tag-processing-functions
+               (lambda (tag-list info)
+                 (remove org-attach-auto-tag tag-list)))
+  ;; functions
   (defun ox-hugo/export-all (&optional org-files-root-dir do-recurse)
     "Export all Org files under ORG-FILES-ROOT-DIR.
 
@@ -243,4 +247,11 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
               (message (format "[ox-hugo/export-all file %d/%d] Exporting %s" cnt num-files org-file))
               (org-hugo-export-wim-to-md :all-subtrees)
               (setq cnt (1+ cnt))))
-          (message "Done!"))))))
+          (message "Done!")))))
+  (defun zrquan/delete-org-and-hugo-md ()
+    "删除当前 org 文件时，一并删除 `ox-hugo' 导出的 md 文件"
+    (interactive)
+    (let (md-file (org-hugo-export-to-md))
+      (progn
+        (doom/delete-this-file md-file)
+        (doom/delete-this-file)))))

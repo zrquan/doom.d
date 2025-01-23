@@ -43,7 +43,7 @@
   (setq! dirvish-attributes '(file-size file-time nerd-icons vc-state)
          dirvish-side-auto-close t
          dirvish-side-auto-expand nil
-         dirvish-side-follow-mode t
+         dirvish-default-layout '(0 0 0.65)
          dirvish-quick-access-entries
          '(("h" "~/" "Home")
            ("d" "~/Downloads/" "Downloads")

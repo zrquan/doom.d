@@ -14,7 +14,7 @@
 (setq default-frame-alist
       ;; require `dash.el'
       (-union default-frame-alist
-              '((top . 0.25) (left . 0.47) (width . 100) (height . 42) (alpha . 97))))
+              '((top . 0.23) (left . 0.42) (width . 100) (height . 43) (alpha . 97))))
 
 ;; (use-package! catppuccin-theme
 ;;   :config
@@ -23,7 +23,7 @@
 ;;          catppuccin-height-title-2 1.0
 ;;          catppuccin-height-title-3 1.0))
 
-(setq! doom-theme 'doom-monokai-octagon
+(setq! doom-theme 'doom-tokyo-night
        doom-modeline-icon t
        fancy-splash-image "~/.doom.d/door-white.svg"
        display-line-numbers-type t)
