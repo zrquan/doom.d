@@ -140,8 +140,20 @@
 (after! org-roam
   ;; 调整 capture window 的高度
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :size 0.7)
+  (setq +org-capture-frame-parameters
+        '((name . "doom-capture")
+          ;; (top . ,(car (cdr (mouse-position))))
+          ;; (left . ,(cdr (cdr (mouse-position))))
+          (width . 70)
+          (height . 25)
+          (transient . t)
+          (window-system . x)
+          (display . ":1")
+          nil))
   (setq! +org-roam-open-buffer-on-find-file nil
          org-roam-title-sources '((title) alias)
+         org-roam-buffer-postrender-functions '(magit-section-show-level-2)
+         +org-capture-fn #'org-roam-dailies-capture-today
 
          org-roam-capture-templates
          '(("d" "󱞁 default" plain "%?"
@@ -203,9 +215,9 @@
 ;;                           (note . "Notes on ${author editor}, ${title}"))))
 
 (after! ox-hugo
-  (advice-add 'org-hugo--todo :around
-              (lambda (_fun todo _info)
-                (format "[%s]" todo)))
+  ;; (advice-add 'org-hugo--todo :around
+  ;;             (lambda (_fun todo _info)
+  ;;               (format "[%s]" todo)))
   (add-to-list 'org-hugo-tag-processing-functions
                (lambda (tag-list info)
                  (remove org-attach-auto-tag tag-list)))
@@ -248,10 +260,19 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
               (org-hugo-export-wim-to-md :all-subtrees)
               (setq cnt (1+ cnt))))
           (message "Done!")))))
+
   (defun zrquan/delete-org-and-hugo-md ()
     "删除当前 org 文件时，一并删除 `ox-hugo' 导出的 md 文件"
     (interactive)
     (let (md-file (org-hugo-export-to-md))
       (progn
         (doom/delete-this-file md-file)
-        (doom/delete-this-file)))))
+        (doom/delete-this-file))))
+
+  (defun zrquan/org-hugo-export-and-fix-relref ()
+    (interactive)
+    (let* ((md-file (org-hugo-export-to-md))
+           (command (format "sed -i 's/relref \"..\\//relref \"braindump\\//g' %s" md-file)))
+      (if (zerop (shell-command command))
+          (message (format "Fixed relref links in %s" md-file))
+        (error "Failed to execute sed")))))
