@@ -141,13 +141,17 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
       :desc "Go translate" "s g" #'gt-do-translate
       :desc "Copy link" "s L" #'link-hint-copy-link
       :desc "Dirvish sidebar" "o o" #'dirvish-side
+      :desc "Prodigy" "P" #'prodigy
       :desc "Capture today" "n n" #'org-roam-dailies-capture-today
       :desc "Goto date" "n N" (lambda ()
                                 (interactive)
                                 (org-roam-dailies-goto-date nil "d")))
 (evil-define-key '(normal visual) evil-org-mode-map
-    (kbd "C-j") #'org-forward-element
-    (kbd "C-k") #'org-backward-element)
+  (kbd "C-j") #'org-forward-element
+  (kbd "C-k") #'org-backward-element)
+(evil-define-key '(insert) evil-org-mode-map
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line)
 (map! :map org-mode-map
       :localleader
       :desc "org-emphasize" "X" #'org-emphasize

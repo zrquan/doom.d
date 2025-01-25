@@ -69,4 +69,12 @@
     :url "http://localhost:1313"
     :cwd "~/Documents/blog/"
     :stop-signal 'sigkill
+    :kill-process-buffer-on-stop t)
+  (prodigy-define-service
+    :name "payloads"
+    :command "uv"
+    :args '("run" "mkdocs" "serve" "-o")
+    :url "http://127.0.0.1:8000/PayloadsAllTheThings/"
+    :cwd "~/Armory/Docs/pat"
+    :stop-signal 'sigkill
     :kill-process-buffer-on-stop t))

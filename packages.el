@@ -8,6 +8,10 @@
 (package! org-download :pin "900b7b6984d8fcfebbd3620152730228ce6468aa")
 (package! org-tidy :recipe (:host github :repo "jxq0/org-tidy"))
 
+;; 禁用一些我用不上的包
+(disable-packages! centered-window org-tree-slide markdown-toc
+                   pip-requirements anaconda-mode pipenv pyenv nose pyimport py-isort)
+
 ;; https://github.com/org-roam/org-roam-bibtex#doom-emacs
 ;; (package! org-roam-bibtex :recipe (:host github :repo "org-roam/org-roam-bibtex"))
 ;; (unpin! org-roam)

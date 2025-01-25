@@ -38,6 +38,8 @@
         text))
     (add-to-list 'org-export-filter-paragraph-functions #'eli-strip-ws-maybe))
 
+  ;; 让 `evil-org-mode' 在打开 org 文件前生效
+  (evil-org-mode 1)
   (global-org-modern-mode 1)
   (add-hook! 'org-mode-hook
              #'+org-init-keybinds-h

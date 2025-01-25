@@ -24,10 +24,19 @@
 ;;          catppuccin-height-title-3 1.0))
 
 (setq! doom-theme 'doom-tokyo-night
+       consult-themes '(doom-tokyo-night doom-gruvbox-light
+                        doom-gruvbox doom-nord doom-dracula)
        fancy-splash-image "~/.doom.d/door-white.svg"
        doom-modeline-icon t
        doom-modeline-buffer-file-name-style 'truncate-with-project
        display-line-numbers-type t)
+
+;; <SPC-h-t> 切换主题后并没有改变 `doom-theme' 的值
+;; https://github.com/doomemacs/doomemacs/issues/7511
+(defadvice! zrquan/consult-theme-set-doom-theme (fn theme)
+  :around #'consult-theme
+  (setq doom-theme theme)
+  (funcall fn theme))
 
 (after! vertico
   (vertico-indexed-mode 1)
