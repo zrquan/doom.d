@@ -25,7 +25,7 @@
 
 (setq! doom-theme 'doom-tokyo-night
        consult-themes '(doom-tokyo-night doom-gruvbox-light
-                        doom-gruvbox doom-nord doom-dracula)
+                        doom-gruvbox doom-nord doom-nord-light doom-dracula)
        fancy-splash-image "~/.doom.d/door-white.svg"
        doom-modeline-icon t
        doom-modeline-buffer-file-name-style 'truncate-with-project

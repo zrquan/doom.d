@@ -38,6 +38,14 @@
         text))
     (add-to-list 'org-export-filter-paragraph-functions #'eli-strip-ws-maybe))
 
+  (evil-define-key '(normal visual) evil-org-mode-map
+    (kbd "C-j") #'org-forward-element
+    (kbd "C-k") #'org-backward-element
+    (kbd "z z") #'visual-line-fill-column-mode
+    (kbd "z t") #'org-tidy-toggle)
+  (evil-define-key '(insert) evil-org-mode-map
+    (kbd "C-n") #'evil-next-line
+    (kbd "C-p") #'evil-previous-line)
   ;; 让 `evil-org-mode' 在打开 org 文件前生效
   (evil-org-mode 1)
   (global-org-modern-mode 1)
@@ -56,7 +64,7 @@
          system-time-locale "C"          ;日期使用英文
          org-footnote-section "References"
          org-todo-keywords
-         '((sequence "TODO(t)" "READ(r)" "WAIT(w@)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")))
+         '((sequence "TODO(t)" "READ(r)" "FIXME(f)" "WAIT(w@)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")))
 
   (setq
    ;; Capture templates
@@ -69,8 +77,8 @@
       "** TODO %?\n" :prepend t))
 
    ;; Edit settings
-   org-auto-align-tags nil
-   org-tags-column 0
+   ;; org-auto-align-tags nil
+   org-tags-column -77
    org-fold-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
@@ -91,14 +99,14 @@
    "← 现在 ──────────────────")
 
   ;; Ellipsis styling
-  (setq org-ellipsis "…")
+  (setq org-ellipsis "𐓷")
   (add-hook! '(org-mode-hook)
     (set-face-attribute 'org-document-title nil :height 1.3)
     (set-face-attribute 'org-level-1 nil :height 1.1)))
 
 (after! org-modern
   (setq! org-modern-star 'replace
-         org-modern-replace-stars "󰚟󰽺󰽬"
+         org-modern-replace-stars "󰚟󰽺󰽬＃"
          org-modern-priority nil
          org-modern-keyword
          (quote (("title" . "")
@@ -119,7 +127,7 @@
            ("src" "»" "«")
            ("example" "⁗" "⁗")
            ("quote" "❝" "❞")
-           ("export" "↦" "↤")
+           ("export" "⇛" "⇚")
            ("comment" "##" "##"))
          org-modern-todo-faces
          (quote (("READ" :background "SkyBlue4" :foreground "white")
@@ -174,9 +182,10 @@
             :jump-to-captured nil))))
 
 (use-package! org-tidy
-  :hook (org-mode . org-tidy-mode)
+  :hook (org-mode)
   :config
   (setq org-tidy-general-drawer-flag nil
+        org-tidy-properties-style 'fringe
         org-tidy-properties-inline-symbol "⍨"))
 
 (use-package! verb
@@ -262,14 +271,6 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
               (org-hugo-export-wim-to-md :all-subtrees)
               (setq cnt (1+ cnt))))
           (message "Done!")))))
-
-  (defun zrquan/delete-org-and-hugo-md ()
-    "删除当前 org 文件时，一并删除 `ox-hugo' 导出的 md 文件"
-    (interactive)
-    (let (md-file (org-hugo-export-to-md))
-      (progn
-        (doom/delete-this-file md-file)
-        (doom/delete-this-file))))
 
   (defun zrquan/org-hugo-export-and-fix-relref ()
     (interactive)
