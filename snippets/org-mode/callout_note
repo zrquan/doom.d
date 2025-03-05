@@ -3,7 +3,7 @@
 # key: cnote
 # condition: t
 # --
-#+begin_export md
-> [!note] $1
-> $0
-#+end_export
+#+begin_quote
+[!note] $1
+$0
+#+end_quote

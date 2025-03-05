@@ -48,7 +48,9 @@
     (kbd "C-p") #'evil-previous-line)
   ;; 让 `evil-org-mode' 在打开 org 文件前生效
   (evil-org-mode 1)
+
   (global-org-modern-mode 1)
+  (org-download-enable)
   (add-hook! 'org-mode-hook
              #'+org-init-keybinds-h
              #'org-appear-mode)
@@ -86,6 +88,8 @@
    ;; Org styling, hide markup etc.
    org-hide-leading-stars t
    org-hide-emphasis-markers t
+   org-startup-with-inline-images t
+   org-image-align 'center
 
    ;; Agenda styling
    org-agenda-tags-column 0
@@ -106,7 +110,7 @@
 
 (after! org-modern
   (setq! org-modern-star 'replace
-         org-modern-replace-stars "󰚟󰽺󰽬＃"
+         org-modern-replace-stars "󰚟󰽺＃◈"
          org-modern-priority nil
          org-modern-keyword
          (quote (("title" . "")
@@ -144,8 +148,7 @@
          org-download-abbreviate-filename-function 'file-relative-name
          org-download-heading-lvl nil
          org-download-image-attr-list '("#+attr_org: :width 90%")
-         org-download-display-inline-images nil)
-  (org-download-enable))
+         org-download-display-inline-images nil))
 
 (after! org-roam
   ;; 调整 capture window 的高度

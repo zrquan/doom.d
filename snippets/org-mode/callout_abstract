@@ -3,7 +3,7 @@
 # key: ctldr
 # condition: t
 # --
-#+begin_export md
-> [!tldr] $1
-> $0
-#+end_export
+#+begin_quote
+[!tldr] $1
+$0
+#+end_quote

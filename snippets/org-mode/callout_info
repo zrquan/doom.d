@@ -3,7 +3,7 @@
 # key: cinfo
 # condition: t
 # --
-#+begin_export md
-> [!info] $1
-> $0
-#+end_export
+#+begin_quote
+[!info] $1
+$0
+#+end_quote

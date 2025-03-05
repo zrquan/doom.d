@@ -17,6 +17,7 @@
 
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
+(define-key evil-motion-state-map (kbd ",") #'doom/leader)
 
 ;; Evil
 (setq! evil-escape-key-sequence "df"
@@ -149,7 +150,9 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
       :desc "Go translate" "s g" #'gt-do-translate
       :desc "Copy link" "s L" #'link-hint-copy-link
-      :desc "Dirvish sidebar" "o o" #'dirvish-side
+      :desc "Dirvish sidebar" "o o" (lambda ()
+                                      (interactive)
+                                      (dirvish-side default-directory))
       :desc "Prodigy" "P" #'prodigy
       :desc "Capture today" "n n" #'org-roam-dailies-capture-today
       :desc "Goto date" "n N" (lambda ()

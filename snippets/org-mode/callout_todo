@@ -3,7 +3,7 @@
 # key: ctodo
 # condition: t
 # --
-#+begin_export md
-> [!todo] $1
-> $0
-#+end_export
+#+begin_quote
+[!todo] $1
+$0
+#+end_quote

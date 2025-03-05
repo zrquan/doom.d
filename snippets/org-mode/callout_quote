@@ -3,7 +3,7 @@
 # key: cquote
 # condition: t
 # --
-#+begin_export md
-> [!quote] $1
-> $0
-#+end_export
+#+begin_quote
+[!quote] $1
+$0
+#+end_quote

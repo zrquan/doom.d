@@ -3,7 +3,7 @@
 # key: cbug
 # condition: t
 # --
-#+begin_export md
-> [!bug] $1
-> $0
-#+end_export
+#+begin_quote
+[!bug] $1
+$0
+#+end_quote

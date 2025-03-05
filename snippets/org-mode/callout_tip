@@ -3,7 +3,7 @@
 # key: ctip
 # condition: t
 # --
-#+begin_export md
-> [!tip] $1
-> $0
-#+end_export
+#+begin_quote
+[!tip] $1
+$0
+#+end_quote

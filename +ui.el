@@ -24,8 +24,9 @@
 ;;          catppuccin-height-title-3 1.0))
 
 (setq! doom-theme 'doom-tokyo-night
-       consult-themes '(doom-tokyo-night doom-gruvbox-light
-                        doom-gruvbox doom-nord doom-nord-light doom-dracula)
+       consult-themes '(doom-tokyo-night
+                        doom-gruvbox-light doom-gruvbox
+                        doom-nord-light doom-nord)
        fancy-splash-image "~/.doom.d/door-white.svg"
        doom-modeline-icon t
        doom-modeline-buffer-file-name-style 'truncate-with-project
