@@ -1,0 +1,35 @@
+.reveal {
+    font-size: 1.3vw;
+    background-color: #1a1626;
+}
+
+.reveal,
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    font-family: "LXGW WenKai Mono", "Monaco", "楷体-简";
+}
+
+.reveal .controls button, .reveal .progress span, .reveal a  {
+    --tw-text-opacity: 1;
+    color: rgba(237, 100, 166, var(--tw-text-opacity));
+}
+
+.reveal small * {
+    vertical-align: top;
+}
+
+.reveal code {
+    font-family: "Fira Code", "Monaco";
+    font-size: 0.9vw;
+    line-height: 120%;
+}
+
+.reveal pre {
+    font-size: 0.9em; /* increase font size */
+    margin-left: -5%; /* decrease left margin */
+    width: 110%; /* increase width */
+}

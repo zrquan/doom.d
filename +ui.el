@@ -1,5 +1,4 @@
 ;;; $DOOMDIR/+ui.el -*- lexical-binding: t; -*-
-;; Package-Requires: ((dash "2.19.1"))
 
 
 ;; Make `doom-variable-pitch-font' and `doom-font' have the same font, otherwise
@@ -10,11 +9,22 @@
        line-spacing 0.1
        +fold-ellipsis "  ")
 
-(require 'dash)
-(setq default-frame-alist
-      ;; require `dash.el'
-      (-union default-frame-alist
-              '((top . 0.23) (left . 0.42) (width . 100) (height . 43) (alpha . 97))))
+(setq! split-width-threshold 120)
+
+;; (defun frame-center ()
+;;   "Center the current frame."
+;;   (interactive)
+;;   (let* ((dw (display-pixel-width))
+;;          (dh (display-pixel-height))
+;;          (f  (selected-frame))
+;;          (fw (frame-pixel-width f))
+;;          (fh (frame-pixel-height f))
+;;          (x  (- (/ dw 2) (/ fw 2)))
+;;          (y  (- (/ dh 2) (/ fh 2))))
+;;     (message (format "dw %d dh %d fw %d fh %d x %d y %d" dw dh fw fh x y))
+;;     (set-frame-position f x y)))
+;; (add-to-list 'server-after-make-frame-hook #'frame-center t)
+(add-to-list 'default-frame-alist '(alpha . 95))
 
 ;; (use-package! catppuccin-theme
 ;;   :config

@@ -2,6 +2,11 @@
 
 
 (after! org
+  (map! :map org-mode-map
+        :localleader
+        :desc "org-emphasize" "X" #'org-emphasize
+        :desc "org-download-delete" "a D" #'org-download-delete)
+
   ;; Fancy soft wrapping
   (setq dlukes/org-category-table (copy-category-table))
   (dolist (char '(?- ?+ ?_ ?| ?. ?, ?， ?； ?。))
@@ -71,12 +76,11 @@
   (setq
    ;; Capture templates
    org-capture-templates
-   '(("t" " 待办事项" entry
+   '(("t" "Todo" entry
       (file+headline +org-capture-todo-file "Inbox")
       "** TODO %?\n" :prepend t)
-     ("w" " 工作任务" entry
-      (file+headline +org-capture-todo-file "Work")
-      "** TODO %?\n" :prepend t))
+     ("e" "Event" entry (file+headline +org-capture-todo-file "Calendar")
+      "* TODO %?\n SCHEDULED: %^{Event Date}t"))
 
    ;; Edit settings
    ;; org-auto-align-tags nil
@@ -135,7 +139,6 @@
            ("comment" "##" "##"))
          org-modern-todo-faces
          (quote (("READ" :background "SkyBlue4" :foreground "white")
-                 ("WAIT" :background "gray60")
                  (t . nil)))))
 
 (use-package! d2-mode
@@ -187,11 +190,20 @@
 (use-package! org-tidy
   :hook (org-mode)
   :config
-  (setq org-tidy-general-drawer-flag nil
-        org-tidy-properties-style 'fringe
-        org-tidy-properties-inline-symbol "⍨"))
+  (setq org-tidy-attr-flag t
+        org-tidy-general-drawer-flag nil
+        org-tidy-properties-style 'fringe))
 
 (use-package! verb
+  :init
+  (map! :map org-mode-map
+        :localleader
+        :prefix ("v" . "verb")
+        :desc "send request stay" "v" #'verb-send-request-on-point-other-window-stay
+        :desc "send request" "V" #'verb-send-request-on-point-other-window
+        :desc "send request no window" "s" #'verb-send-request-on-point-no-window
+        :desc "show vars" "x" #'verb-show-vars
+        :desc "kill response buffers" "k" #'verb-kill-all-response-buffers)
   :config (progn
             (setq verb-trim-body-end "[ \t\n\r]+")))
 
@@ -211,47 +223,48 @@
   ;;                          :create #'orb-citar-edit-note
   ;;                          :annotate #'citar-org-roam--annotate))
 
-  (defvar citar-indicator-files-icon
-    (citar-indicator-create
-     :symbol (nerd-icons-faicon
-              "nf-fa-file_pdf_o"
-              :face 'nerd-icons-lred)
-     :function #'citar-has-files
-     :emptysymbol "  "
-     :padding " "
-     :tag "has:files"))
-  (defvar citar-indicator-notes-icon
-    (citar-indicator-create
-     :symbol (nerd-icons-sucicon
-              "nf-custom-orgmode"
-              :face 'nerd-icons-lgreen)
-     :function #'citar-has-notes
-     :emptysymbol "  "
-     :padding " "
-     :tag "has:notes"))
-  (defvar citar-indicator-links-icon
-    (citar-indicator-create
-     :symbol (nerd-icons-octicon
-              "nf-oct-link"
-              :face 'nerd-icons-lblue)
-     :function #'citar-has-links
-     :emptysymbol "  "
-     :padding " "
-     :tag "has:links"))
-  (defvar citar-indicator-cited-icon
-    (citar-indicator-create
-     :symbol (nerd-icons-octicon
-              "nf-oct-book"
-              :face 'nerd-icons-lred)
-     :function #'citar-is-cited
-     :emptysymbol "  "
-     :padding " "
-     :tag "is:cited"))
-  (setq citar-indicators
-        (list citar-indicator-files-icon
-              citar-indicator-notes-icon
-              citar-indicator-links-icon
-              citar-indicator-cited-icon))
+  ;; Icon
+  ;; (defvar citar-indicator-files-icon
+  ;;   (citar-indicator-create
+  ;;    :symbol (nerd-icons-faicon
+  ;;             "nf-fa-file_pdf_o"
+  ;;             :face 'nerd-icons-lred)
+  ;;    :function #'citar-has-files
+  ;;    :emptysymbol "  "
+  ;;    :padding " "
+  ;;    :tag "has:files"))
+  ;; (defvar citar-indicator-notes-icon
+  ;;   (citar-indicator-create
+  ;;    :symbol (nerd-icons-sucicon
+  ;;             "nf-custom-orgmode"
+  ;;             :face 'nerd-icons-lgreen)
+  ;;    :function #'citar-has-notes
+  ;;    :emptysymbol "  "
+  ;;    :padding " "
+  ;;    :tag "has:notes"))
+  ;; (defvar citar-indicator-links-icon
+  ;;   (citar-indicator-create
+  ;;    :symbol (nerd-icons-octicon
+  ;;             "nf-oct-link"
+  ;;             :face 'nerd-icons-lblue)
+  ;;    :function #'citar-has-links
+  ;;    :emptysymbol "  "
+  ;;    :padding " "
+  ;;    :tag "has:links"))
+  ;; (defvar citar-indicator-cited-icon
+  ;;   (citar-indicator-create
+  ;;    :symbol (nerd-icons-octicon
+  ;;             "nf-oct-book"
+  ;;             :face 'nerd-icons-lred)
+  ;;    :function #'citar-is-cited
+  ;;    :emptysymbol "  "
+  ;;    :padding " "
+  ;;    :tag "is:cited"))
+  ;; (setq citar-indicators
+  ;;       (list citar-indicator-files-icon
+  ;;             citar-indicator-notes-icon
+  ;;             citar-indicator-links-icon
+  ;;             citar-indicator-cited-icon))
 
   ;; (setq! citar-notes-source 'orb-citar-source)
   (setq! citar-file-open-functions (list (cons "html" #'citar-file-open-external)
@@ -335,3 +348,29 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
           (dolist (ref (split-string refs))
             (insert (format "- %s\n" ref)))))))
   (add-to-list 'org-export-before-parsing-functions #'zrquan/org-hugo-export-roam-refs))
+
+(after! org-re-reveal
+  (setq! org-re-reveal-extra-css (file-name-concat doom-user-dir "reveal.css")
+         org-re-reveal-extra-scripts `(,(file-name-concat doom-user-dir "reveal.js"))
+         org-re-reveal-transition "slide"
+         org-re-reveal-highlight-css 'monokai
+         org-re-reveal-plugins '(zoom notes highlight)))
+
+(use-package! org-super-agenda
+  :init (add-hook 'org-agenda-mode-hook #'org-super-agenda-mode)
+  :config
+  (setq! org-super-agenda-header-map nil
+         org-super-agenda-groups
+         '((:name "今日任务"
+            :scheduled today
+            :deadline today
+            :and (:scheduled past :not (:deadline past)))
+           (:name "优先完成"
+            :and (:priority "A"
+                  :not (:todo "WAIT")))
+           (:name "工作" :tag "@work" :tag "work" :tag "meeting")
+           (:name "日程" :scheduled t :deadline t)
+           (:order-multi (3 (:file-path "daily")
+                            (:priority<= "B")
+                            (:todo ("IDEA" "READ"))))
+           (:todo "WAIT" :order 9))))

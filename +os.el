@@ -1,49 +1,32 @@
 ;;; $DOOMDIR/+os.el -*- lexical-binding: t; -*-
 
 
-;; Socks proxy
-;; (setq! url-gateway-method 'socks
-;;       socks-server '("Default server" "127.0.0.1" 10808 5)
-;;       url-gateway-local-host-regexp
-;;       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
-
-;; 在terminal使用系统剪贴板
-(defadvice gui-backend-set-selection (around set-clip-from-terminal-on-osx activate)
-  ad-do-it
-  (when (and (equal system-type 'gnu/linux)
-             (not (display-graphic-p))
-             (not (window-system))
-             (equal (ad-get-arg 0) 'CLIPBOARD))
-    (let ((process-connection-type nil) ;use pipe
-          (default-directory "~/"))
-      (let ((proc (start-process "xclip" "*Messages*" "xclip" "-sel" "clip")))
-        (process-send-string proc (ad-get-arg 1))
-        (process-send-eof proc)))))
-
 ;; 禁止emacsclient打开新的工作区
 (after! persp-mode
   (setq! persp-emacsclient-init-frame-behaviour-override -1))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(after! projectile
+  (setq projectile-cache-file (concat doom-cache-dir "projectile-cache.eld")))
+
+(use-package! ultra-scroll
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
+
 (after! dired-x
   ;; Make dired-omit-mode hide all "dotfiles"
   (setq! dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
 
-(setq! dired-listing-switches "-Al -X")
-(use-package! dirvish
-  :defer t
-  :init (dirvish-override-dired-mode)
-  :config
-  (add-hook 'dired-mode-hook 'dired-omit-mode)
-  (add-to-list 'dirvish-preview-disabled-exts "gif")
-  (setq! dirvish-attributes '(file-size file-time nerd-icons vc-state)
+(after! dirvish
+  (setq! dirvish-default-layout '(0 0 0.65)
+         dirvish-attributes '(file-size file-time nerd-icons vc-state)
          dirvish-side-auto-close t
-         dirvish-side-auto-expand nil
-         dirvish-default-layout '(0 0 0.65)
          dirvish-quick-access-entries
          '(("h" "~/" "Home")
            ("d" "~/Downloads/" "Downloads")
@@ -51,9 +34,14 @@
            ("p" "~/Projects/" "Projects")
            ("c" "~/CTF/" "CTF")
            ("a" "~/Armory/" "Armory")
-           ("w" "~/Documents/work/" "Work"))))
+           ("w" "~/Documents/work/" "Work")))
+  (add-to-list 'dirvish-preview-disabled-exts "gif")
+  (map! :map dirvish-mode-map
+        :n "C-h" #'dired-omit-mode
+        :n "C-f" #'dirvish-fd))
 
-(after! prodigy
+(use-package! prodigy
+  :init
   (prodigy-define-service
     :name "quartz"
     :command "npx"
@@ -75,6 +63,26 @@
     :command "uv"
     :args '("run" "mkdocs" "serve" "-o")
     :url "http://127.0.0.1:8000/PayloadsAllTheThings/"
-    :cwd "~/Armory/Docs/pat"
+    :cwd "~/SecTools/Docs/pat/"
     :stop-signal 'sigkill
     :kill-process-buffer-on-stop t))
+
+(use-package! popper
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "\\*DeepSeek\\*"
+          "\\*gt-result\\*"
+          "\\*Occur\\*"
+          "\\*HTTP Response.*\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  :config
+  (map! :leader
+        :desc "Popper" "p p" #'popper-toggle
+        :desc "Popper type" "p t" #'popper-toggle-type
+        :desc "Popper cycle" "p <tab>" #'popper-cycle
+        :desc "Popper kill" "p k" #'popper-kill-latest-popup
+        :desc "Switch project" "p P" #'projectile-switch-project))

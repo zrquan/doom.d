@@ -15,9 +15,7 @@
         t))))
 
 
-(use-package! go-translate
-  :defer t
-  :after (plz)
+(use-package! gt
   :config
   (setq! gt-langs '(en zh))
   (setq! gt-default-translator
@@ -28,54 +26,7 @@
           :render  (list
                     (gt-posframe-pop-render :if 'word
                                             :frame-params
-                                            (list :border-width 1
+                                            (list :border-width 3
                                                   :background-color (doom-color "black")
                                                   :foreground-color (doom-color "white")))
                     (gt-buffer-render)))))
-
-
-;; (use-package! rime
-;;   :defer t
-;;   :custom (default-input-method "rime")
-;;   :config
-;;   (setq! rime-share-data-dir "~/.local/share/fcitx5/rime/"
-;;         rime-translate-keybindings '("C-g" "C-j" "C-k" "C-," "C-.")
-;;         rime-show-candidate 'posframe
-;;         rime-disable-predicates '(rime-predicate-evil-mode-p
-;;                                   rime-predicate-current-uppercase-letter-p
-;;                                   rime-predicate-punctuation-line-begin-p
-;;                                   rime-predicate-prog-in-code-p))
-
-;;   ;; 结合evil-escape一起使用
-;;   (defun rime-evil-escape-advice (orig-fun key)
-;;     "advice for `rime-input-method' to make it work together with `evil-escape'.
-;;         Mainly modified from `evil-escape-pre-command-hook'"
-;;     (if rime--preedit-overlay
-;;         ;; if `rime--preedit-overlay' is non-nil, then we are editing something, do not abort
-;;         (apply orig-fun (list key))
-;;       (when (featurep 'evil-escape)
-;;         (let (
-;;               (fkey (elt evil-escape-key-sequence 0))
-;;               (skey (elt evil-escape-key-sequence 1))
-;;               )
-;;           (if (or (char-equal key fkey)
-;;                   (and evil-escape-unordered-key-sequence
-;;                        (char-equal key skey)))
-;;               (let ((evt (read-event nil nil evil-escape-delay)))
-;;                 (cond
-;;                  ((and (characterp evt)
-;;                        (or (and (char-equal key fkey) (char-equal evt skey))
-;;                            (and evil-escape-unordered-key-sequence
-;;                                 (char-equal key skey) (char-equal evt fkey))))
-;;                   (evil-repeat-stop)
-;;                   (evil-normal-state))
-;;                  ((null evt) (apply orig-fun (list key)))
-;;                  (t
-;;                   (apply orig-fun (list key))
-;;                   (if (numberp evt)
-;;                       (apply orig-fun (list evt))
-;;                     (setq! unread-command-events (append unread-command-events (list evt))))))
-;;                 )
-;;             (apply orig-fun (list key)))))))
-
-;;   (advice-add 'rime-input-method :around #'rime-evil-escape-advice))

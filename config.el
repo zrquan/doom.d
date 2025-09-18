@@ -13,7 +13,10 @@
 
 (setq tab-width 4
       warning-minimum-level :error
-      gcmh-high-cons-threshold (* 1024 1024 1024)) ;1GB
+      gcmh-high-cons-threshold (* 1024 1024 1024)  ;1GB
+      gc-cons-percentage 0.3
+      vc-handled-backends '(Git)
+      delete-by-moving-to-trash t)
 
 (setq! doom-localleader-key ","
        doom-localleader-alt-key "M-,")
@@ -148,61 +151,19 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
       :desc "Switch buffer" "." #'consult-buffer
       :desc "Switch to last buffer" "<" #'evil-switch-to-windows-last-buffer
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
-      :desc "Go translate" "s g" #'gt-do-translate
+      :desc "Go translate" "s g" #'gt-translate
       :desc "Copy link" "s L" #'link-hint-copy-link
-      :desc "Dirvish sidebar" "o o" (lambda ()
-                                      (interactive)
-                                      (dirvish-side default-directory))
       :desc "Prodigy" "P" #'prodigy
       :desc "Capture today" "n n" #'org-roam-dailies-capture-today
       :desc "Goto date" "n N" (lambda ()
                                 (interactive)
                                 (org-roam-dailies-goto-date nil "d")))
-(map! :map org-mode-map
-      :localleader
-      :desc "org-emphasize" "X" #'org-emphasize
-      :desc "org-download-delete" "a D" #'org-download-delete)
-;; dirvish
-(map! :after dirvish
-      :map dired-mode-map
-      :n "<tab>" #'dirvish-subtree-toggle
-      :n "C-h" #'dired-omit-mode
-      :n "C-f" #'dirvish-fd-ask
-      :n "q" #'dirvish-quit
-      :n "b" #'dirvish-quick-access
-      :n "s" #'dirvish-quicksort
-      :n "z" #'dirvish-history-jump
-      :n "f" #'dirvish-file-info-menu
-      :n "F" #'dirvish-layout-toggle
-      :n "l" #'dired-find-file
-      :n "h" #'dired-up-directory)
-;; verb
-(map! :map org-mode-map
-      :localleader
-      :prefix ("v" . "verb")
-      :desc "send request stay" "r" #'verb-send-request-on-point-other-window-stay
-      :desc "send request" "s" #'verb-send-request-on-point-other-window
-      :desc "show vars" "x" #'verb-show-vars
-      :desc "kill response buffers" "k" #'verb-kill-all-response-buffers)
-
-;; 像素级滚动
-;; https://emacs-china.org/t/topic/25114/5
-(pixel-scroll-precision-mode 1)
-(setq pixel-scroll-precision-interpolate-page t)
-(defun +pixel-scroll-interpolate-down (&optional lines)
-  (interactive)
-  (if lines
-      (pixel-scroll-precision-interpolate (* -1 lines (pixel-line-height)))
-    (pixel-scroll-interpolate-down)))
-
-(defun +pixel-scroll-interpolate-up (&optional lines)
-  (interactive)
-  (if lines
-      (pixel-scroll-precision-interpolate (* lines (pixel-line-height))))
-  (pixel-scroll-interpolate-up))
-
-(defalias 'scroll-up-command '+pixel-scroll-interpolate-down)
-(defalias 'scroll-down-command '+pixel-scroll-interpolate-up)
+;; fold
+;; (map! (:when (modulep! :tools tree-sitter)
+;;         :n "z m" #'ts-fold-close-all
+;;         :n "z r" #'ts-fold-open-all
+;;         :n "z a" #'ts-fold-toggle
+;;         :n "z O" #'ts-fold-open-recursively))
 
 ;; 参考 https://hutusi.com/articles/git-paging 实现 git 历史的「翻页」功能
 (defun zrquan/git-first-or-last (&optional last-commit)
