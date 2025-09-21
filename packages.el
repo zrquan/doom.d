@@ -16,7 +16,6 @@
 
 (package! d2-mode)
 (package! popper)
-(package! ultra-scroll :recipe (:host github :repo "jdtsmith/ultra-scroll"))
 ;; (package! igist :recipe (:host github :repo "KarimAziev/igist"))
 
 (package! prodigy)

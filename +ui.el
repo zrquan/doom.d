@@ -11,27 +11,10 @@
 
 (setq! split-width-threshold 120)
 
-;; (defun frame-center ()
-;;   "Center the current frame."
-;;   (interactive)
-;;   (let* ((dw (display-pixel-width))
-;;          (dh (display-pixel-height))
-;;          (f  (selected-frame))
-;;          (fw (frame-pixel-width f))
-;;          (fh (frame-pixel-height f))
-;;          (x  (- (/ dw 2) (/ fw 2)))
-;;          (y  (- (/ dh 2) (/ fh 2))))
-;;     (message (format "dw %d dh %d fw %d fh %d x %d y %d" dw dh fw fh x y))
-;;     (set-frame-position f x y)))
-;; (add-to-list 'server-after-make-frame-hook #'frame-center t)
-(add-to-list 'default-frame-alist '(alpha . 95))
-
-;; (use-package! catppuccin-theme
-;;   :config
-;;   (setq! catppuccin-height-doc-title 1.3
-;;          catppuccin-height-title-1 1.1
-;;          catppuccin-height-title-2 1.0
-;;          catppuccin-height-title-3 1.0))
+(setq! default-frame-alist
+       (append '((alpha . 95)
+                 (fullscreen . maximized))
+               default-frame-alist))
 
 (setq! doom-theme 'doom-tokyo-night
        consult-themes '(doom-tokyo-night

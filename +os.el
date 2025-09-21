@@ -12,13 +12,6 @@
 (after! projectile
   (setq projectile-cache-file (concat doom-cache-dir "projectile-cache.eld")))
 
-(use-package! ultra-scroll
-  :init
-  (setq scroll-conservatively 101 ; important!
-        scroll-margin 0)
-  :config
-  (ultra-scroll-mode 1))
-
 (after! dired-x
   ;; Make dired-omit-mode hide all "dotfiles"
   (setq! dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
