@@ -350,8 +350,8 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
   (add-to-list 'org-export-before-parsing-functions #'zrquan/org-hugo-export-roam-refs))
 
 (after! org-re-reveal
-  (setq! org-re-reveal-extra-css (file-name-concat doom-user-dir "reveal.css")
-         org-re-reveal-extra-scripts `(,(file-name-concat doom-user-dir "reveal.js"))
+  (setq! org-re-reveal-extra-css (file-name-concat doom-user-dir "resources/reveal.css")
+         ;; org-re-reveal-extra-scripts `(,(file-name-concat doom-user-dir "resources/reveal.js"))
          org-re-reveal-transition "slide"
          org-re-reveal-highlight-css 'monokai
          org-re-reveal-plugins '(zoom notes highlight)))

@@ -6,7 +6,6 @@
 (setq! doom-font (font-spec :family "LXGW WenKai Mono" :size 32)
        doom-symbol-font (font-spec :family "LXGW WenKai Mono")
        doom-variable-pitch-font doom-font
-       line-spacing 0.1
        +fold-ellipsis "  ")
 
 (setq! split-width-threshold 120)
@@ -20,7 +19,7 @@
        consult-themes '(doom-tokyo-night
                         doom-gruvbox-light doom-gruvbox
                         doom-nord-light doom-nord)
-       fancy-splash-image "~/.doom.d/door-white.svg"
+       fancy-splash-image (file-name-concat doom-user-dir "resources/door-white.svg")
        doom-modeline-icon t
        doom-modeline-buffer-file-name-style 'truncate-with-project
        display-line-numbers-type t)
