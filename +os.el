@@ -9,9 +9,6 @@
 ;; File Management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(after! projectile
-  (setq projectile-cache-file (concat doom-cache-dir "projectile-cache.eld")))
-
 (after! dired-x
   ;; Make dired-omit-mode hide all "dotfiles"
   (setq! dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
@@ -25,13 +22,10 @@
            ("d" "~/Downloads/" "Downloads")
            ("o" "~/Dropbox/org/" "Org")
            ("p" "~/Projects/" "Projects")
-           ("c" "~/CTF/" "CTF")
-           ("a" "~/Armory/" "Armory")
            ("w" "~/Documents/work/" "Work")))
   (add-to-list 'dirvish-preview-disabled-exts "gif")
   (map! :map dirvish-mode-map
-        :n "C-h" #'dired-omit-mode
-        :n "C-f" #'dirvish-fd))
+        :n "C-h" #'dired-omit-mode))
 
 (use-package! prodigy
   :init

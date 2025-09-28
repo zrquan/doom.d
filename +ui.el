@@ -10,10 +10,8 @@
 
 (setq! split-width-threshold 120)
 
-(setq! default-frame-alist
-       (append '((alpha . 95)
-                 (fullscreen . maximized))
-               default-frame-alist))
+(add-to-list 'default-frame-alist '(alpha . 95))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq! doom-theme 'doom-tokyo-night
        consult-themes '(doom-tokyo-night
