@@ -25,13 +25,10 @@
            ("d" "~/Downloads/" "Downloads")
            ("o" "~/Dropbox/org/" "Org")
            ("p" "~/Projects/" "Projects")
-           ("c" "~/CTF/" "CTF")
-           ("a" "~/Armory/" "Armory")
            ("w" "~/Documents/work/" "Work")))
   (add-to-list 'dirvish-preview-disabled-exts "gif")
   (map! :map dirvish-mode-map
-        :n "C-h" #'dired-omit-mode
-        :n "C-f" #'dirvish-fd))
+        :n "C-h" #'dired-omit-mode))
 
 (use-package! prodigy
   :init
