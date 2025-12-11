@@ -5,7 +5,6 @@
 (unpin! compat)                 ; https://github.com/minad/org-modern/issues/220
 (package! org-modern)
 (package! org-appear)
-(package! org-super-agenda)
 (package! org-download)
 (package! org-tidy :recipe (:host github :repo "zrquan/org-tidy" :branch "tidy-attr"))
 (package! verb)

@@ -92,7 +92,7 @@
    ;; Org styling, hide markup etc.
    org-hide-leading-stars t
    org-hide-emphasis-markers t
-   org-startup-with-inline-images t
+   org-startup-with-inline-images nil
    org-image-align 'center
 
    ;; Agenda styling
@@ -355,22 +355,3 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
          org-re-reveal-transition "slide"
          org-re-reveal-highlight-css 'monokai
          org-re-reveal-plugins '(zoom notes highlight)))
-
-(use-package! org-super-agenda
-  :init (add-hook 'org-agenda-mode-hook #'org-super-agenda-mode)
-  :config
-  (setq! org-super-agenda-header-map nil
-         org-super-agenda-groups
-         '((:name "今日任务"
-            :scheduled today
-            :deadline today
-            :and (:scheduled past :not (:deadline past)))
-           (:name "优先完成"
-            :and (:priority "A"
-                  :not (:todo "WAIT")))
-           (:name "工作" :tag "@work" :tag "work" :tag "meeting")
-           (:name "日程" :scheduled t :deadline t)
-           (:order-multi (3 (:file-path "daily")
-                            (:priority<= "B")
-                            (:todo ("IDEA" "READ"))))
-           (:todo "WAIT" :order 9))))
