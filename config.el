@@ -22,6 +22,12 @@
        doom-localleader-alt-key "M-,")
 (define-key evil-motion-state-map (kbd ",") #'doom/leader)
 
+;; 修复 Wayland 下 Emacs 复制非 ASCII 字符到其他应用时丢失的问题
+(with-eval-after-load 'select
+  (dolist (target '(TEXT COMPOUND_TEXT STRING text/plain))
+    (setq selection-converter-alist
+          (assoc-delete-all target selection-converter-alist))))
+
 ;; Evil
 (setq! evil-escape-key-sequence "df"
        evil-snipe-override-evil-repeat-keys nil
@@ -104,7 +110,7 @@
    :depth 1
    :include-files t))
 
-(defun xah-open-in-vscode ()
+(defun open-in-vscode ()
   "Open current file or dir in vscode.
 URL `http://xahlee.info/emacs/emacs/emacs_open_in_vscode.html'
 
