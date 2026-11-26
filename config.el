@@ -23,16 +23,10 @@
 (define-key evil-motion-state-map (kbd ",") #'doom/leader)
 
 ;; 修复 Wayland 下 Emacs 复制非 ASCII 字符到其他应用时丢失的问题
-(when (and (eq system-type 'gnu/linux)
-           (featurep 'pgtk))
-  (with-eval-after-load 'select
-    (let ((utf8-target "text/plain;charset=utf-8"))
-      ;; 先找到已有的 UTF-8 目标条目，并确保它被移动到列表最前面
-      (when (assoc utf8-target selection-converter-alist)
-        (setq selection-converter-alist
-              (cons (assoc utf8-target selection-converter-alist)
-                    (delete (assoc utf8-target selection-converter-alist)
-                            selection-converter-alist)))))))
+(with-eval-after-load 'select
+  (dolist (target '(TEXT COMPOUND_TEXT STRING text/plain))
+    (setq selection-converter-alist
+          (assoc-delete-all target selection-converter-alist))))
 
 ;; Evil
 (setq! evil-escape-key-sequence "df"
