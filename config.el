@@ -132,10 +132,6 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
      ((eq system-type 'gnu/linux)
       (shell-command (format "code %s" (shell-quote-argument xpath)))))))
 
-;; (after! lsp-mode
-;;   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
-;;   (delete 'lsp-terraform lsp-client-packages))
-
 (after! eglot
   (setq! eglot-ignored-server-capabilities
          '(:hoverProvider
@@ -147,10 +143,6 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
 (use-package! gitmoji
   :commands (gitmoji-insert))
 
-;; (use-package! igist
-;;   :config
-;;   (setq igist-auth-marker 'igist))
-
 ;; Load separate configs
 (load! "+ui")
 (load! "+os")
@@ -159,7 +151,7 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
 ;; Keyboard mappings
 ;; Global
 (map! :leader
-      :desc "Visual fill column" "t v" #'visual-line-fill-column-mode
+      :desc "Visual fill column" "t v" #'zrquan/visual-line-fill-column-mode
       :desc "Switch buffer" "." #'consult-buffer
       :desc "Switch to last buffer" "<" #'evil-switch-to-windows-last-buffer
       :desc "Kill buffer & window" "b x" #'kill-buffer-and-window
@@ -170,12 +162,6 @@ Version: 2020-02-13 2021-01-18 2022-08-04 2023-06-26"
       :desc "Goto date" "n N" (lambda ()
                                 (interactive)
                                 (org-roam-dailies-goto-date nil "d")))
-;; fold
-;; (map! (:when (modulep! :tools tree-sitter)
-;;         :n "z m" #'ts-fold-close-all
-;;         :n "z r" #'ts-fold-open-all
-;;         :n "z a" #'ts-fold-toggle
-;;         :n "z O" #'ts-fold-open-recursively))
 
 ;; 参考 https://hutusi.com/articles/git-paging 实现 git 历史的「翻页」功能
 (defun zrquan/git-first-or-last (&optional last-commit)
@@ -219,12 +205,3 @@ If N is not provided, it defaults to 1."
           (message "Checked out previous commit: HEAD~%d" num)
           (revert-buffer :ignore-auto :noconfirm))
       (error "Failed to check out previous commit"))))
-
-;; FIXME: md-file is nil
-;; (defun zrquan/delete-org-and-hugo-md ()
-;;   "删除当前 org 文件时，一并删除 `ox-hugo' 导出的 md 文件"
-;;   (interactive)
-;;   (let (md-file (org-hugo-export-to-md))
-;;     (progn
-;;       (doom/delete-this-file md-file)
-;;       (doom/delete-this-file))))

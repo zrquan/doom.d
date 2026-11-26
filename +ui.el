@@ -18,8 +18,6 @@
                         doom-gruvbox-light doom-gruvbox
                         doom-nord-light doom-nord)
        fancy-splash-image (file-name-concat doom-user-dir "resources/door-white.svg")
-       doom-modeline-icon t
-       doom-modeline-buffer-file-name-style 'truncate-with-project
        display-line-numbers-type t)
 
 ;; <SPC-h-t> 切换主题后并没有改变 `doom-theme' 的值
@@ -30,5 +28,4 @@
   (funcall fn theme))
 
 (after! vertico
-  (vertico-indexed-mode 1)
-  (setq! vertico-posframe-poshandler #'posframe-poshandler-frame-bottom-center))
+  (vertico-indexed-mode 1))

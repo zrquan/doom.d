@@ -1,6 +1,17 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
+(define-minor-mode zrquan/visual-line-fill-column-mode
+  "Toggle `visual-line-mode' and `visual-fill-column-mode' together.
+This replaces the deprecated `visual-line-fill-column-mode'."
+  :init-value nil :lighter nil :global nil
+  (if zrquan/visual-line-fill-column-mode
+      (progn
+        (visual-fill-column-mode 1)
+        (visual-line-mode 1))
+    (visual-fill-column-mode -1)
+    (visual-line-mode -1)))
+
 (after! org
   (map! :map org-mode-map
         :localleader
@@ -15,7 +26,7 @@
     (set-category-table dlukes/org-category-table)
     (setq-local word-wrap-by-category t)
     (display-line-numbers-mode -1)
-    (visual-line-fill-column-mode))
+    (zrquan/visual-line-fill-column-mode 1))
   (setq! visual-fill-column-width 90
          visual-fill-column-enable-sensible-window-split t
          visual-fill-column-center-text t)
@@ -46,7 +57,7 @@
   (evil-define-key '(normal visual) evil-org-mode-map
     (kbd "C-j") #'org-forward-element
     (kbd "C-k") #'org-backward-element
-    (kbd "z z") #'visual-line-fill-column-mode
+    (kbd "z z") #'zrquan/visual-line-fill-column-mode
     (kbd "z t") #'org-tidy-toggle)
   (evil-define-key '(insert) evil-org-mode-map
     (kbd "C-n") #'evil-next-line
@@ -55,7 +66,6 @@
   (evil-org-mode 1)
 
   (global-org-modern-mode 1)
-  (org-download-enable)
   (add-hook! 'org-mode-hook
              #'+org-init-keybinds-h
              #'org-appear-mode)
@@ -67,7 +77,9 @@
                       ("sJ" . "src java")))
     (add-to-list 'org-structure-template-alist template))
   (setq! indent-tabs-mode nil
-         org-capture-bookmark nil
+         org-bookmark-names-plist
+         '(:last-refile "org-refile-last-stored"
+           :last-capture-marker "org-capture-last-stored-marker")
          system-time-locale "C"          ;日期使用英文
          org-footnote-section "References"
          org-todo-keywords
@@ -166,9 +178,7 @@
           (window-system . x)
           (display . ":1")
           nil))
-  (setq! +org-roam-open-buffer-on-find-file nil
-         org-roam-title-sources '((title) alias)
-         org-roam-buffer-postrender-functions '(magit-section-show-level-2)
+  (setq! org-roam-buffer-postrender-functions '(magit-section-show-level-2)
          +org-capture-fn #'org-roam-dailies-capture-today
 
          org-roam-capture-templates
@@ -207,86 +217,20 @@
   :config (progn
             (setq verb-trim-body-end "[ \t\n\r]+")))
 
-;; (use-package! org-roam-bibtex
-;;   :after org-roam
-;;   :config
-;;   (org-roam-bibtex-mode t))
-
 (after! citar
   (require 'citar-org-roam)
-  ;; (citar-register-notes-source
-  ;;  'orb-citar-source (list :name "Org-Roam Notes"
-  ;;                          :category 'org-roam-node
-  ;;                          :items #'citar-org-roam--get-candidates
-  ;;                          :hasitems #'citar-org-roam-has-notes
-  ;;                          :open #'citar-org-roam-open-note
-  ;;                          :create #'orb-citar-edit-note
-  ;;                          :annotate #'citar-org-roam--annotate))
-
-  ;; Icon
-  ;; (defvar citar-indicator-files-icon
-  ;;   (citar-indicator-create
-  ;;    :symbol (nerd-icons-faicon
-  ;;             "nf-fa-file_pdf_o"
-  ;;             :face 'nerd-icons-lred)
-  ;;    :function #'citar-has-files
-  ;;    :emptysymbol "  "
-  ;;    :padding " "
-  ;;    :tag "has:files"))
-  ;; (defvar citar-indicator-notes-icon
-  ;;   (citar-indicator-create
-  ;;    :symbol (nerd-icons-sucicon
-  ;;             "nf-custom-orgmode"
-  ;;             :face 'nerd-icons-lgreen)
-  ;;    :function #'citar-has-notes
-  ;;    :emptysymbol "  "
-  ;;    :padding " "
-  ;;    :tag "has:notes"))
-  ;; (defvar citar-indicator-links-icon
-  ;;   (citar-indicator-create
-  ;;    :symbol (nerd-icons-octicon
-  ;;             "nf-oct-link"
-  ;;             :face 'nerd-icons-lblue)
-  ;;    :function #'citar-has-links
-  ;;    :emptysymbol "  "
-  ;;    :padding " "
-  ;;    :tag "has:links"))
-  ;; (defvar citar-indicator-cited-icon
-  ;;   (citar-indicator-create
-  ;;    :symbol (nerd-icons-octicon
-  ;;             "nf-oct-book"
-  ;;             :face 'nerd-icons-lred)
-  ;;    :function #'citar-is-cited
-  ;;    :emptysymbol "  "
-  ;;    :padding " "
-  ;;    :tag "is:cited"))
-  ;; (setq citar-indicators
-  ;;       (list citar-indicator-files-icon
-  ;;             citar-indicator-notes-icon
-  ;;             citar-indicator-links-icon
-  ;;             citar-indicator-cited-icon))
-
-  ;; (setq! citar-notes-source 'orb-citar-source)
   (setq! citar-file-open-functions (list (cons "html" #'citar-file-open-external)
                                          (cons "pdf" #'citar-file-open-external)
                                          (cons t #'find-file)))
   (setq! citar-bibliography `(,(expand-file-name "ref.bib" org-directory))
          citar-library-paths `(,(expand-file-name "bibtex-pdfs" org-directory))
-         citar-file-open-function (lambda (fpath)
-                                    (if IS-MAC
-                                        (call-process "open" nil 0 nil fpath)
-                                      (browse-url-default-browser fpath)))
          citar-notes-paths `(,org-roam-directory)
-         ;; citar-open-note-function 'orb-citar-edit-note
          citar-templates '((main . "${date year issued:4}     ${title:48}")
                            (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
                            (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
                            (note . "Notes on ${author editor}, ${title}"))))
 
 (after! ox-hugo
-  ;; (advice-add 'org-hugo--todo :around
-  ;;             (lambda (_fun todo _info)
-  ;;               (format "[%s]" todo)))
   (add-to-list 'org-hugo-tag-processing-functions
                (lambda (tag-list info)
                  (remove org-attach-auto-tag tag-list)))
@@ -351,7 +295,6 @@ Example usage in Emacs Lisp: (ox-hugo/export-all \"~/org\")."
 
 (after! org-re-reveal
   (setq! org-re-reveal-extra-css (file-name-concat doom-user-dir "resources/reveal.css")
-         ;; org-re-reveal-extra-scripts `(,(file-name-concat doom-user-dir "resources/reveal.js"))
          org-re-reveal-transition "slide"
          org-re-reveal-highlight-css 'monokai
          org-re-reveal-plugins '(zoom notes highlight)))

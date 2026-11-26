@@ -2,7 +2,6 @@
 ;;; $DOOMDIR/packages.el
 
 ;; org-mode exts
-(unpin! compat)                 ; https://github.com/minad/org-modern/issues/220
 (package! org-modern)
 (package! org-appear)
 (package! org-download)
@@ -15,18 +14,11 @@
 
 (package! d2-mode)
 (package! popper)
-;; (package! igist :recipe (:host github :repo "KarimAziev/igist"))
 
 (package! prodigy)
 
 ;; 禁用一些我用不上的包
 (disable-packages! centered-window org-tree-slide markdown-toc
-                   pip-requirements anaconda-mode pipenv pyenv nose pyimport py-isort)
-
-;; https://github.com/org-roam/org-roam-bibtex#doom-emacs
-;; (package! org-roam-bibtex
-;;   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-;; (unpin! org-roam)
-;; (unpin! bibtex-completion helm-bibtex ivy-bibtex)
+                   pip-requirements pipenv pyenv nose)
 
 (package! dirvish :pin "e8ec5765da1284be88b0cbf190362205a31fb19a")
